@@ -16,8 +16,6 @@
  */
 namespace Company;
 
-
-
 class CompanyDetail extends \Module {
 	
 	/**
@@ -27,60 +25,63 @@ class CompanyDetail extends \Module {
 	 */
 	protected $strTemplate = 'mod_company_detail';
 	
-	/**
-	 * Generate the module
-	 */
-	protected function compile() {
-		$intID = \Input::get('id');
-		$objResult = $this->Database->prepare ( "SELECT * FROM tl_company WHERE id=?")->execute ( $intID );
-
-		$arrRows = $objResult->fetchAllAssoc ();
-		$this->Template->strHtml = $this->getCompanies ( $arrRows );
-
+	public function generate() {
+		if (TL_MODE == 'BE') {
+			$objTemplate = new \BackendTemplate ( 'be_wildcard' );
+				
+			$objTemplate->wildcard = '### UNTERNEHEMEN DETAILS ###';
+			$objTemplate->title = $this->headline;
+			$objTemplate->id = $this->id;
+			$objTemplate->link = $this->name;
+			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+				
+			return $objTemplate->parse ();
+		}
+	
+		return parent::generate ();
 	}
 	
-	/**
-	 * Return string/html of all companies
-	 *
-	 * @param array $arrCompanies
-	 *        	DB query rows as array
-	 * @return string
-	 */
-	protected function getCompanies($arrCompanies) {
-		$strHTML = '';
-		foreach ( $arrCompanies as $arrCompany ) {
-			if ($arrCompany ['company'] != '') {
-				$objTemplate = new \FrontendTemplate ( 'company_detail' );
-				$objFile = \FilesModel::findByPk ( $arrCompany ['logo'] );
-				$arrSize = deserialize ( $this->imgSize );
-				
-				// Get Categories
-				$arrCategories = deserialize($arrCompany ['category']);
-				if (count($arrCategories) > 0) { 
-				$objCompanyCategories = \CompanyCategoryModel::findBy(array('id IN(' . implode(',', $arrCategories) . ')'), null);
-				while ($objCompanyCategories->next()) {
-					$arrCategory[] = $objCompanyCategories->title;
+	protected function compile() {
+		$intID = \Input::get ( 'companyID' );
+		//$objCompany = \CompanyModel::findByPk ( $intID );
+		$objCompany = $this->Database->prepare ( "SELECT * FROM tl_company WHERE id=?" )->execute ( $intID );
+		if ($objCompany) {
+			global $objPage;
+			$objPage->pageTitle = $objCompany->company;
+			
+			$objTemplate = new \FrontendTemplate ( 'company_detail' );
+			$objFile = \FilesModel::findByPk ( $objCompany->logo );
+			$arrSize = deserialize ( $this->imgSize );
+			
+			// Get Categories
+			$arrCategories = deserialize ( $objCompany->category );
+			if (count ( $arrCategories ) > 0) {
+				//$objCompanyCategories = \CompanyCategoryModel::findBy ( array (
+				//		'id IN(' . implode ( ',', $arrCategories ) . ')' 
+				//), null );
+				$objCompanyCategories = $this->Database->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $arrCategories ) . ")" )->execute (  );
+				while ( $objCompanyCategories->next () ) {
+					$arrCategory [] = $objCompanyCategories->title;
 				}
-				$strCategory = implode(', ', $arrCategory);
-				}
-				$objTemplate->company = $arrCompany ['company'];
-				$objTemplate->category = $strCategory;
-				$objTemplate->street = $arrCompany ['street'];
-				$objTemplate->postal_code = $arrCompany ['postal_code'];
-				$objTemplate->city = $arrCompany ['city'];
-				$objTemplate->phone = $arrCompany ['phone'];
-				$objTemplate->email = $arrCompany ['email'];
-				$objTemplate->homepage = $arrCompany ['homepage'];
-				$objTemplate->lat = $arrCompany ['lat'];
-				$objTemplate->lng = $arrCompany ['lng'];
-				$objTemplate->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
-				$objTemplate->imageWidth = $arrSize [0];
-				$objTemplate->imageHeight = $arrSize [1];
-				
-				$strHTML .= $objTemplate->parse ();
+				$strCategory = implode ( ', ', $arrCategory );
 			}
+			$objTemplate->company = $objCompany->company;
+			$objTemplate->category = 'Branchen: ' . $strCategory;
+			$objTemplate->street = $objCompany->street;
+			$objTemplate->postal_code = $objCompany->postal_code;
+			$objTemplate->city = $objCompany->city;
+			$objTemplate->phone = $objCompany->phone;
+			$objTemplate->email = $objCompany->email;
+			$objTemplate->homepage = $objCompany->homepage;
+			$objTemplate->lat = $objCompany->lat;
+			$objTemplate->lng = $objCompany->lng;
+			$objTemplate->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
+			$objTemplate->imageWidth = $arrSize [0];
+			$objTemplate->imageHeight = $arrSize [1];
+			
+			$this->Template->strHtml = $objTemplate->parse ();
 		}
-		
-		return $strHTML;
 	}
 }
+
+?>

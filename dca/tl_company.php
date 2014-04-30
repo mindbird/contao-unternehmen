@@ -266,7 +266,8 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 								'tl_class' => 'w50',
 								'multiple' => true 
 						),
-						'sql' => "blob NULL"
+						'sql' => "blob NULL",
+						'relation' => array('type'=>'hasMany', 'load' => 'eagerly')
 				) 
 		) 
 );

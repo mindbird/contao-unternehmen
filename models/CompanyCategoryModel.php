@@ -12,15 +12,10 @@
 /**
  * Namespace
  */
-namespace Company;
+namespace Contao;
 
 class CompanyCategoryModel extends \Model {
-		
-	/**
-	 * Table name
-	 *
-	 * @var string
-	 */
+
 	protected static $strTable = 'tl_company_category';
 
 }

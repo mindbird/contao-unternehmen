@@ -65,13 +65,17 @@ class CompanyFrontend extends \Frontend {
 				$domain = ($objParent->rootUseSSL ? 'https://' : 'http://') . ($objParent->domain ?  : \Environment::get ( 'host' )) . TL_PATH . '/';
 				
 				$arrPids [] = $arrModule ['company_archiv'];
-				$objCompanies = \CompanyModel::findByPids ( $arrPids, 0,0, array('order' => 'id ASC') );
+				$objCompanies = \CompanyModel::findByPids ( $arrPids, 0, 0, array (
+						'order' => 'id ASC' 
+				) );
 				while ( $objCompanies->next () ) {
 					$arrCompany = $objCompanies->row ();
-					$arrPages [] = $domain . $this->generateFrontendUrl ( $objParent->row (), '/id/' . $arrCompany ['id'], $objParent->language );
+					$arrPages [] = $domain . $this->generateFrontendUrl ( $objParent->row (), '/companyID/' . $arrCompany ['id'], $objParent->language );
 				}
 			}
 		}
 		return $arrPages;
 	}
 }
+
+?>

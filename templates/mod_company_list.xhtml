@@ -1,0 +1,25 @@
+<!-- indexer::stop -->
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+	<?php if ($this->headline): ?> 
+		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+	<?php endif; ?>
+	<div class="filter">
+		<?php print $this->strFilter; ?>
+		<form method="GET" name="filterCategory">
+			<select name="category" onchange="changePage()">
+				<?php print $this->strOptions; ?>
+			</select>
+		</form>
+		<script type="text/javascript">
+			var link = '<?php print $this->strLink; ?>';
+			function changePage() {
+				window.location = link.replace('ID',document.filterCategory.category.value);
+			}
+		</script>
+	</div>
+	<ul class="companies">
+		<?php print $this->strCompanies; ?>
+	</ul>
+	<?php print $this->strPagination; ?>
+</div>
+<!-- indexer::continue -->
