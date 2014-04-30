@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2005-2013 Leo Feyer
  * 
- * @package   Person 
+ * @package   unternehmen 
  * @author    mindbird 
  * @license   GNU/LGPL 
  * @copyright mindbird 2013 

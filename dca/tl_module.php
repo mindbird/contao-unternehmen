@@ -1,13 +1,13 @@
 <?php
-$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['person_list'] = '{title_legend},name,headline,type;{archiv_legend},person_archiv;{protected_legend:hide},protected;
+$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,numberOfItems,perPage,jumpTo;{protected_legend:hide},protected;
 {expert_legend:hide},guests,cssID,space';
 
-$GLOBALS ['TL_DCA'] ['tl_module'] ['fields'] ['person_archiv'] = array (
-		'label' => &$GLOBALS ['TL_LANG'] ['tl_module'] ['person_archiv'],
+$GLOBALS ['TL_DCA'] ['tl_module'] ['fields'] ['company_archiv'] = array (
+		'label' => &$GLOBALS ['TL_LANG'] ['tl_module'] ['company_archiv'],
 		'default' => '',
 		'exclude' => true,
 		'inputType' => 'select',
-		'foreignKey' => 'tl_person_archive.title',
+		'foreignKey' => 'tl_company_archive.title',
 		
 		'eval' => array (
 				'mandatory' => true,
@@ -15,5 +15,9 @@ $GLOBALS ['TL_DCA'] ['tl_module'] ['fields'] ['person_archiv'] = array (
 		),
 		'sql' => "int(10) unsigned NOT NULL default '0'" 
 );
+
+
+$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_detail'] = '{title_legend},name,headline,type;{image_legend},imgSize;{protected_legend:hide},protected;
+{expert_legend:hide},guests,cssID,space';
 
 ?>

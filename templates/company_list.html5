@@ -1,0 +1,4 @@
+<li class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
+	<span class="name" itemprop="name"><?php print $this->company; ?></span>
+	<a class="link" href="<?php print $this->link; ?>">Details</a>	
+</li>
