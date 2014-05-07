@@ -66,11 +66,13 @@ class CompanyDetail extends \Module {
 				$strCategory = implode ( ', ', $arrCategory );
 			}
 			$objTemplate->company = $objCompany->company;
-			$objTemplate->category = 'Branchen: ' . $strCategory;
+			$objTemplate->contact_person = $objCompany->contact_person;
+			$objTemplate->category = $strCategory;
 			$objTemplate->street = $objCompany->street;
 			$objTemplate->postal_code = $objCompany->postal_code;
 			$objTemplate->city = $objCompany->city;
 			$objTemplate->phone = $objCompany->phone;
+			$objTemplate->fax = $objCompany->fax;
 			$objTemplate->email = $objCompany->email;
 			$objTemplate->homepage = $objCompany->homepage;
 			$objTemplate->lat = $objCompany->lat;
@@ -78,6 +80,7 @@ class CompanyDetail extends \Module {
 			$objTemplate->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
 			$objTemplate->imageWidth = $arrSize [0];
 			$objTemplate->imageHeight = $arrSize [1];
+			$objTemplate->information = $objCompany->information;
 			
 			$this->Template->strHtml = $objTemplate->parse ();
 		}

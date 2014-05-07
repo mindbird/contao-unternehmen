@@ -9,6 +9,9 @@
 		<?php } ?>
 		</figure>
 	
+	<?php if ($this->contact_person) { ?>
+		<p class="contact_person"><?php print $this->contact_person; ?></p>
+	<?php } ?>
 	<?php if (($this->street) || ($this->postal_code != '' && $this->city != '')) { ?>
 		<div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 			<?php if ($this->street ) { ?>
@@ -25,6 +28,9 @@
 	<?php if ($this->phone) { ?>
 		<p class="phone" itemprop="telephone"><?php print $this->phone; ?></p>
 	<?php } ?>
+	<?php if ($this->fax) { ?>
+		<p class="fax" itemprop="faxNumber"><?php print $this->fax; ?></p>
+	<?php } ?>
 	<?php if ($this->email) { ?>
 		<p class="email" itemprop="email"><?php print $this->email; ?></p>
 	<?php } ?>
@@ -32,7 +38,10 @@
 		<p class="homepage" itemprop="url"><a href="http://<?php print $this->homepage; ?>" target="_blank"><?php print $this->homepage; ?></a></p>
 	<?php } ?>
 	<?php if ($this->category) { ?>
-		<p class="category" itemprop="url"><?php print_r( deserialize($this->category)); ?></p>
+		<p class="category" itemprop="url">Branchen: <?php print $this->category; ?></p>
+	<?php } ?>
+	<?php if ($this->information) { ?>
+		<p class="information" itemprop="description"><?php print $this->information; ?></p>
 	<?php } ?>
 	<?php if ($this->lat && $this->lng) { ?>
 		<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
