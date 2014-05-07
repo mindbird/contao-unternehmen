@@ -109,7 +109,7 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 		
 		// Palettes
 		'palettes' => array (
-				'default' => '{company_legend},company, category; {address_legend}, street, postal_code, city; {coordinates_legend}, button_coordinates, lat, lng; {contact_legend}, phone, email, homepage; {logo_legend}, logo;' 
+				'default' => '{company_legend},company,contact_person;{category_legend},category; {address_legend}, street, postal_code, city; {coordinates_legend}, button_coordinates, lat, lng; {contact_legend}, phone, fax, email, homepage; {logo_legend}, logo; {information_legend}, information;' 
 		),
 		
 		// Fields
@@ -132,11 +132,21 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 						'search' => true,
 						'inputType' => 'text',
 						'eval' => array (
-								'tl_class' => 'w50',
 								'mandatory' => true,
+								'tl_class' => 'w50',
 								'maxlength' => 255 
 						),
 						'sql' => "varchar(255) NOT NULL default ''" 
+				),
+				'contact_person' => array (
+						'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['contact_person'],
+						'exclude' => true,
+						'search' => true,
+						'inputType' => 'text',
+						'eval' => array (
+								'maxlength' => 255
+						),
+						'sql' => "varchar(255) NOT NULL default ''"
 				),
 				'street' => array (
 						'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['street'],
@@ -145,6 +155,7 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 						'inputType' => 'text',
 						'eval' => array (
 								'mandatory' => true,
+								'tl_class' => 'w50',
 								'maxlength' => 255 
 						),
 						
@@ -218,6 +229,17 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 						),
 						'sql' => "varchar(255) NOT NULL default ''" 
 				),
+				'fax' => array (
+						'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['fax'],
+						'exclude' => true,
+						'inputType' => 'text',
+						'eval' => array (
+								'tl_class' => 'w50',
+								'maxlength' => 255,
+								'rgxp' => 'phone' 
+						),
+						'sql' => "varchar(255) NOT NULL default ''" 
+				),
 				'email' => array (
 						'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['email'],
 						'exclude' => true,
@@ -263,12 +285,20 @@ $GLOBALS ['TL_DCA'] ['tl_company'] = array (
 						'foreignKey' => 'tl_company_category.title',
 						'eval' => array (
 								'mandatory' => true,
-								'tl_class' => 'w50',
 								'multiple' => true 
 						),
 						'sql' => "blob NULL",
 						'relation' => array('type'=>'hasMany', 'load' => 'eagerly')
-				) 
+				),
+				'information' => array (
+						'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['information'],
+						'exclude' => true,
+						'inputType' => 'textarea',
+						'eval' => array (
+								'rte' => 'tinyMCE',
+						),
+						'sql' => "text NULL"
+				)
 		) 
 );
 class tl_company extends Backend {
@@ -294,7 +324,7 @@ class tl_company extends Backend {
 								$("ctrl_lng").set("value", results[0].geometry.location.A);
 								console.log(results[0].geometry.location);
          					} else {
-            					alert("Fehler beim generieren der Koordinaten");
+            					alert("Fehler beim generieren der Koordinaten. Bitte überprüfen Sie Straße, Postleitzahl und Ort.");
          					}
       					});
    					}
