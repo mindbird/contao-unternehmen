@@ -150,11 +150,10 @@ class CompanyList extends \Module {
 	protected function getCompanies($objCompanies, $objPage) {
 		$strHTML = '';
 		while ( $objCompanies->next () ) {
-			$arrCompany = $objCompanies->row ();
-			if ($arrCompany ['company'] != '') {
+			if ($objCompanies->company != '') {
 				$objTemplate = new \FrontendTemplate ( 'company_list' );
-				$objTemplate->company = $arrCompany ['company'];
-				$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $arrCompany ['id'] );
+				$objTemplate->objCompany = $objCompanies;
+				$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $objCompanies->id );
 				$strHTML .= $objTemplate->parse ();
 			}
 		}
