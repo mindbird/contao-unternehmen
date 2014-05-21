@@ -58,9 +58,9 @@ class CompanyList extends \Module {
 			$strSearch = \Input::get ( 'search' );
 			$strSearchUrl = 'search=%s';
 			if ($strSearch != '') {
-				$objTemplateFilter->strLink = $this->addToUrl ( sprintf ( $strSearchUrl, $strSearch ) . '&filterCategory=ID', TRUE );
+				$objTemplateFilter->strLink = \Environment::get('base') . $this->addToUrl ( sprintf ( $strSearchUrl, $strSearch ) . '&filterCategory=ID', TRUE );
 			} else {
-				$objTemplateFilter->strLink = $this->addToUrl ( 'filterCategory=ID', TRUE );
+				$objTemplateFilter->strLink = \Environment::get('base') . $this->addToUrl ( 'filterCategory=ID', TRUE );
 			}
 			
 			// Generate letters
