@@ -320,9 +320,8 @@ class tl_company extends Backend {
 					if (geocoder) {
       					geocoder.geocode({ "address": address }, function (results, status) {
          					if (status == google.maps.GeocoderStatus.OK) {
-								$("ctrl_lat").set("value", results[0].geometry.location.k);
-								$("ctrl_lng").set("value", results[0].geometry.location.A);
-								console.log(results[0].geometry.location);
+								$("ctrl_lat").set("value", results[0].geometry.location.lat());
+								$("ctrl_lng").set("value", results[0].geometry.location.lng());
          					} else {
             					alert("Fehler beim generieren der Koordinaten. Bitte überprüfen Sie Straße, Postleitzahl und Ort.");
          					}
