@@ -13,7 +13,7 @@ $GLOBALS ['TL_DCA'] ['tl_module'] ['fields'] ['company_archiv'] = array (
 		
 		'eval' => array (
 				'mandatory' => true,
-				'tl_class' => 'w50' 
+				'tl_class' => 'clr' 
 		),
 		'sql' => "int(10) unsigned NOT NULL default '0'" 
 );
