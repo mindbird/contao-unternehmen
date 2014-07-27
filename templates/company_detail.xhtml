@@ -41,7 +41,7 @@
 		<p class="category" itemprop="url">Branchen: <?php print $this->category; ?></p>
 	<?php } ?>
 	<?php if ($this->information) { ?>
-		<p class="information" itemprop="description"><?php print $this->information; ?></p>
+		<div class="information" itemprop="description"><?php print $this->information; ?></div>
 	<?php } ?>
 	<?php if ($this->lat && $this->lng) { ?>
 		<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
