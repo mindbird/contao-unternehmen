@@ -1,4 +1,6 @@
 <li class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
 	<span class="name" itemprop="name"><?php print $this->objCompany->company; ?></span>
-	<a class="link" href="<?php print $this->link; ?>">Details</a>	
+	<?php if ($this->link): ?>
+		<a class="link" href="<?php print $this->link; ?>">Details</a>
+	<?php endif; ?>	
 </li>

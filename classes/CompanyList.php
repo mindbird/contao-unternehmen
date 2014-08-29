@@ -135,13 +135,15 @@ class CompanyList extends \Module {
 	 *        	DB query rows as array
 	 * @return string
 	 */
-	protected function getCompanies($objCompanies, $objPage) {
+	protected function getCompanies($objCompanies, $objPage = NULL) {
 		$strHTML = '';
 		while ( $objCompanies->next () ) {
 			if ($objCompanies->company != '') {
 				$objTemplate = new \FrontendTemplate ( 'company_list' );
 				$objTemplate->objCompany = $objCompanies;
-				$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $objCompanies->id );
+				if ($objPage) {
+					$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $objCompanies->id );
+				}
 				$strHTML .= $objTemplate->parse ();
 			}
 		}
