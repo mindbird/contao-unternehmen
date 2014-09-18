@@ -35,3 +35,4 @@ $GLOBALS['TL_LANG']['tl_company_archive']['copy']   = array('Kopieren', 'Kopiere
 $GLOBALS['TL_LANG']['tl_company_archive']['delete'] = array('Löschen', 'Lösche Element %s');
 
 $GLOBALS['TL_LANG']['tl_company_archive']['title'] = array('Titel', 'Titel des Archivs');
+$GLOBALS['TL_LANG']['tl_company_archive']['sort_order'] = array('Sortierung', '');

@@ -1,5 +1,5 @@
 <?php
-$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage;{protected_legend:hide},protected;
+$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage;{image_legend},imgSize;{protected_legend:hide},protected;
 {expert_legend:hide},guests,cssID,space';
 
 

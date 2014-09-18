@@ -28,6 +28,7 @@ ClassLoader::addClasses(array
 	// Models
 	'Contao\CompanyModel'         => 'system/modules/unternehmen/models/CompanyModel.php',
 	'Contao\CompanyCategoryModel' => 'system/modules/unternehmen/models/CompanyCategoryModel.php',
+	'Contao\CompanyArchiveModel' => 'system/modules/unternehmen/models/CompanyArchiveModel.php',
 
 	// Classes
 	'Company\CompanyDetail'       => 'system/modules/unternehmen/classes/CompanyDetail.php',

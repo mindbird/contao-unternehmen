@@ -118,7 +118,20 @@ class CompanyList extends \Module {
 			$this->Template->strPagination = $objPagination->generate ();
 		}
 		
-		$strOrder = $this->company_random ? 'RAND()' : 'company ASC';
+		// Order
+		$objCompanyArchive = \CompanyArchiveModel::findByPk($this->company_archiv);
+		
+		switch ($objCompanyArchive->sort_order) {
+		    case 2:
+		        $strOrder = 'sorting ASC';
+		        break;
+		    case 1:
+		    default:
+		        $strOrder = $this->company_random ? 'RAND()' : 'company ASC';
+		        break;
+		    }
+		
+				
 		$objCompanies = \CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory, $intOffset, $intLimit, $strOrder );
 		
 		if ($objCompanies) {
@@ -140,6 +153,9 @@ class CompanyList extends \Module {
 		while ( $objCompanies->next () ) {
 			if ($objCompanies->company != '') {
 				$objTemplate = new \FrontendTemplate ( 'company_list' );
+				$objFile = \FilesModel::findByPk ( $objCompanies->logo );
+				$arrSize = deserialize ( $this->imgSize );
+				$objCompanies->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
 				$objTemplate->objCompany = $objCompanies;
 				if ($objPage) {
 					$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $objCompanies->id );

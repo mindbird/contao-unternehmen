@@ -85,7 +85,7 @@ $GLOBALS ['TL_DCA'] ['tl_company_archive'] = array (
 		
 		// Palettes
 		'palettes' => array (
-				'default' => '{title_legend},title' 
+				'default' => '{title_legend},title,sort_order' 
 		),
 		// Fields
 		'fields' => array (
@@ -105,7 +105,18 @@ $GLOBALS ['TL_DCA'] ['tl_company_archive'] = array (
 								'maxlength' => 255 
 						),
 						'sql' => "varchar(255) NOT NULL default ''" 
-				) 
+				),
+    		    'sort_order' => array (
+    		        'label' => &$GLOBALS ['TL_LANG'] ['tl_company_archive'] ['sort_order'],
+    		        'exclude' => true,
+    		        'search' => true,
+    		        'inputType' => 'select',
+    		        'eval' => array (
+    		            'mandatory' => true,
+    		        ),
+    		        'sql' => "int(1) NOT NULL default '0'",
+    		        'options' => array(1 => 'Sortierung anhand der Moduleinstellungen', 2 => 'Sortierung anhand des Archives')
+    		    )
 		) 
 );
 
