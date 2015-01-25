@@ -1,5 +1,5 @@
 <?php
-$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage;{image_legend},imgSize;{protected_legend:hide},protected;
+$GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{protected_legend:hide},protected;
 {expert_legend:hide},guests,cssID,space';
 
 
@@ -40,5 +40,23 @@ $GLOBALS ['TL_DCA'] ['tl_module'] ['fields'] ['company_filter_disabled'] = array
 
 $GLOBALS ['TL_DCA'] ['tl_module'] ['palettes'] ['company_detail'] = '{title_legend},name,headline,type;{image_legend},imgSize;{protected_legend:hide},protected;
 {expert_legend:hide},guests,cssID,space';
+
+
+$GLOBALS ['TL_DCA'] ['tl_module'] ['fields']['companyTpl'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['companyTpl'],
+    'exclude'                 => true,
+    'inputType'               => 'select',
+    'options_callback'        => array('tl_module_company', 'getCompanyTemplates'),
+    'eval'                    => array('includeBlankOption'=>true, 'chosen'=>true, 'tl_class'=>'w50'),
+    'sql'                     => "varchar(64) NOT NULL default ''"
+);
+
+class tl_module_company extends Backend {
+    public function getCompanyTemplates()
+    {
+        return $this->getTemplateGroup('company_');
+    }
+}
 
 ?>

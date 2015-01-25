@@ -24,6 +24,7 @@ class CompanyList extends \Module {
 	 * @var string
 	 */
 	protected $strTemplate = 'mod_company_list';
+	protected $strTemplateCompanyList = 'company_list';
 	public function generate() {
 		if (TL_MODE == 'BE') {
 			$objTemplate = new \BackendTemplate ( 'be_wildcard' );
@@ -35,6 +36,9 @@ class CompanyList extends \Module {
 			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 			
 			return $objTemplate->parse ();
+		}
+		if ($this->companyTpl) {
+		    $this->strTemplateCompanyList = $this->companyTpl;
 		}
 		
 		return parent::generate ();
@@ -152,7 +156,7 @@ class CompanyList extends \Module {
 		$strHTML = '';
 		while ( $objCompanies->next () ) {
 			if ($objCompanies->company != '') {
-				$objTemplate = new \FrontendTemplate ( 'company_list' );
+				$objTemplate = new \FrontendTemplate ( $this->strTemplateCompanyList );
 				$objFile = \FilesModel::findByPk ( $objCompanies->logo );
 				$arrSize = deserialize ( $this->imgSize );
 				$objCompanies->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
