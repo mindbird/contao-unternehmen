@@ -316,18 +316,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
     )
 );
 
-$objCompanyArchive = \CompanyArchiveModel::findByPk(\Input::get('id'));
-
-if ($objCompanyArchive->sort_order == 2) {
-    $GLOBALS['TL_DCA']['tl_company']['config']['mode'] = 4;
-    $GLOBALS['TL_DCA']['tl_company']['config']['fields'] = array(
-        'sorting'
-    );
-    $GLOBALS['TL_DCA']['tl_company']['config']['headerFields'] = array(
-        'title'
-    );
-}
-
 class tl_company extends Backend
 {
 
