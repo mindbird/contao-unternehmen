@@ -10,17 +10,21 @@
  * Back end modules are stored in a global array called "BE_MOD". You can add
  * your own modules by adding them to the array.
  */
-$GLOBALS ['BE_MOD'] ['content'] ['company'] = array (
-		'tables' => array (
-				'tl_company_archive',
-				'tl_company',
-				'tl_company_category' 
-		),
-		'refresh_coordinates' => array (
-				'CompanyBackend',
-				'refreshCoordinates' 
-		),
-		'icon' => 'system/modules/unternehmen/assets/images/icon.png' 
+$GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
+    'tables' => array(
+        'tl_company_archive',
+        'tl_company',
+        'tl_company_category'
+    ),
+    'refresh_coordinates' => array(
+        'CompanyBackend',
+        'refreshCoordinates'
+    ),
+    'exportCSV' => array(
+        'CompanyBackend',
+        'exportCSV'
+    ),
+    'icon' => 'system/modules/unternehmen/assets/images/icon.png'
 );
 /**
  * Not all of the keys mentioned above (like "tables", "key", "callback" etc.)
@@ -35,10 +39,10 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array (
  * Front end modules are stored in a global array called "FE_MOD". You can add
  * your own modules by adding them to the array.
  */
-array_insert ( $GLOBALS ['FE_MOD'] ['companies'], 1, array (
-		'company_list' => 'CompanyList',
-		'company_detail' => 'CompanyDetail' 
-) );
+array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
+    'company_list' => 'CompanyList',
+    'company_detail' => 'CompanyDetail'
+));
 
 /**
  * The keys (like "module_1") are the module names, which are e.g.
@@ -228,9 +232,9 @@ array_insert ( $GLOBALS ['FE_MOD'] ['companies'], 1, array (
  * source code by registering callback functions to be executed on a particular
  * event. For more information see https://contao.org/manual.html.
  */
-$GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array (
-		'CompanyBackend',
-		'getSearchablePages' 
+$GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array(
+    'CompanyBackend',
+    'getSearchablePages'
 );
 
 /**

@@ -15,7 +15,7 @@
  * Table tl_company
  */
 $GLOBALS['TL_DCA']['tl_company'] = array(
-    
+
     // Config
     'config' => array(
         'dataContainer' => 'Table',
@@ -36,7 +36,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             )
         )
     ),
-    
     // List
     'list' => array(
         'sorting' => array(
@@ -45,7 +44,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'fields' => array(
                 'company'
             ),
-            
             'headerFields' => array(
                 'title'
             ),
@@ -77,19 +75,18 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'icon' => 'system/modules/unternehmen/assets/images/arrow_refresh.png',
                 'attributes' => 'onclick="Backend.getScrollOffset();"'
             ),
+            'exportCSV' => array(
+                'label' => &$GLOBALS['TL_LANG']['tl_company']['exportCSV'],
+                'href' => 'key=exportCSV',
+                'icon' => 'system/modules/unternehmen/assets/images/building_go.png',
+            ),
             'all' => array(
                 'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href' => 'act=select',
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset();"'
-            ),
-						/*'import' => array (
-								'label' => &$GLOBALS ['TL_LANG'] ['tl_company'] ['import'],
-								'href' => 'key=import',
-								'icon' => 'theme_import.gif',
-								'attributes' => 'onclick="Backend.getScrollOffset();"' 
-						) */
-				),
+            )
+        ),
         'operations' => array(
             'edit' => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['edit'],
@@ -114,12 +111,10 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             )
         )
     ),
-    
     // Palettes
     'palettes' => array(
         'default' => '{company_legend},company,contact_person;{category_legend},category; {address_legend}, street, postal_code, city; {coordinates_legend}, button_coordinates, lat, lng; {contact_legend}, phone, fax, email, homepage; {logo_legend}, logo; {information_legend}, information;'
     ),
-    
     // Fields
     'fields' => array(
         'id' => array(
@@ -132,9 +127,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ),
         'tstamp' => array(
-            'sql' => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'sorting' => array(
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ),
         'company' => array(
@@ -169,7 +161,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'tl_class' => 'w50',
                 'maxlength' => 255
             ),
-            
             'sql' => "varchar(255) NOT NULL default ''"
         ),
         'postal_code' => array(
@@ -182,7 +173,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'tl_class' => 'w50',
                 'maxlength' => 5
             ),
-            
             'sql' => "varchar(5) NOT NULL default ''"
         ),
         'city' => array(
@@ -215,7 +205,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'tl_class' => 'w50',
                 'maxlength' => 32
             ),
-            
             'sql' => "varchar(32) NOT NULL default ''"
         ),
         'lng' => array(
@@ -226,7 +215,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'tl_class' => 'w50',
                 'maxlength' => 32
             ),
-            
             'sql' => "varchar(32) NOT NULL default ''"
         ),
         'phone' => array(
@@ -323,10 +311,12 @@ class tl_company extends Backend
     {
         $objFile = \FilesModel::findByPk(deserialize($row['logo']));
         if ($objFile->path != '') {
-            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50, 'center_center') . '"></figure>';
+            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50,
+                    'center_center') . '"></figure>';
         }
-        
+
         $sReturn .= '<div>' . $label . '</div>';
+
         return $sReturn;
     }
 
@@ -349,19 +339,21 @@ class tl_company extends Backend
    					}
 				});
 				</script>';
+
         return '<div style="padding-top: 15px;"><a class="tl_submit" id="generateCoordinates">Koordinaten generieren</a></div>' . $strHTML;
     }
 
     public function listCompany($row)
     {
         $sReturn .= '<div>' . $row['company'] . '</div>';
+
         return $sReturn;
     }
 
     public function onloadCallback(\DataContainer $objDC)
     {
         $objCompanyArchive = \CompanyArchiveModel::findByPk($objDC->id);
-        
+
         switch ($objCompanyArchive->sort_order) {
             case 2:
                 $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['mode'] = 4;
@@ -374,7 +366,7 @@ class tl_company extends Backend
                 break;
             case 1:
             default:
-                
+
                 // Nothind to do
                 break;
         }
