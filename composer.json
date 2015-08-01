@@ -1,0 +1,33 @@
+{
+  "name": "mindbird/contao-unternehmen",
+  "description": "Simple list of companies bundled in archives",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "keywords":["contao", "company", "unternehmen", "katalog", "sponsoren"],
+  "type":"contao-module",
+  "authors": [
+    {
+      "name": "mindbird",
+      "email": "info@mindbird.de"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "contao/core": ">=3.2,<4"
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "contao": "system/modules/unternehmen"
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Person\\": "src/"
+    }
+  },
+  "replace": {
+    "contao-legacy/personen": "self.version"
+  }
+}
