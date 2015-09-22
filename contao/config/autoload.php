@@ -8,6 +8,12 @@ ClassLoader::addNamespaces(array
 	'Company',
 ));
 
+\Contao\ClassLoader::addClasses(array(
+	'CompanyArchiveModel' => 'system/modules/unternehmen/models/CompanyArchiveModel.php',
+	'CompanyCategoryModel' => 'system/modules/unternehmen/models/CompanyCategoryModel.php',
+	'CompanyModel' => 'system/modules/unternehmen/models/CompanyArchiveModel.php'
+));
+
 /**
  * Register the templates
  */
