@@ -48,7 +48,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  * The keys (like "module_1") are the module names, which are e.g.
  * stored in the
  * database and used to find the corresponding translations. The values (like
- * "ModuleClass1") are the names of the src, which will be loaded when the
+ * "ModuleClass1") are the names of the classes, which will be loaded when the
  * module is rendered. The class "ModuleClass1" has to be stored in a file
  * named "ModuleClass1.php" in your module folder.
  */
@@ -70,7 +70,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  *
  * The keys (like "cte_1") are the element names, which are e.g. stored in the
  * database and used to find the corresponding translations. The values (like
- * "ContentClass1") are the names of the src, which will be loaded when the
+ * "ContentClass1") are the names of the classes, which will be loaded when the
  * element is rendered. The class "ContentClass1" has to be stored in a file
  * named "ContentClass1.php" in your module folder.
  */
@@ -89,7 +89,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  *
  * The keys (like "input") are the field names, which are e.g. stored in the
  * database and used to find the corresponding translations. The values (like
- * "FieldClass1") are the names of the src, which will be loaded when the
+ * "FieldClass1") are the names of the classes, which will be loaded when the
  * field is rendered. The class "FieldClass1" has to be stored in a file named
  * "FieldClass1.php" in your module folder.
  */
@@ -108,7 +108,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  *
  * The keys (like "input") are the field names, which are e.g. stored in the
  * database and used to find the corresponding translations. The values (like
- * "FieldClass1") are the names of the src, which will be loaded when the
+ * "FieldClass1") are the names of the classes, which will be loaded when the
  * field is rendered. The class "FieldClass1" has to be stored in a file named
  * "FieldClass1.php" in your module folder.
  */
@@ -127,7 +127,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  *
  * The keys (like "type_1") are the field names, which are e.g. stored in the
  * database and used to find the corresponding translations. The values (like
- * "PageType1") are the names of the src, which will be loaded when the
+ * "PageType1") are the names of the classes, which will be loaded when the
  * page is rendered. The class "PageType1" has to be stored in a file named
  * "PageType1.php" in your module folder.
  */
@@ -160,7 +160,7 @@ array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
  * 'RebuildSearchIndex'
  * );
  *
- * Take a look at the system/modules/core/src/PurgeData.php file to see how
+ * Take a look at the system/modules/core/classes/PurgeData.php file to see how
  * maintenance modules are set up. The class "ClearCache" has to be stored in a
  * file named "ClearCache.php" in your module folder.
  */
