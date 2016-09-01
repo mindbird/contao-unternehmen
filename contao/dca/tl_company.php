@@ -376,7 +376,7 @@ class tl_company extends Backend
 
     public function optionsCallbackCategory($dc)
     {
-        $categories = \CompanyCategoryModel::findBy ( 'pid', $dc->pid, array (
+        $categories = \CompanyCategoryModel::findBy ( 'pid', $dc->activeRecord->pid, array (
             'order' => 'title ASC'
         ) );
         $category = array();
@@ -385,8 +385,6 @@ class tl_company extends Backend
                 $category[$categories->id] = $categories->title;
             }
         }
-        dump($category);
-        die();
 
         return $category;
     }
