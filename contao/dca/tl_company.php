@@ -385,6 +385,7 @@ class tl_company extends Backend
                 $category[$categories->id] = $categories->title;
             }
         }
+        dump($category);
 
         return $category;
     }
