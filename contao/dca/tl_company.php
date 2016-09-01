@@ -386,6 +386,7 @@ class tl_company extends Backend
             }
         }
         dump($category);
+        die();
 
         return $category;
     }
