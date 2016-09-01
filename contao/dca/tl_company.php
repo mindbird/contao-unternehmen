@@ -290,6 +290,10 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'relation' => array(
                 'type' => 'hasMany',
                 'load' => 'eagerly'
+            ),
+            'options_callback' => array(
+                'tl_company',
+                'optionsCallbackCategory'
             )
         ),
         'information' => array(
@@ -345,9 +349,7 @@ class tl_company extends Backend
 
     public function listCompany($row)
     {
-        $sReturn .= '<div>' . $row['company'] . '</div>';
-
-        return $sReturn;
+        return '<div>' . $row['company'] . '</div>';
     }
 
     public function onloadCallback(\DataContainer $objDC)
@@ -367,9 +369,18 @@ class tl_company extends Backend
             case 1:
             default:
 
-                // Nothind to do
+                // Nothing to do
                 break;
         }
+    }
+
+    public function optionsCallbackCategory()
+    {
+        dump(func_get_args());
+        die();
+        $objCategories = \CompanyCategoryModel::findBy ( 'pid', $this->company_archiv, array (
+            'order' => 'title ASC'
+        ) );
     }
 }
 
