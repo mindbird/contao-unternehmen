@@ -374,13 +374,19 @@ class tl_company extends Backend
         }
     }
 
-    public function optionsCallbackCategory()
+    public function optionsCallbackCategory($dc)
     {
-        dump(func_get_args());
-        die();
-        $objCategories = \CompanyCategoryModel::findBy ( 'pid', $this->company_archiv, array (
+        $categories = \CompanyCategoryModel::findBy ( 'pid', $dc->pid, array (
             'order' => 'title ASC'
         ) );
+        $category = array();
+        if ($categories) {
+            while ($categories->next()) {
+                $category[$categories->id] = $categories->title;
+            }
+        }
+
+        return $category;
     }
 }
 
