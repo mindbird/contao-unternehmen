@@ -1,20 +1,10 @@
 <?php
 
-/**
- * Contao Open Source CMS
- * 
- * @package   Unternehmen
- * @author    mindbird 
- * @license   GNU/LGPL 
- * @copyright mindbird 2014 
- */
+namespace Company\Models;
 
-/**
- * Namespace
- */
-namespace Contao;
+use Contao\Model;
 
-class CompanyModel extends \Model {
+class CompanyModel extends Model {
 	protected static $strTable = 'tl_company';
 	public static function findItems($intPid, $strCompanyName = '', $intCategory = 0, $intOffset = 0, $intLimit = 0, $strOrder = 'company ASC') {
 		$arrOptions = array ();

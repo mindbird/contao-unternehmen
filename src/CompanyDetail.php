@@ -2,7 +2,14 @@
 
 namespace Company;
 
-class CompanyDetail extends \Module {
+use Company\Models\CompanyModel;
+use Contao\BackendTemplate;
+use Contao\FilesModel;
+use Contao\FrontendTemplate;
+use Contao\Input;
+use Contao\Module;
+
+class CompanyDetail extends Module {
 	
 	/**
 	 * Template
@@ -13,7 +20,7 @@ class CompanyDetail extends \Module {
 	
 	public function generate() {
 		if (TL_MODE == 'BE') {
-			$objTemplate = new \BackendTemplate ( 'be_wildcard' );
+			$objTemplate = new BackendTemplate ( 'be_wildcard' );
 				
 			$objTemplate->wildcard = '### UNTERNEHEMEN DETAILS ###';
 			$objTemplate->title = $this->headline;
@@ -28,15 +35,15 @@ class CompanyDetail extends \Module {
 	}
 	
 	protected function compile() {
-		$intID = \Input::get ( 'companyID' );
-		//$objCompany = \CompanyModel::findByPk ( $intID );
-		$objCompany = $this->Database->prepare ( "SELECT * FROM tl_company WHERE id=?" )->execute ( $intID );
+        $db = \Database::getInstance();
+		$intID = Input::get ( 'companyID' );
+		$objCompany = CompanyModel::findByPk ( $intID );
 		if ($objCompany) {
 			global $objPage;
 			$objPage->pageTitle = $objCompany->company;
 			
-			$objTemplate = new \FrontendTemplate ( 'company_detail' );
-			$objFile = \FilesModel::findByPk ( $objCompany->logo );
+			$objTemplate = new FrontendTemplate ( 'company_detail' );
+			$objFile = FilesModel::findByPk ( $objCompany->logo );
 			$arrSize = deserialize ( $this->imgSize );
 			
 			// Get Categories
@@ -45,7 +52,7 @@ class CompanyDetail extends \Module {
 				//$objCompanyCategories = \CompanyCategoryModel::findBy ( array (
 				//		'id IN(' . implode ( ',', $arrCategories ) . ')' 
 				//), null );
-				$objCompanyCategories = $this->Database->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $arrCategories ) . ")" )->execute (  );
+				$objCompanyCategories = $db->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $arrCategories ) . ")" )->execute (  );
 				while ( $objCompanyCategories->next () ) {
 					$arrCategory [] = $objCompanyCategories->title;
 				}
@@ -72,5 +79,3 @@ class CompanyDetail extends \Module {
 		}
 	}
 }
-
-?>

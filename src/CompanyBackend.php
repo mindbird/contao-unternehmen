@@ -2,7 +2,12 @@
 
 namespace Company;
 
-class CompanyBackend extends \Backend
+use Company\Models\CompanyArchiveModel;
+use Company\Models\CompanyModel;
+use Contao\Backend;
+use Contao\Input;
+
+class CompanyBackend extends Backend
 {
 
     /**
@@ -13,9 +18,9 @@ class CompanyBackend extends \Backend
     public function refreshCoordinates()
     {
         $objTemplate = new \BackendTemplate ('be_refresh_coordinates');
-        $objTemplate->intArchiveID = \Input::get('id');
+        $objTemplate->intArchiveID = Input::get('id');
         $strHtml = '';
-        $objCompanies = \CompanyModel::findBy(array('lng=?', 'lat=?'), array('', ''));
+        $objCompanies = CompanyModel::findBy(array('lng=?', 'lat=?'), array('', ''));
         if ($objCompanies) {
             while ($objCompanies->next()) {
                 $arrCompany = $objCompanies->row();
@@ -49,13 +54,14 @@ class CompanyBackend extends \Backend
      */
     public function getSearchablePages($arrPages, $intRoot = 0, $blnIsSitemap = false)
     {
+        $db = \Database::getInstance();
         $arrRoot = array();
         if ($intRoot > 0) {
             $arrRoot = $this->getChildRecords($intRoot, 'tl_page', true);
         }
 
         // Read jump to page details
-        $objResult = $this->Database->prepare("SELECT jumpTo, company_archiv FROM tl_module WHERE type=?")->execute('company_list');
+        $objResult = $db->prepare("SELECT jumpTo, company_archiv FROM tl_module WHERE type=?")->execute('company_list');
         $arrModules = $objResult->fetchAllAssoc();
 
         if (count($arrModules) > 0) {
@@ -85,7 +91,7 @@ class CompanyBackend extends \Backend
                 $domain = ($objParent->rootUseSSL ? 'https://' : 'http://') . ($objParent->domain ?: \Environment::get('host')) . TL_PATH . '/';
 
                 $arrPids [] = $arrModule ['company_archiv'];
-                $objCompanies = \CompanyModel::findByPids($arrPids, 0, 0, array(
+                $objCompanies = CompanyModel::findByPids($arrPids, 0, 0, array(
                     'order' => 'id ASC'
                 ));
                 while ($objCompanies->next()) {
@@ -123,9 +129,9 @@ class CompanyBackend extends \Backend
             $arrCsv[0][] = $GLOBALS['TL_LANG']['tl_company'][$strColumn][0];
         }
 
-        $intPid = \Input::get('id');
-        $objCompanyArchive = \CompanyArchiveModel::findByPk($intPid);
-        $objCompany = \CompanyModel::findBy('pid', $intPid);
+        $intPid = Input::get('id');
+        $objCompanyArchive = CompanyArchiveModel::findByPk($intPid);
+        $objCompany = CompanyModel::findBy('pid', $intPid);
         if ($objCompany) {
             while ($objCompany->next()) {
                 $arrTemp = array();

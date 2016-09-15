@@ -2,7 +2,16 @@
 
 namespace Company;
 
-class CompanyList extends \Module {
+use Company\Models\CompanyArchiveModel;
+use Company\Models\CompanyCategoryModel;
+use Company\Models\CompanyModel;
+use Contao\BackendTemplate;
+use Contao\Environment;
+use Contao\FrontendTemplate;
+use Contao\Input;
+use Contao\Module;
+
+class CompanyList extends Module {
 	
 	/**
 	 * Template
@@ -13,7 +22,7 @@ class CompanyList extends \Module {
 	protected $strTemplateCompanyList = 'company_list';
 	public function generate() {
 		if (TL_MODE == 'BE') {
-			$objTemplate = new \BackendTemplate ( 'be_wildcard' );
+			$objTemplate = new BackendTemplate ( 'be_wildcard' );
 			
 			$objTemplate->wildcard = '### UNTERNEHEMEN LISTE ###';
 			$objTemplate->title = $this->headline;
@@ -35,23 +44,21 @@ class CompanyList extends \Module {
 		
 		// Check if filter should be displayed
 		if (!$this->company_filter_disabled) {
-			$objTemplateFilter = new \FrontendTemplate('company_list_filter');
+			$objTemplateFilter = new FrontendTemplate('company_list_filter');
 			
 			// Filter category
-			$intFilterCategory = \Input::get ( 'filterCategory' );
+			$intFilterCategory = Input::get ( 'filterCategory' );
 			$strFilterUrl = '';
 			if ($intFilterCategory > 0) {
 				$strFilterUrl = '&filterCategory=' . $intFilterCategory;
 			}
 			
 			// Filter search
-			$strSearch = \Input::get ( 'search' );
+			$strSearch = Input::get ( 'search' );
 			$strSearchUrl = 'search=%s';
-			if ($strSearch != '') {
-				$objTemplateFilter->strLink = \Environment::get('base') . $this->addToUrl ( sprintf ( $strSearchUrl, $strSearch ) . '&filterCategory=ID', TRUE );
-			} else {
-				$objTemplateFilter->strLink = \Environment::get('base') . $this->addToUrl ( 'filterCategory=ID', TRUE );
-			}
+            $objTemplateFilter->strLink = $strSearch != '' ? Environment::get('base') . $this->addToUrl(sprintf($strSearchUrl,
+                        $strSearch) . '&filterCategory=ID',
+                    true) : Environment::get('base') . $this->addToUrl('filterCategory=ID', true);
 			
 			// Generate letters
 			$arrAlphabet = range ( 'A', 'Z' );
@@ -63,7 +70,7 @@ class CompanyList extends \Module {
 			
 			// Get Categories
 			$this->loadLanguageFile ( 'tl_company_category' );
-			$objCategories = \CompanyCategoryModel::findBy ( 'pid', $this->company_archiv, array (
+			$objCategories = CompanyCategoryModel::findBy ( 'pid', $this->company_archiv, array (
 					'order' => 'title ASC'
 			) );
 			$strOptions = '<option value="0">' . $GLOBALS ['TL_LANG'] ['tl_company_category'] ['category'] [0] . '</option>';
@@ -80,7 +87,7 @@ class CompanyList extends \Module {
 		}
 		
 		// Get items to calculate total number of items
-		$objCompanies = \CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory );
+		$objCompanies = CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory );
 		
 		// Pagination
 		$intLimit = 0;
@@ -109,7 +116,7 @@ class CompanyList extends \Module {
 		}
 		
 		// Order
-		$objCompanyArchive = \CompanyArchiveModel::findByPk($this->company_archiv);
+		$objCompanyArchive = CompanyArchiveModel::findByPk($this->company_archiv);
 		
 		switch ($objCompanyArchive->sort_order) {
 		    case 2:
@@ -122,7 +129,7 @@ class CompanyList extends \Module {
 		    }
 		
 				
-		$objCompanies = \CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory, $intOffset, $intLimit, $strOrder );
+		$objCompanies = CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory, $intOffset, $intLimit, $strOrder );
 		
 		if ($objCompanies) {
 			$this->Template->strCompanies = $this->getCompanies ( $objCompanies, $objPage );
@@ -142,7 +149,7 @@ class CompanyList extends \Module {
 		$strHTML = '';
 		while ( $objCompanies->next () ) {
 			if ($objCompanies->company != '') {
-				$objTemplate = new \FrontendTemplate ( $this->strTemplateCompanyList );
+				$objTemplate = new FrontendTemplate ( $this->strTemplateCompanyList );
 				$objFile = \FilesModel::findByPk ( $objCompanies->logo );
 				$arrSize = deserialize ( $this->imgSize );
 				$objCompanies->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
@@ -156,5 +163,3 @@ class CompanyList extends \Module {
 		return $strHTML;
 	}
 }
-
-?>
