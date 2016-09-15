@@ -1,14 +1,6 @@
 <?php
 
 /**
- * Register the namespaces
- */
-ClassLoader::addNamespaces(array
-(
-	'Company',
-));
-
-/**
  * Register the templates
  */
 TemplateLoader::addFiles(array

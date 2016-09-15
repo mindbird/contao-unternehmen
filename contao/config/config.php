@@ -29,3 +29,8 @@ $GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array(
     'Company\CompanyBackend',
     'getSearchablePages'
 );
+
+/** Models */
+$GLOBALS['TL_MODELS']['tl_company'] = 'Company\Model\CompanyModel';
+$GLOBALS['TL_MODELS']['tl_company_archive'] = 'Company\Model\CompanyArchiveModel';
+$GLOBALS['TL_MODELS']['tl_company_category'] = 'Company\Model\CompanyCategoryModel';
