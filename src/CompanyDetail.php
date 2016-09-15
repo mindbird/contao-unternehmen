@@ -1,19 +1,5 @@
 <?php
 
-/**
- * Contao Open Source CMS
- * 
- * Copyright (C) 2005-2014 Leo Feyer
- * 
- * @package   Unternehmen
- * @author    mindbird 
- * @license   GNU/LGPL 
- * @copyright mindbird 2014 
- */
-
-/**
- * Namespace
- */
 namespace Company;
 
 class CompanyDetail extends \Module {
