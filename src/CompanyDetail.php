@@ -47,11 +47,10 @@ class CompanyDetail extends Module {
 			$arrSize = deserialize ( $this->imgSize );
 			
 			// Get Categories
+            $strCategory = '';
 			$arrCategories = deserialize ( $objCompany->category );
 			if (count ( $arrCategories ) > 0) {
-				//$objCompanyCategories = \CompanyCategoryModel::findBy ( array (
-				//		'id IN(' . implode ( ',', $arrCategories ) . ')' 
-				//), null );
+                $arrCategory = array();
 				$objCompanyCategories = $db->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $arrCategories ) . ")" )->execute (  );
 				while ( $objCompanyCategories->next () ) {
 					$arrCategory [] = $objCompanyCategories->title;

@@ -5,6 +5,7 @@ namespace Company;
 use Company\Models\CompanyArchiveModel;
 use Company\Models\CompanyModel;
 use Contao\Backend;
+use Contao\Database;
 use Contao\Input;
 
 class CompanyBackend extends Backend
@@ -42,22 +43,24 @@ class CompanyBackend extends Backend
 
             return $objTemplate->parse();
         }
+
+        return '';
     }
 
     /**
      * Hook for searchable pages
      *
-     * @param unknown $arrPages
+     * @param array $arrPages
      * @param number $intRoot
      * @param string $blnIsSitemap
      * @return string
      */
     public function getSearchablePages($arrPages, $intRoot = 0, $blnIsSitemap = false)
     {
-        $db = \Database::getInstance();
+        $db = Database::getInstance();
         $arrRoot = array();
         if ($intRoot > 0) {
-            $arrRoot = $this->getChildRecords($intRoot, 'tl_page', true);
+            $arrRoot = $db->getChildRecords($intRoot, 'tl_page', true);
         }
 
         // Read jump to page details

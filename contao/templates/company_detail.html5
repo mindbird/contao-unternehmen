@@ -52,14 +52,14 @@
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     	<script type="text/javascript">
 			var map;
-			var myLatLng = new google.maps.LatLng(<?php print $this->lat; ?>, <?php print $this->lng; ?>);
+			var myLatLng = new google.maps.LatLng(<?= $this->lat ?>, <?= $this->lng ?>);
 			var infowindow = new google.maps.InfoWindow({
 				content: '<?php print $this->company; ?>'
 			});
 			function initialize() {
 	  			var mapOptions = {
 	    			zoom: 11,
-	    			center: myLatLng,
+	    			center: myLatLng
 	  			};
 	  			map = new google.maps.Map(document.getElementById('google_map'),mapOptions);
 	  			var marker = new google.maps.Marker({

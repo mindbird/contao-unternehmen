@@ -13,10 +13,10 @@ class Companyextends extends Backend
 
     public function generateLabel($row, $label)
     {
+        $sReturn = '';
         $objFile = \FilesModel::findByPk(deserialize($row['logo']));
         if ($objFile->path != '') {
-            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50,
-                    'center_center') . '"></figure>';
+            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50, 'center_center') . '"></figure>';
         }
 
         $sReturn .= '<div>' . $label . '</div>';
@@ -24,7 +24,7 @@ class Companyextends extends Backend
         return $sReturn;
     }
 
-    public function buttonCoordinates(DataContainer $dc)
+    public function buttonCoordinates()
     {
         $strHTML = '<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 				<script>
