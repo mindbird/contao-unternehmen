@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2013 Leo Feyer
- *
- * @package unternehmen
- * @author mindbird
- * @license GNU/LGPL
- * @copyright mindbird 2013
- */
-
-/**
  * Table tl_company
  */
 $GLOBALS['TL_DCA']['tl_company'] = array(
@@ -31,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
         ),
         'onload_callback' => array(
             array(
-                'tl_company',
+                'Company\Tables\Company',
                 'onloadCallback'
             )
         )
@@ -48,7 +37,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'title'
             ),
             'child_record_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'listCompany'
             ),
             'panelLayout' => 'sort,filter,search,limit'
@@ -59,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             ),
             'format' => '%s',
             'label_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'generateLabel'
             )
         ),
@@ -192,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'exclude' => true,
             'inputType' => 'text',
             'input_field_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'buttonCoordinates'
             ),
             'eval' => array()
@@ -292,7 +281,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'load' => 'eagerly'
             ),
             'options_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'optionsCallbackCategory'
             )
         ),
@@ -307,87 +296,3 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
         )
     )
 );
-
-class tl_company extends Backend
-{
-
-    public function generateLabel($row, $label)
-    {
-        $objFile = \FilesModel::findByPk(deserialize($row['logo']));
-        if ($objFile->path != '') {
-            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50,
-                    'center_center') . '"></figure>';
-        }
-
-        $sReturn .= '<div>' . $label . '</div>';
-
-        return $sReturn;
-    }
-
-    public function buttonCoordinates(DataContainer $dc)
-    {
-        $strHTML = '<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-				<script>
-				$("generateCoordinates").addEvent("click", function (){
-					var geocoder = new google.maps.Geocoder();
-					var address = $("ctrl_street").get("value") + ", " + $("ctrl_postal_code").get("value") + " " + $("ctrl_city").get("value");
-					if (geocoder) {
-      					geocoder.geocode({ "address": address }, function (results, status) {
-         					if (status == google.maps.GeocoderStatus.OK) {
-								$("ctrl_lat").set("value", results[0].geometry.location.lat());
-								$("ctrl_lng").set("value", results[0].geometry.location.lng());
-         					} else {
-            					alert("Fehler beim generieren der Koordinaten. Bitte überprüfen Sie Straße, Postleitzahl und Ort.");
-         					}
-      					});
-   					}
-				});
-				</script>';
-
-        return '<div style="padding-top: 15px;"><a class="tl_submit" id="generateCoordinates">Koordinaten generieren</a></div>' . $strHTML;
-    }
-
-    public function listCompany($row)
-    {
-        return '<div>' . $row['company'] . '</div>';
-    }
-
-    public function onloadCallback(\DataContainer $objDC)
-    {
-        $objCompanyArchive = \CompanyArchiveModel::findByPk($objDC->id);
-
-        switch ($objCompanyArchive->sort_order) {
-            case 2:
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['mode'] = 4;
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['fields'] = array(
-                    'sorting'
-                );
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['headerFields'] = array(
-                    'title'
-                );
-                break;
-            case 1:
-            default:
-
-                // Nothing to do
-                break;
-        }
-    }
-
-    public function optionsCallbackCategory($dc)
-    {
-        $categories = \CompanyCategoryModel::findBy ( 'pid', $dc->activeRecord->pid, array (
-            'order' => 'title ASC'
-        ) );
-        $category = array();
-        if ($categories) {
-            while ($categories->next()) {
-                $category[$categories->id] = $categories->title;
-            }
-        }
-
-        return $category;
-    }
-}
-
-?>
