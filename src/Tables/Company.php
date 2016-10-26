@@ -8,7 +8,7 @@ use Contao\Backend;
 use Contao\DataContainer;
 use Contao\Image;
 
-class Companyextends extends Backend
+class Company extends Backend
 {
 
     public function generateLabel($row, $label)
