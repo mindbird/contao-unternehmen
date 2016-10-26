@@ -24,8 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Company\\": "src/",
-      "Contao\\": "models/"
+      "Company\\": "src/"
     }
   },
   "replace": {
