@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Table tl_company
- */
 $GLOBALS['TL_DCA']['tl_company'] = array(
-
-    // Config
     'config' => array(
         'dataContainer' => 'Table',
         'ptable' => 'tl_company_archive',
@@ -25,7 +20,6 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             )
         )
     ),
-    // List
     'list' => array(
         'sorting' => array(
             'mode' => 1,
@@ -93,6 +87,13 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'icon' => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ),
+            'toggle' => array
+            (
+                'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
+                'icon' => 'visible.gif',
+                'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+                'button_callback' => array('Company\Tables\Company', 'toggleIcon')
+            ),
             'show' => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],
                 'href' => 'act=show',
@@ -100,11 +101,9 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             )
         )
     ),
-    // Palettes
     'palettes' => array(
-        'default' => '{company_legend},company,contact_person;{category_legend},category; {address_legend}, street, postal_code, city; {coordinates_legend}, button_coordinates, lat, lng; {contact_legend}, phone, fax, email, homepage; {logo_legend}, logo; {information_legend}, information;'
+        'default' => '{company_legend},company,contact_person;{category_legend},category;{address_legend},street,postal_code,city;{coordinates_legend},button_coordinates,lat,lng;{contact_legend},phone,fax,email,homepage;{logo_legend},logo;{gallery_legend},gallery_multiSRC;{information_legend},information;{publish_legend},published,start,stop;'
     ),
-    // Fields
     'fields' => array(
         'id' => array(
             'sql' => "int(10) unsigned NOT NULL auto_increment"
@@ -136,7 +135,8 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'search' => true,
             'inputType' => 'text',
             'eval' => array(
-                'maxlength' => 255
+                'maxlength' => 255,
+                'tl_class' => 'w50',
             ),
             'sql' => "varchar(255) NOT NULL default ''"
         ),
@@ -272,7 +272,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'filter' => true,
             'foreignKey' => 'tl_company_category.title',
             'eval' => array(
-                'mandatory' => true,
+                'mandatory' => false,
                 'multiple' => true
             ),
             'sql' => "blob NULL",
@@ -293,6 +293,48 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'rte' => 'tinyMCE'
             ),
             'sql' => "text NULL"
+        ),
+        'gallery_multiSRC' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_multiSRC'],
+            'exclude' => true,
+            'inputType' => 'fileTree',
+            'eval' => array(
+                'multiple' => true,
+                'fieldType' => 'checkbox',
+                'orderField' => 'gallery_orderSRC',
+                'files' => true,
+                'isGallery' => true,
+                'extensions' => Config::get('validImageTypes')
+            ),
+            'sql' => "blob NULL"
+        ),
+        'gallery_orderSRC' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_orderSRC'],
+            'sql' => "blob NULL"
+        ),
+        'published' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['published'],
+            'flag' => 1,
+            'inputType' => 'checkbox',
+            'eval' => array('submitOnChange' => true, 'doNotCopy' => true),
+            'sql' => "char(1) NOT NULL default ''"
+        ),
+        'start' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['start'],
+            'inputType' => 'text',
+            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'sql' => "varchar(10) NOT NULL default ''"
+        ),
+        'stop' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['stop'],
+            'inputType' => 'text',
+            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'sql' => "varchar(10) NOT NULL default ''"
         )
     )
 );

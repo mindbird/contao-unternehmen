@@ -1,9 +1,10 @@
 <!-- indexer::continue -->
 <div class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
 	<h2 class="name" itemprop="name"><?php print $this->company; ?></h2>
-		<figure itemprop="logo">
-		<?php if ($this->logo) { ?>
-			<img src="<?php print $this->logo; ?>" width="<?php print $this->imageWidth; ?>" height="<?php print $this->imageHeight; ?>" alt="<?php print $this->company; ?>" />
+		<?php if ($this->picture) { ?>
+			<figure itemprop="logo">
+				<?= $this->insert('picture_default', $this->picture) ?>
+			</figure>
 		<?php }  else { ?>
 			<div style="width:<?php print $this->imageWidth; ?>px; height: <?php print $this->imageHeight; ?>px;"></div>
 		<?php } ?>
@@ -43,13 +44,16 @@
 	<?php if ($this->information) { ?>
 		<div class="information" itemprop="description"><?php print $this->information; ?></div>
 	<?php } ?>
+	<?php if ($this->gallery) { ?>
+		<?= $this->gallery ?>
+	<?php } ?>
 	<?php if ($this->lat && $this->lng) { ?>
 		<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
 	    	<meta itemprop="latitude" content="<?php print $this->lat; ?>" />
 	    	<meta itemprop="longitude" content="<?php print $this->lng; ?>" />
 		</div>
 		<div id="google_map"></div>
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<?= $this->company_googlemaps_apikey ?>"></script>
     	<script type="text/javascript">
 			var map;
 			var myLatLng = new google.maps.LatLng(<?= $this->lat ?>, <?= $this->lng ?>);

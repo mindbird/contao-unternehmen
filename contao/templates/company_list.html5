@@ -1,4 +1,9 @@
 <li class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
+	<?php if ($this->picture) { ?>
+		<figure itemprop="image">
+			<?= $this->insert('picture_default', $this->picture) ?>
+		</figure>
+	<?php } ?>
 	<span class="name" itemprop="name"><?php print $this->objCompany->company; ?></span>
 	<?php if ($this->link): ?>
 		<a class="link" href="<?php print $this->link; ?>">Details</a>

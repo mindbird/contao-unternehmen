@@ -4,77 +4,95 @@ namespace Company;
 
 use Company\Models\CompanyModel;
 use Contao\BackendTemplate;
+use Contao\ContentGallery;
+use Contao\Controller;
+use Contao\Database;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
+use Contao\Image;
 use Contao\Input;
 use Contao\Module;
+use stdClass;
 
 class CompanyDetail extends Module {
-	
-	/**
-	 * Template
-	 *
-	 * @var string
-	 */
+
 	protected $strTemplate = 'mod_company_detail';
 	
 	public function generate() {
 		if (TL_MODE == 'BE') {
-			$objTemplate = new BackendTemplate ( 'be_wildcard' );
-				
-			$objTemplate->wildcard = '### UNTERNEHEMEN DETAILS ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-				
-			return $objTemplate->parse ();
+			$template = new BackendTemplate ( 'be_wildcard' );
+			$template->wildcard = '### UNTERNEHEMEN DETAILS ###';
+			$template->title = $this->headline;
+			$template->id = $this->id;
+			$template->link = $this->name;
+			$template->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+			return $template->parse ();
 		}
 	
 		return parent::generate ();
 	}
 	
 	protected function compile() {
-        $db = \Database::getInstance();
-		$intID = Input::get ( 'companyID' );
-		$objCompany = CompanyModel::findByPk ( $intID );
-		if ($objCompany) {
-			global $objPage;
-			$objPage->pageTitle = $objCompany->company;
+        $db = Database::getInstance();
+		$id = Input::get ( 'companyID' );
+		$company = CompanyModel::findByPk ( $id );
+		if ($company) {
 			
-			$objTemplate = new FrontendTemplate ( 'company_detail' );
-			$objFile = FilesModel::findByPk ( $objCompany->logo );
-			$arrSize = deserialize ( $this->imgSize );
+			$template = new FrontendTemplate ( 'company_detail' );
+			$file = FilesModel::findByPk ( $company->logo );
+			$size = deserialize($this->imgSize);
+            $image = array(
+                'singleSRC' => $file->path,
+                'size' => $size,
+                'alt' => $company->title
+            );
+            Controller::addImageToTemplate($template, $image);
+
+            $model = $this->objModel;
+            //$model->
+            $gallery = new ContentGallery($model);
+            $gallery->multiSRC = $company->gallery_multiSRC;
+            $gallery->orderSRC = $company->gallery_orderSRC;
+            $gallery->size = $this->gallery_size;
+            $gallery->imagemargin = $this->gallery_imagemargin;
+            $gallery->perRow = $this->gallery_perRow;
+            $gallery->perPage = $this->gallery_perPage;
+            $gallery->numberOfItems = $this->gallery_numberOfItems;
+            $gallery->fullsize = $this->gallery_fullsize;
+            $gallery->type = 'gallery';
+            if ($company->gallery_orderSRC != '') {
+                $gallery->sortBy = 'custom';
+            }
 			
 			// Get Categories
-            $strCategory = '';
-			$arrCategories = deserialize ( $objCompany->category );
-			if (count ( $arrCategories ) > 0) {
+            $category = '';
+			$categories = deserialize ( $company->category );
+			if (count ( $categories ) > 0) {
                 $arrCategory = array();
-				$objCompanyCategories = $db->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $arrCategories ) . ")" )->execute (  );
-				while ( $objCompanyCategories->next () ) {
-					$arrCategory [] = $objCompanyCategories->title;
+				$companyCategories = $db->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $categories ) . ")" )->execute (  );
+				while ( $companyCategories->next () ) {
+					$arrCategory [] = $companyCategories->title;
 				}
-				$strCategory = implode ( ', ', $arrCategory );
+				$category = implode ( ', ', $arrCategory );
 			}
-			$objTemplate->company = $objCompany->company;
-			$objTemplate->contact_person = $objCompany->contact_person;
-			$objTemplate->category = $strCategory;
-			$objTemplate->street = $objCompany->street;
-			$objTemplate->postal_code = $objCompany->postal_code;
-			$objTemplate->city = $objCompany->city;
-			$objTemplate->phone = $objCompany->phone;
-			$objTemplate->fax = $objCompany->fax;
-			$objTemplate->email = $objCompany->email;
-			$objTemplate->homepage = $objCompany->homepage;
-			$objTemplate->lat = $objCompany->lat;
-			$objTemplate->lng = $objCompany->lng;
-			$objTemplate->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
-			$objTemplate->imageWidth = $arrSize [0];
-			$objTemplate->imageHeight = $arrSize [1];
-			$objTemplate->information = $objCompany->information;
+			$template->company = $company->company;
+			$template->contact_person = $company->contact_person;
+			$template->category = $category;
+			$template->street = $company->street;
+			$template->postal_code = $company->postal_code;
+			$template->city = $company->city;
+			$template->phone = $company->phone;
+			$template->fax = $company->fax;
+			$template->email = $company->email;
+			$template->homepage = $company->homepage;
+			$template->lat = $company->lat;
+			$template->lng = $company->lng;
+			$template->imageWidth = $size [0];
+			$template->imageHeight = $size [1];
+			$template->information = $company->information;
+			$template->gallery = $gallery->generate();
 			
-			$this->Template->strHtml = $objTemplate->parse ();
+			$this->Template->strHtml = $template->parse ();
 		}
 	}
 }

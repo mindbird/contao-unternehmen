@@ -6,160 +6,177 @@ use Company\Models\CompanyArchiveModel;
 use Company\Models\CompanyCategoryModel;
 use Company\Models\CompanyModel;
 use Contao\BackendTemplate;
+use Contao\Controller;
 use Contao\Environment;
+use Contao\FilesModel;
 use Contao\FrontendTemplate;
+use Contao\Image;
 use Contao\Input;
 use Contao\Module;
+use Contao\PageModel;
+use Contao\Pagination;
 
-class CompanyList extends Module {
-	
-	/**
-	 * Template
-	 *
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_company_list';
-	protected $strTemplateCompanyList = 'company_list';
-	public function generate() {
-		if (TL_MODE == 'BE') {
-			$objTemplate = new BackendTemplate ( 'be_wildcard' );
-			
-			$objTemplate->wildcard = '### UNTERNEHEMEN LISTE ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-			
-			return $objTemplate->parse ();
-		}
-		if ($this->companyTpl) {
-		    $this->strTemplateCompanyList = $this->companyTpl;
-		}
-		
-		return parent::generate ();
-	}
-	protected function compile() {
-		// Read jump to page details
-		$objPage = \PageModel::findByIdOrAlias ( $this->jumpTo );
-		
-		// Check if filter should be displayed
-		if (!$this->company_filter_disabled) {
-			$objTemplateFilter = new FrontendTemplate('company_list_filter');
-			
-			// Filter category
-			$intFilterCategory = Input::get ( 'filterCategory' );
-			$strFilterUrl = '';
-			if ($intFilterCategory > 0) {
-				$strFilterUrl = '&filterCategory=' . $intFilterCategory;
-			}
-			
-			// Filter search
-			$strSearch = Input::get ( 'search' );
-			$strSearchUrl = 'search=%s';
-            $objTemplateFilter->strLink = $strSearch != '' ? Environment::get('base') . $this->addToUrl(sprintf($strSearchUrl,
-                        $strSearch) . '&filterCategory=ID',
-                    true) : Environment::get('base') . $this->addToUrl('filterCategory=ID', true);
-			
-			// Generate letters
-			$arrAlphabet = range ( 'A', 'Z' );
-			$strHtml = '<a href="' . $this->addToUrl ( $strFilterUrl, TRUE ) . '">Alle</a> ';
-			for($i = 0; $i < count ( $arrAlphabet ); $i ++) {
-				$strHtml .= '<a href="' . $this->addToUrl ( sprintf ( $strSearchUrl, $arrAlphabet [$i] ) . $strFilterUrl, TRUE ) . '">' . $arrAlphabet [$i] . '</a> ';
-			}
-			$objTemplateFilter->strFilterName = $strHtml;
-			
-			// Get Categories
-			$this->loadLanguageFile ( 'tl_company_category' );
-			$objCategories = CompanyCategoryModel::findBy ( 'pid', $this->company_archiv, array (
-					'order' => 'title ASC'
-			) );
-			$strOptions = '<option value="0">' . $GLOBALS ['TL_LANG'] ['tl_company_category'] ['category'] [0] . '</option>';
-			if ($objCategories) {
-				while ( $objCategories->next () ) {
-					$strOptions .= '<option value="' . $objCategories->id . '"' . ($intFilterCategory != $objCategories->id ? '' : ' selected') . '>' . $objCategories->title . '</option>';
-				}
-			}
-			$objTemplateFilter->strCategoryOptions = $strOptions;
-			$this->Template->strFilter = $objTemplateFilter->parse();
-		} else {
-			$strSearch = '';
-			$intFilterCategory = 0;
-		}
-		
-		// Get items to calculate total number of items
-		$objCompanies = CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory );
-		
-		// Pagination
-		$intLimit = 0;
-		$intOffset = 0;
-		$intTotal = 0;
-		
-		// Set limit to maximum number of items
-		if ($this->numberOfItems > 0) {
-			$intLimit = $this->numberOfItems;
-			$intTotal = $this->numberOfItems;
-		} elseif ($objCompanies) {
-			$intTotal = $objCompanies->count ();
-		}
-		
-		// If per page is set and maximum number of items greater than per page use Pagination
-		if ($objCompanies && $this->perPage > 0 && ($intLimit == 0 || $this->numberOfItems > $this->perPage)) {
-			
-			// Set limit, page and offset
-			$intLimit = $this->perPage;
-			$intPage = $this->Input->get ( 'page' ) ? $this->Input->get ( 'page' ) : 1;
-			$intOffset = ($intPage - 1) * $intLimit;
-			
-			// Add pagination menu
-			$objPagination = new \Pagination ( $intTotal, $intLimit );
-			$this->Template->strPagination = $objPagination->generate ();
-		}
-		
-		// Order
-		$objCompanyArchive = CompanyArchiveModel::findByPk($this->company_archiv);
-		
-		switch ($objCompanyArchive->sort_order) {
-		    case 2:
-		        $strOrder = 'sorting ASC';
-		        break;
-		    case 1:
-		    default:
-		        $strOrder = $this->company_random ? 'RAND()' : 'company ASC';
-		        break;
-		    }
-		
-				
-		$objCompanies = CompanyModel::findItems ( $this->company_archiv, $strSearch, $intFilterCategory, $intOffset, $intLimit, $strOrder );
-		
-		if ($objCompanies) {
-			$this->Template->strCompanies = $this->getCompanies ( $objCompanies, $objPage );
-		} else {
-			$this->Template->strCompanies = 'Mit den ausgewählten Filterkriterien sind keine Einträge vorhanden.';
-		}
-	}
-	
-	/**
-	 * Return string/html of all companies
-	 *
-	 * @param array $arrCompanies
-	 *        	DB query rows as array
-	 * @return string
-	 */
-	protected function getCompanies($objCompanies, $objPage = NULL) {
-		$strHTML = '';
-		while ( $objCompanies->next () ) {
-			if ($objCompanies->company != '') {
-				$objTemplate = new FrontendTemplate ( $this->strTemplateCompanyList );
-				$objFile = \FilesModel::findByPk ( $objCompanies->logo );
-				$arrSize = deserialize ( $this->imgSize );
-				$objCompanies->logo = \Image::get ( $objFile->path, $arrSize [0], $arrSize [1], $arrSize [2] );
-				$objTemplate->objCompany = $objCompanies;
-				if ($objPage) {
-					$objTemplate->link = $this->generateFrontendUrl ( $objPage->row (), '/companyID/' . $objCompanies->id );
-				}
-				$strHTML .= $objTemplate->parse ();
-			}
-		}
-		return $strHTML;
-	}
+class CompanyList extends Module
+{
+
+    protected $strTemplate = 'mod_company_list';
+
+    protected $strTemplateCompanyList = 'company_list';
+
+    protected $search = '';
+
+    protected $filterCategory = 0;
+
+    protected $limit = 0;
+
+    protected $offset = 0;
+
+    protected $total = 0;
+
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $template = new BackendTemplate ('be_wildcard');
+            $template->wildcard = '### UNTERNEHEMEN LISTE ###';
+            $template->title = $this->headline;
+            $template->id = $this->id;
+            $template->link = $this->name;
+            $template->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+
+            return $template->parse();
+        }
+
+        if ($this->companyTpl) {
+            $this->strTemplateCompanyList = $this->companyTpl;
+        }
+
+        return parent::generate();
+    }
+
+    protected function compile()
+    {
+        if (!$this->company_filter_disabled) {
+            $this->generateFilter();
+        }
+
+        $this->setPagination();
+
+        $companies = CompanyModel::findItems($this->company_archiv, $this->search, $this->filterCategory, $this->offset,
+            $this->limit, $this->getOrder());
+
+        if ($companies) {
+            $this->Template->strCompanies = $this->getCompanies($companies);
+        } else {
+            $this->Template->strCompanies = 'Mit den ausgewählten Filterkriterien sind keine Einträge vorhanden.';
+        }
+    }
+
+    /**
+     * Return string/html of all companies
+     *
+     * @param array $arrCompanies
+     *            DB query rows as array
+     * @return string
+     */
+    protected function getCompanies($companies)
+    {
+        $page = PageModel::findByIdOrAlias($this->jumpTo);
+        $return = '';
+        while ($companies->next()) {
+            if ($companies->company != '') {
+                $template = new FrontendTemplate ($this->strTemplateCompanyList);
+                $file = FilesModel::findByPk($companies->logo);
+                $image = array(
+                    'singleSRC' => $file->path,
+                    'size' => deserialize($this->imgSize),
+                    'alt' => $companies->title
+                );
+                Controller::addImageToTemplate($template, $image);
+                $template->objCompany = $companies;
+                if ($page) {
+                    $template->link = $this->generateFrontendUrl($page->row(), '/companyID/' . $companies->id);
+                }
+                $return .= $template->parse();
+            }
+        }
+        return $return;
+    }
+
+    protected function generateFilter()
+    {
+        $templateFilter = new FrontendTemplate('company_list_filter');
+        $filterCategory = Input::get('filterCategory');
+        $filterUrl = '';
+        if ($filterCategory > 0) {
+            $filterUrl = '&filterCategory=' . $filterCategory;
+        }
+        $search = Input::get('search');
+        $searchUrl = 'search=%s';
+
+        $templateFilter->strLink = $search != '' ? Environment::get('base') . $this->addToUrl(sprintf($searchUrl,
+                    $search) . '&filterCategory=ID',
+                true) : Environment::get('base') . $this->addToUrl('filterCategory=ID', true);
+
+        $alphabet = range('A', 'Z');
+        $filterName = '<a href="' . $this->addToUrl($filterUrl, true) . '">Alle</a> ';
+        for ($i = 0; $i < count($alphabet); $i++) {
+            $filterName .= '<a href="' . $this->addToUrl(sprintf($searchUrl, $alphabet [$i]) . $filterUrl,
+                    true) . '">' . $alphabet [$i] . '</a> ';
+        }
+        $templateFilter->strFilterName = $filterName;
+
+        $this->loadLanguageFile('tl_company_category');
+        $categories = CompanyCategoryModel::findBy('pid', $this->company_archiv, array(
+            'order' => 'title ASC'
+        ));
+        $options = '<option value="0">' . $GLOBALS ['TL_LANG'] ['tl_company_category'] ['category'] [0] . '</option>';
+        if ($categories) {
+            while ($categories->next()) {
+                $options .= '<option value="' . $categories->id . '"' . ($filterCategory != $categories->id ? '' : ' selected') . '>' . $categories->title . '</option>';
+            }
+        }
+        $templateFilter->strCategoryOptions = $options;
+
+        $this->Template->strFilter = $templateFilter->parse();
+    }
+
+    protected function setPagination()
+    {
+        $companies = CompanyModel::findItems($this->company_archiv, $this->search, $this->filterCategory);
+
+        if ($this->numberOfItems > 0) {
+            $this->limit = $this->numberOfItems;
+            $this->total = $this->numberOfItems;
+        } elseif ($companies) {
+            $this->total = $companies->count();
+        }
+
+        if ($companies && $this->perPage > 0 && ($this->limit == 0 || $this->numberOfItems > $this->perPage)) {
+            $this->limit = $this->perPage;
+            $page = $this->Input->get('page') ? $this->Input->get('page') : 1;
+            $this->offset = ($page - 1) * $this->limit;
+
+            $pagination = new Pagination ($this->total, $this->limit);
+            $this->Template->strPagination = $pagination->generate();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getOrder()
+    {
+        $companyArchive = CompanyArchiveModel::findByPk($this->company_archiv);
+        switch ($companyArchive->sort_order) {
+            case 2:
+                $order = 'sorting ASC';
+                break;
+            case 1:
+            default:
+                $order = $this->company_random ? 'RAND()' : 'company ASC';
+                break;
+        }
+
+        return $order;
+    }
 }

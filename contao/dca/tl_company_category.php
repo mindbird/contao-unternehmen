@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Table tl_company_category
- */
 $GLOBALS ['TL_DCA'] ['tl_company_category'] = array (
 		
 		// Config

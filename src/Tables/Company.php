@@ -5,8 +5,11 @@ namespace Company\Tables;
 use Company\Models\CompanyArchiveModel;
 use Company\Models\CompanyCategoryModel;
 use Contao\Backend;
+use Contao\BackendTemplate;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
+use Contao\Input;
 
 class Company extends Backend
 {
@@ -26,25 +29,9 @@ class Company extends Backend
 
     public function buttonCoordinates()
     {
-        $strHTML = '<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-				<script>
-				$("generateCoordinates").addEvent("click", function (){
-					var geocoder = new google.maps.Geocoder();
-					var address = $("ctrl_street").get("value") + ", " + $("ctrl_postal_code").get("value") + " " + $("ctrl_city").get("value");
-					if (geocoder) {
-      					geocoder.geocode({ "address": address }, function (results, status) {
-         					if (status == google.maps.GeocoderStatus.OK) {
-								$("ctrl_lat").set("value", results[0].geometry.location.lat());
-								$("ctrl_lng").set("value", results[0].geometry.location.lng());
-         					} else {
-            					alert("Fehler beim generieren der Koordinaten. Bitte überprüfen Sie Straße, Postleitzahl und Ort.");
-         					}
-      					});
-   					}
-				});
-				</script>';
-
-        return '<div style="padding-top: 15px;"><a class="tl_submit" id="generateCoordinates">Koordinaten generieren</a></div>' . $strHTML;
+        $template = new BackendTemplate('be_company_refresh_button');
+        $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
+        return $template->parse();
     }
 
     public function listCompany($row)
@@ -87,5 +74,21 @@ class Company extends Backend
         }
 
         return $category;
+    }
+
+    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+    {
+        if (strlen(Input::get('tid'))) {
+            Database::getInstance()->prepare("UPDATE tl_company SET tstamp=" . time() . ", published='" . (Input::get('state') == 1 ? '1' : '') . "' WHERE id=?")->execute(Input::get('tid'));
+            $this->redirect($this->getReferer());
+        }
+
+        $href .= '&amp;tid=' . $row['id'] . '&amp;state=' . ($row['published'] ? '' : 1);
+        if (!$row['published']) {
+            $icon = 'invisible.gif';
+        }
+
+        return '<a href="' . $this->addToUrl($href, false) . '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon,
+                $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
     }
 }

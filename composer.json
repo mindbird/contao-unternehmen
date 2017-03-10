@@ -28,6 +28,6 @@
     }
   },
   "replace": {
-    "contao-legacy/personen": "self.version"
+    "contao-legacy/unternehmen": "self.version"
   }
 }
