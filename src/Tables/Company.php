@@ -16,15 +16,15 @@ class Company extends Backend
 
     public function generateLabel($row, $label)
     {
-        $sReturn = '';
-        $objFile = \FilesModel::findByPk(deserialize($row['logo']));
-        if ($objFile->path != '') {
-            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50, 'center_center') . '"></figure>';
+        $return = '';
+        $file = \FilesModel::findByPk(deserialize($row['logo']));
+        if ($file->path != '') {
+            $return = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($file->path, 80, 50, 'center_center') . '"></figure>';
         }
 
-        $sReturn .= '<div>' . $label . '</div>';
+        $return .= '<div>' . $label . '</div>';
 
-        return $sReturn;
+        return $return;
     }
 
     public function buttonCoordinates()
@@ -41,9 +41,9 @@ class Company extends Backend
 
     public function onloadCallback(DataContainer $objDC)
     {
-        $objCompanyArchive = CompanyArchiveModel::findByPk($objDC->id);
+        $companyArchive = CompanyArchiveModel::findByPk($objDC->id);
 
-        switch ($objCompanyArchive->sort_order) {
+        switch ($companyArchive->sort_order) {
             case 2:
                 $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['mode'] = 4;
                 $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['fields'] = array(
@@ -55,8 +55,6 @@ class Company extends Backend
                 break;
             case 1:
             default:
-
-                // Nothing to do
                 break;
         }
     }

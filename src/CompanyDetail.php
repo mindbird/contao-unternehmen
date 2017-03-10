@@ -9,38 +9,39 @@ use Contao\Controller;
 use Contao\Database;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
-use Contao\Image;
 use Contao\Input;
 use Contao\Module;
-use stdClass;
 
-class CompanyDetail extends Module {
+class CompanyDetail extends Module
+{
+    protected $strTemplate = 'mod_company_detail';
 
-	protected $strTemplate = 'mod_company_detail';
-	
-	public function generate() {
-		if (TL_MODE == 'BE') {
-			$template = new BackendTemplate ( 'be_wildcard' );
-			$template->wildcard = '### UNTERNEHEMEN DETAILS ###';
-			$template->title = $this->headline;
-			$template->id = $this->id;
-			$template->link = $this->name;
-			$template->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-			return $template->parse ();
-		}
-	
-		return parent::generate ();
-	}
-	
-	protected function compile() {
+    public function generate()
+    {
+        if (TL_MODE == 'BE') {
+            $template = new BackendTemplate('be_wildcard');
+            $template->wildcard = '### UNTERNEHEMEN DETAILS ###';
+            $template->title = $this->headline;
+            $template->id = $this->id;
+            $template->link = $this->name;
+            $template->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+
+            return $template->parse();
+        }
+
+        return parent::generate();
+    }
+
+    protected function compile()
+    {
         $db = Database::getInstance();
-		$id = Input::get ( 'companyID' );
-		$company = CompanyModel::findByPk ( $id );
-		if ($company) {
-			
-			$template = new FrontendTemplate ( 'company_detail' );
-			$file = FilesModel::findByPk ( $company->logo );
-			$size = deserialize($this->imgSize);
+        $id = Input::get('companyID');
+        $company = CompanyModel::findByPk($id);
+        if ($company) {
+
+            $template = new FrontendTemplate ('company_detail');
+            $file = FilesModel::findByPk($company->logo);
+            $size = deserialize($this->imgSize);
             $image = array(
                 'singleSRC' => $file->path,
                 'size' => $size,
@@ -48,9 +49,7 @@ class CompanyDetail extends Module {
             );
             Controller::addImageToTemplate($template, $image);
 
-            $model = $this->objModel;
-            //$model->
-            $gallery = new ContentGallery($model);
+            $gallery = new ContentGallery($this->objModel);
             $gallery->multiSRC = $company->gallery_multiSRC;
             $gallery->orderSRC = $company->gallery_orderSRC;
             $gallery->size = $this->gallery_size;
@@ -63,36 +62,36 @@ class CompanyDetail extends Module {
             if ($company->gallery_orderSRC != '') {
                 $gallery->sortBy = 'custom';
             }
-			
-			// Get Categories
+
             $category = '';
-			$categories = deserialize ( $company->category );
-			if (count ( $categories ) > 0) {
+            $categories = deserialize($company->category);
+            if (count($categories) > 0) {
                 $arrCategory = array();
-				$companyCategories = $db->prepare ( "SELECT * FROM tl_company_category WHERE id IN(" . implode ( ',', $categories ) . ")" )->execute (  );
-				while ( $companyCategories->next () ) {
-					$arrCategory [] = $companyCategories->title;
-				}
-				$category = implode ( ', ', $arrCategory );
-			}
-			$template->company = $company->company;
-			$template->contact_person = $company->contact_person;
-			$template->category = $category;
-			$template->street = $company->street;
-			$template->postal_code = $company->postal_code;
-			$template->city = $company->city;
-			$template->phone = $company->phone;
-			$template->fax = $company->fax;
-			$template->email = $company->email;
-			$template->homepage = $company->homepage;
-			$template->lat = $company->lat;
-			$template->lng = $company->lng;
-			$template->imageWidth = $size [0];
-			$template->imageHeight = $size [1];
-			$template->information = $company->information;
-			$template->gallery = $gallery->generate();
-			
-			$this->Template->strHtml = $template->parse ();
-		}
-	}
+                $companyCategories = $db->prepare("SELECT * FROM tl_company_category WHERE id IN(" . implode(',',
+                        $categories) . ")")->execute();
+                while ($companyCategories->next()) {
+                    $arrCategory[] = $companyCategories->title;
+                }
+                $category = implode(', ', $arrCategory);
+            }
+            $template->company = $company->company;
+            $template->contact_person = $company->contact_person;
+            $template->category = $category;
+            $template->street = $company->street;
+            $template->postal_code = $company->postal_code;
+            $template->city = $company->city;
+            $template->phone = $company->phone;
+            $template->fax = $company->fax;
+            $template->email = $company->email;
+            $template->homepage = $company->homepage;
+            $template->lat = $company->lat;
+            $template->lng = $company->lng;
+            $template->imageWidth = $size [0];
+            $template->imageHeight = $size [1];
+            $template->information = $company->information;
+            $template->gallery = $gallery->generate();
+
+            $this->Template->strHtml = $template->parse();
+        }
+    }
 }

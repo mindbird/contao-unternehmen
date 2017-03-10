@@ -5,32 +5,37 @@ namespace Company\Models;
 use Contao\Model;
 
 class CompanyModel extends Model {
+
 	protected static $strTable = 'tl_company';
-	public static function findItems($intPid, $strCompanyName = '', $intCategory = 0, $intOffset = 0, $intLimit = 0, $strOrder = 'company ASC') {
-		$arrOptions = array ();
-		$arrOptions ['column'] [] = 'pid = ?';
-		$arrOptions ['value'] [] = $intPid;
+
+	public static function findItems($pid, $companyName = '', $category = 0, $offset = 0, $limit = 0, $order = 'company ASC') {
+		$options = array ();
+		$options['column'][] = 'pid = ?';
+		$options['value'][] = $pid;
+
+        $options['column'][] = 'published = ?';
+        $options['value'][] = 1;
 		
-		if ($strCompanyName != '') {
-			$arrOptions ['column'] [] = 'company LIKE ?';
-			$arrOptions ['value'] [] = $strCompanyName . '%';
+		if ($companyName != '') {
+			$options['column'][] = 'company LIKE ?';
+			$options['value'][] = $companyName . '%';
 		}
 		
-		if ($intCategory > 0) {
-			$arrOptions ['column'] [] = 'category LIKE ?';
-			$arrOptions ['value'] [] = '%"' . $intCategory . '"%';
+		if ($category > 0) {
+			$options['column'][] = 'category LIKE ?';
+			$options['value'][] = '%"' . $category . '"%';
 		}
 		
-		if ($intOffset > 0) {
-			$arrOptions ['offset'] = $intOffset;
+		if ($offset > 0) {
+			$options['offset'] = $offset;
 		}
 		
-		if ($intLimit > 0) {
-			$arrOptions ['limit'] = $intLimit;
+		if ($limit > 0) {
+			$options['limit'] = $limit;
 		}
 		
-		$arrOptions ['order'] = $strOrder;
+		$options['order'] = $order;
 		
-		return static::find ( $arrOptions );
+		return static::find($options);
 	}
 }
