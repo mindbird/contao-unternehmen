@@ -40,7 +40,7 @@ class CompanyDetail extends Module
         if ($company) {
             $template = new FrontendTemplate ('company_detail');
             if ($company->logo) {
-                $file = FilesModel::findByPk($company->logo);
+                $file = FilesModel::findByUuid($company->logo);
                 $size = deserialize($this->imgSize);
                 $image = array(
                     'singleSRC' => $file->path,

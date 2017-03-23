@@ -86,7 +86,7 @@ class CompanyList extends Module
             if ($companies->company != '') {
                 $template = new FrontendTemplate ($this->strTemplateCompanyList);
                 if ($companies->logo) {
-                    $file = FilesModel::findByPk($companies->logo);
+                    $file = FilesModel::findByUuid($companies->logo);
                     $image = array(
                         'singleSRC' => $file->path,
                         'size' => deserialize($this->imgSize),
