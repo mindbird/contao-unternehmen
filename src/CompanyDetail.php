@@ -38,16 +38,17 @@ class CompanyDetail extends Module
         $id = Input::get('companyID');
         $company = CompanyModel::findByPk($id);
         if ($company) {
-
             $template = new FrontendTemplate ('company_detail');
-            $file = FilesModel::findByPk($company->logo);
-            $size = deserialize($this->imgSize);
-            $image = array(
-                'singleSRC' => $file->path,
-                'size' => $size,
-                'alt' => $company->title
-            );
-            Controller::addImageToTemplate($template, $image);
+            if ($company->logo) {
+                $file = FilesModel::findByPk($company->logo);
+                $size = deserialize($this->imgSize);
+                $image = array(
+                    'singleSRC' => $file->path,
+                    'size' => $size,
+                    'alt' => $company->title
+                );
+                Controller::addImageToTemplate($template, $image);
+            }
 
             $gallery = new ContentGallery($this->objModel);
             $gallery->multiSRC = $company->gallery_multiSRC;

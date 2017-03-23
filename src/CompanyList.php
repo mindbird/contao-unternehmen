@@ -85,13 +85,15 @@ class CompanyList extends Module
         while ($companies->next()) {
             if ($companies->company != '') {
                 $template = new FrontendTemplate ($this->strTemplateCompanyList);
-                $file = FilesModel::findByPk($companies->logo);
-                $image = array(
-                    'singleSRC' => $file->path,
-                    'size' => deserialize($this->imgSize),
-                    'alt' => $companies->title
-                );
-                Controller::addImageToTemplate($template, $image);
+                if ($companies->logo) {
+                    $file = FilesModel::findByPk($companies->logo);
+                    $image = array(
+                        'singleSRC' => $file->path,
+                        'size' => deserialize($this->imgSize),
+                        'alt' => $companies->title
+                    );
+                    Controller::addImageToTemplate($template, $image);
+                }
                 $template->objCompany = $companies;
                 if ($page) {
                     $template->link = $this->generateFrontendUrl($page->row(), '/companyID/' . $companies->id);
@@ -99,6 +101,7 @@ class CompanyList extends Module
                 $return .= $template->parse();
             }
         }
+
         return $return;
     }
 
