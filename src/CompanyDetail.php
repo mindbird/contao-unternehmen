@@ -64,6 +64,7 @@ class CompanyDetail extends Module
                 if ($company->gallery_orderSRC != '') {
                     $gallery->sortBy = 'custom';
                 }
+                $template->gallery = $gallery->generate();
             }
 
             $category = '';
@@ -92,7 +93,6 @@ class CompanyDetail extends Module
             $template->imageWidth = $size [0];
             $template->imageHeight = $size [1];
             $template->information = $company->information;
-            $template->gallery = $gallery->generate();
 
             $this->Template->strHtml = $template->parse();
         }
