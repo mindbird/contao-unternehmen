@@ -50,18 +50,20 @@ class CompanyDetail extends Module
                 Controller::addImageToTemplate($template, $image);
             }
 
-            $gallery = new ContentGallery($this->objModel);
-            $gallery->multiSRC = $company->gallery_multiSRC;
-            $gallery->orderSRC = $company->gallery_orderSRC;
-            $gallery->size = $this->gallery_size;
-            $gallery->imagemargin = $this->gallery_imagemargin;
-            $gallery->perRow = $this->gallery_perRow;
-            $gallery->perPage = $this->gallery_perPage;
-            $gallery->numberOfItems = $this->gallery_numberOfItems;
-            $gallery->fullsize = $this->gallery_fullsize;
-            $gallery->type = 'gallery';
-            if ($company->gallery_orderSRC != '') {
-                $gallery->sortBy = 'custom';
+            if ($company->gallery_multiSRC) {
+                $gallery = new ContentGallery($this->objModel);
+                $gallery->multiSRC = $company->gallery_multiSRC;
+                $gallery->orderSRC = $company->gallery_orderSRC;
+                $gallery->size = $this->gallery_size;
+                $gallery->imagemargin = $this->gallery_imagemargin;
+                $gallery->perRow = $this->gallery_perRow;
+                $gallery->perPage = $this->gallery_perPage;
+                $gallery->numberOfItems = $this->gallery_numberOfItems;
+                $gallery->fullsize = $this->gallery_fullsize;
+                $gallery->type = 'gallery';
+                if ($company->gallery_orderSRC != '') {
+                    $gallery->sortBy = 'custom';
+                }
             }
 
             $category = '';
