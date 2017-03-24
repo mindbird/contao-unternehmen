@@ -94,6 +94,7 @@ class CompanyDetail extends Module
             $template->imageWidth = $size [0];
             $template->imageHeight = $size [1];
             $template->information = $company->information;
+            $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
 
             $this->Template->strHtml = $template->parse();
         }
