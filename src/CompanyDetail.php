@@ -39,6 +39,8 @@ class CompanyDetail extends Module
         $company = CompanyModel::findByPk($id);
         if ($company) {
             $template = new FrontendTemplate ('company_detail');
+            $template->id = $this->id . '_' . $id;
+
             if ($company->logo) {
                 $file = FilesModel::findByUuid($company->logo);
                 $size = deserialize($this->imgSize);

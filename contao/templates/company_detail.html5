@@ -52,7 +52,7 @@
 	    	<meta itemprop="latitude" content="<?php print $this->lat; ?>" />
 	    	<meta itemprop="longitude" content="<?php print $this->lng; ?>" />
 		</div>
-		<div id="google_map"></div>
+		<div id="google_map_<?= $this->id ?>" class="map"></div>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<?= $this->googlemaps_apikey ?>"></script>
     	<script type="text/javascript">
 			var map;
@@ -65,7 +65,7 @@
 	    			zoom: 11,
 	    			center: myLatLng
 	  			};
-	  			map = new google.maps.Map(document.getElementById('google_map'),mapOptions);
+	  			map = new google.maps.Map(document.getElementById('google_map_<?= $this->id ?>'),mapOptions);
 	  			var marker = new google.maps.Marker({
 					position: myLatLng,
 					map: map,
