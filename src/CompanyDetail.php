@@ -50,7 +50,8 @@ class CompanyDetail extends Module
                 Controller::addImageToTemplate($template, $image);
             }
 
-            if ($company->gallery_multiSRC != '') {
+            $size = deserialize($this->gallery_size);
+            if ($company->gallery_multiSRC != '' && $size[0] != '' && $size[1] != '' && $size[2] != '') {
                 $gallery = new ContentGallery($this->objModel);
                 $gallery->multiSRC = $company->gallery_multiSRC;
                 $gallery->orderSRC = $company->gallery_orderSRC;
