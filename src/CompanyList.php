@@ -108,16 +108,16 @@ class CompanyList extends Module
     protected function generateFilter()
     {
         $templateFilter = new FrontendTemplate('company_list_filter');
-        $filterCategory = Input::get('filterCategory');
+        $this->filterCategory = Input::get('filterCategory');
         $filterUrl = '';
-        if ($filterCategory > 0) {
-            $filterUrl = '&filterCategory=' . $filterCategory;
+        if ($this->filterCategory > 0) {
+            $filterUrl = '&filterCategory=' . $this->filterCategory;
         }
-        $search = Input::get('search');
+        $this->search = Input::get('search');
         $searchUrl = 'search=%s';
 
-        $templateFilter->strLink = $search != '' ? Environment::get('base') . $this->addToUrl(sprintf($searchUrl,
-                    $search) . '&filterCategory=ID',
+        $templateFilter->strLink = $this->search != '' ? Environment::get('base') . $this->addToUrl(sprintf($searchUrl,
+                    $this->search) . '&filterCategory=ID',
                 true) : Environment::get('base') . $this->addToUrl('filterCategory=ID', true);
 
         $alphabet = range('A', 'Z');
@@ -135,7 +135,7 @@ class CompanyList extends Module
         $options = '<option value="0">' . $GLOBALS ['TL_LANG'] ['tl_company_category'] ['category'] [0] . '</option>';
         if ($categories) {
             while ($categories->next()) {
-                $options .= '<option value="' . $categories->id . '"' . ($filterCategory != $categories->id ? '' : ' selected') . '>' . $categories->title . '</option>';
+                $options .= '<option value="' . $categories->id . '"' . ($this->filterCategory != $categories->id ? '' : ' selected') . '>' . $categories->title . '</option>';
             }
         }
         $templateFilter->strCategoryOptions = $options;
