@@ -43,13 +43,15 @@ class CompanyDetail extends Module
 
             if ($company->logo) {
                 $file = FilesModel::findByUuid($company->logo);
-                $size = deserialize($this->imgSize);
-                $image = array(
-                    'singleSRC' => $file->path,
-                    'size' => $size,
-                    'alt' => $company->title
-                );
-                Controller::addImageToTemplate($template, $image);
+                if (null !== $file) {
+                    $size = deserialize($this->imgSize);
+                    $image = array(
+                        'singleSRC' => $file->path,
+                        'size' => $size,
+                        'alt' => $company->title
+                    );
+                    Controller::addImageToTemplate($template, $image);
+                }
             }
 
             $size = deserialize($this->gallery_size);

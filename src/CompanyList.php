@@ -87,12 +87,14 @@ class CompanyList extends Module
                 $template = new FrontendTemplate ($this->strTemplateCompanyList);
                 if ($companies->logo) {
                     $file = FilesModel::findByUuid($companies->logo);
-                    $image = array(
-                        'singleSRC' => $file->path,
-                        'size' => deserialize($this->imgSize),
-                        'alt' => $companies->title
-                    );
-                    Controller::addImageToTemplate($template, $image);
+                    if (null !== $file) {
+                        $image = array(
+                            'singleSRC' => $file->path,
+                            'size' => deserialize($this->imgSize),
+                            'alt' => $companies->title
+                        );
+                        Controller::addImageToTemplate($template, $image);
+                    }
                 }
                 $template->objCompany = $companies;
                 if ($page) {
