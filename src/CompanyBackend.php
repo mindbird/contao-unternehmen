@@ -1,16 +1,16 @@
 <?php
 
-/**
- * Contao Open Source CMS
- *
- * @package   Unternehmen
- * @author    mindbird
- * @license   GNU/LGPL
- * @copyright mindbird 2014
- */
 namespace Company;
 
-class CompanyBackend extends \Backend
+use Company\Models\CompanyArchiveModel;
+use Company\Models\CompanyModel;
+use Contao\Backend;
+use Contao\Database;
+use Contao\FilesModel;
+use Contao\Input;
+use Contao\PageModel;
+
+class CompanyBackend extends Backend
 {
 
     /**
@@ -20,96 +20,97 @@ class CompanyBackend extends \Backend
      */
     public function refreshCoordinates()
     {
-        $objTemplate = new \BackendTemplate ('be_refresh_coordinates');
-        $objTemplate->intArchiveID = \Input::get('id');
-        $strHtml = '';
-        $objCompanies = \CompanyModel::findBy(array('lng=?', 'lat=?'), array('', ''));
-        if ($objCompanies) {
-            while ($objCompanies->next()) {
-                $arrCompany = $objCompanies->row();
-                if ($arrCompany ['street'] != '') {
-                    $strOptions = str_replace(' ', '+',
-                        urlencode($arrCompany ['street'] . ',' . $arrCompany ['plz'] . '+' . $arrCompany ['city']));
-                    $objJson = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' . $strOptions));
-                    if ($objJson->status == 'OK') {
-                        $objCompanies->lat = $objJson->results [0]->geometry->location->lat;
-                        $objCompanies->lng = $objJson->results [0]->geometry->location->lng;
-                        $objCompanies->save();
-                        $strHtml .= '<tr><td>' . $arrCompany ['company'] . '</td><td>OK</td></tr>';
+        $template = new \BackendTemplate ('be_refresh_coordinates');
+        $template->intArchiveID = Input::get('id');
+        $html = '';
+        $companies = CompanyModel::findBy(array('lng=?', 'lat=?'), array('', ''));
+        if ($companies) {
+            while ($companies->next()) {
+                $company = $companies->row();
+                if ($company ['street'] != '') {
+                    $options = str_replace(' ', '+', urlencode($company ['street'] . ',' . $company ['plz'] . '+' . $company ['city']));
+                    $json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' . $options));
+                    if ($json->status == 'OK') {
+                        $companies->lat = $json->results [0]->geometry->location->lat;
+                        $companies->lng = $json->results [0]->geometry->location->lng;
+                        $companies->save();
+                        $html .= '<tr><td>' . $company ['company'] . '</td><td>OK</td></tr>';
                     } else {
-                        $strHtml .= '<tr><td>' . $arrCompany ['company'] . '</td><td>Fehler</td></tr>';
+                        $html .= '<tr><td>' . $company ['company'] . '</td><td>Fehler</td></tr>';
                     }
                 }
             }
-            $objTemplate->strHtml = $strHtml;
+            $template->strHtml = $html;
 
-            return $objTemplate->parse();
+            return $template->parse();
         }
+
+        return '';
     }
 
     /**
      * Hook for searchable pages
      *
-     * @param unknown $arrPages
+     * @param array $pages
      * @param number $intRoot
-     * @param string $blnIsSitemap
+     * @param string $isSitemap
      * @return string
      */
-    public function getSearchablePages($arrPages, $intRoot = 0, $blnIsSitemap = false)
+    public function getSearchablePages($pages, $intRoot = 0, $isSitemap = false)
     {
-        $arrRoot = array();
+        $db = Database::getInstance();
+        $root = array();
         if ($intRoot > 0) {
-            $arrRoot = $this->getChildRecords($intRoot, 'tl_page', true);
+            $root = $db->getChildRecords($intRoot, 'tl_page', true);
         }
 
         // Read jump to page details
-        $objResult = $this->Database->prepare("SELECT jumpTo, company_archiv FROM tl_module WHERE type=?")->execute('company_list');
-        $arrModules = $objResult->fetchAllAssoc();
+        $result = $db->prepare("SELECT jumpTo, company_archiv FROM tl_module WHERE type=?")->execute('company_list');
+        $modules = $result->fetchAllAssoc();
 
-        if (count($arrModules) > 0) {
-            $arrPids = array();
-            foreach ($arrModules as $arrModule) {
-                if (is_array($arrRoot) && count($arrRoot) > 0 && !in_array($arrModule ['jumpTo'], $arrRoot)) {
+        if (count($modules) > 0) {
+            $pids = array();
+            foreach ($modules as $module) {
+                if (is_array($root) && count($root) > 0 && !in_array($module['jumpTo'], $root)) {
                     continue;
                 }
 
-                $objParent = \PageModel::findWithDetails($arrModule ['jumpTo']);
+                $parent = PageModel::findWithDetails($module['jumpTo']);
                 // The target page does not exist
-                if ($objParent === null) {
+                if ($parent === null) {
                     continue;
                 }
 
                 // The target page has not been published (see #5520)
-                if (!$objParent->published) {
+                if (!$parent->published) {
                     continue;
                 }
 
                 // The target page is exempt from the sitemap (see #6418)
-                if ($blnIsSitemap && $objParent->sitemap == 'map_never') {
+                if ($isSitemap && $parent->sitemap == 'map_never') {
                     continue;
                 }
 
                 // Set the domain (see #6421)
-                $domain = ($objParent->rootUseSSL ? 'https://' : 'http://') . ($objParent->domain ?: \Environment::get('host')) . TL_PATH . '/';
+                $domain = ($parent->rootUseSSL ? 'https://' : 'http://') . ($parent->domain ?: \Environment::get('host')) . TL_PATH . '/';
 
-                $arrPids [] = $arrModule ['company_archiv'];
-                $objCompanies = \CompanyModel::findByPids($arrPids, 0, 0, array(
+                $pids [] = $module ['company_archiv'];
+                $companies = CompanyModel::findByPids($pids, 0, 0, array(
                     'order' => 'id ASC'
                 ));
-                while ($objCompanies->next()) {
-                    $arrCompany = $objCompanies->row();
-                    $arrPages [] = $domain . $this->generateFrontendUrl($objParent->row(),
-                            '/companyID/' . $arrCompany ['id'], $objParent->language);
+                while ($companies->next()) {
+                    $arrCompany = $companies->row();
+                    $pages [] = $domain . $this->generateFrontendUrl($parent->row(), '/companyID/' . $arrCompany ['id'], $parent->language);
                 }
             }
         }
 
-        return $arrPages;
+        return $pages;
     }
 
     public function exportCSV()
     {
-        $arrColumns = array(
+        $columns = array(
             'id',
             'company',
             'contact_person',
@@ -126,43 +127,42 @@ class CompanyBackend extends \Backend
             'information'
         );
         $this->loadLanguageFile('tl_company');
-        $arrCsv = array();
-        foreach ($arrColumns as $strColumn) {
-            $arrCsv[0][] = $GLOBALS['TL_LANG']['tl_company'][$strColumn][0];
+        $csv = array();
+        foreach ($columns as $column) {
+            $csv[0][] = $GLOBALS['TL_LANG']['tl_company'][$column][0];
         }
 
-        $intPid = \Input::get('id');
-        $objCompanyArchive = \CompanyArchiveModel::findByPk($intPid);
-        $objCompany = \CompanyModel::findBy('pid', $intPid);
-        if ($objCompany) {
-            while ($objCompany->next()) {
+        $pid = Input::get('id');
+        $companyArchive = CompanyArchiveModel::findByPk($pid);
+        $company = CompanyModel::findBy('pid', $pid);
+        if ($company) {
+            while ($company->next()) {
                 $arrTemp = array();
-                foreach ($arrColumns as $strColumn) {
-                    if ($strColumn == 'logo') {
-                        $arrTemp[] = \FilesModel::findByUuid($objCompany->$strColumn)->name;
+                foreach ($columns as $column) {
+                    if ($column == 'logo') {
+                        $arrTemp[] = FilesModel::findByUuid($company->$column)->name;
                     } else {
-                        $arrTemp[] = $objCompany->$strColumn;
+                        $arrTemp[] = $company->$column;
                     }
                 }
-                $arrCsv[] = $arrTemp;
+                $csv[] = $arrTemp;
             }
         }
 
         ob_start();
-        $objFile = fopen("php://output", 'w');
-        fputcsv($objFile, $this->arrFields);
-        foreach ($arrCsv as $arrRow) {
-            fputcsv($objFile, $arrRow);
+        $file = fopen("php://output", 'w');
+        fputcsv($file, $this->arrFields);
+        foreach ($csv as $arrRow) {
+            fputcsv($file, $arrRow);
         }
-        fclose($objFile);
-        $strCsv = ob_get_clean();
+        fclose($file);
+        $csv = ob_get_clean();
 
         header("Content-Type: application/force-download");
-        header("Content-Disposition: attachment; filename=\"" . $objCompanyArchive->title . ".csv\"");
-        header("Content-Length: " . strlen($strCsv));
+        header("Content-Disposition: attachment; filename=\"" . $companyArchive->title . ".csv\"");
+        header("Content-Length: " . strlen($csv));
 
-        echo $strCsv;
+        echo $csv;
         exit();
-
     }
 }

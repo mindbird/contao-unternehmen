@@ -1,22 +1,6 @@
 <?php
 
-/**
- * Contao Open Source CMS
- *
- * Copyright (C) 2005-2013 Leo Feyer
- *
- * @package unternehmen
- * @author mindbird
- * @license GNU/LGPL
- * @copyright mindbird 2013
- */
-
-/**
- * Table tl_company
- */
 $GLOBALS['TL_DCA']['tl_company'] = array(
-
-    // Config
     'config' => array(
         'dataContainer' => 'Table',
         'ptable' => 'tl_company_archive',
@@ -31,12 +15,11 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
         ),
         'onload_callback' => array(
             array(
-                'tl_company',
+                'Company\Tables\Company',
                 'onloadCallback'
             )
         )
     ),
-    // List
     'list' => array(
         'sorting' => array(
             'mode' => 1,
@@ -48,7 +31,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'title'
             ),
             'child_record_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'listCompany'
             ),
             'panelLayout' => 'sort,filter,search,limit'
@@ -59,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             ),
             'format' => '%s',
             'label_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'generateLabel'
             )
         ),
@@ -104,6 +87,13 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'icon' => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ),
+            'toggle' => array
+            (
+                'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
+                'icon' => 'visible.gif',
+                'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+                'button_callback' => array('Company\Tables\Company', 'toggleIcon')
+            ),
             'show' => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],
                 'href' => 'act=show',
@@ -111,11 +101,9 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             )
         )
     ),
-    // Palettes
     'palettes' => array(
-        'default' => '{company_legend},company,contact_person;{category_legend},category; {address_legend}, street, postal_code, city; {coordinates_legend}, button_coordinates, lat, lng; {contact_legend}, phone, fax, email, homepage; {logo_legend}, logo; {information_legend}, information;'
+        'default' => '{company_legend},company,contact_person;{category_legend},category;{address_legend},street,postal_code,city;{coordinates_legend},button_coordinates,lat,lng;{contact_legend},phone,fax,email,homepage;{logo_legend},logo;{gallery_legend},gallery_multiSRC;{information_legend},information;{publish_legend},published,start,stop;'
     ),
-    // Fields
     'fields' => array(
         'id' => array(
             'sql' => "int(10) unsigned NOT NULL auto_increment"
@@ -147,7 +135,8 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'search' => true,
             'inputType' => 'text',
             'eval' => array(
-                'maxlength' => 255
+                'maxlength' => 255,
+                'tl_class' => 'w50',
             ),
             'sql' => "varchar(255) NOT NULL default ''"
         ),
@@ -192,7 +181,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'exclude' => true,
             'inputType' => 'text',
             'input_field_callback' => array(
-                'tl_company',
+                'Company\Tables\Company',
                 'buttonCoordinates'
             ),
             'eval' => array()
@@ -283,13 +272,17 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
             'filter' => true,
             'foreignKey' => 'tl_company_category.title',
             'eval' => array(
-                'mandatory' => true,
+                'mandatory' => false,
                 'multiple' => true
             ),
             'sql' => "blob NULL",
             'relation' => array(
                 'type' => 'hasMany',
                 'load' => 'eagerly'
+            ),
+            'options_callback' => array(
+                'Company\Tables\Company',
+                'optionsCallbackCategory'
             )
         ),
         'information' => array(
@@ -300,77 +293,48 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'rte' => 'tinyMCE'
             ),
             'sql' => "text NULL"
+        ),
+        'gallery_multiSRC' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_multiSRC'],
+            'exclude' => true,
+            'inputType' => 'fileTree',
+            'eval' => array(
+                'multiple' => true,
+                'fieldType' => 'checkbox',
+                'orderField' => 'gallery_orderSRC',
+                'files' => true,
+                'isGallery' => true,
+                'extensions' => Config::get('validImageTypes')
+            ),
+            'sql' => "blob NULL"
+        ),
+        'gallery_orderSRC' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_orderSRC'],
+            'sql' => "blob NULL"
+        ),
+        'published' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['published'],
+            'flag' => 1,
+            'inputType' => 'checkbox',
+            'eval' => array('submitOnChange' => true, 'doNotCopy' => true),
+            'sql' => "char(1) NOT NULL default ''"
+        ),
+        'start' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['start'],
+            'inputType' => 'text',
+            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'sql' => "varchar(10) NOT NULL default ''"
+        ),
+        'stop' => array
+        (
+            'label' => &$GLOBALS['TL_LANG']['tl_company']['stop'],
+            'inputType' => 'text',
+            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'sql' => "varchar(10) NOT NULL default ''"
         )
     )
 );
-
-class tl_company extends Backend
-{
-
-    public function generateLabel($row, $label)
-    {
-        $objFile = \FilesModel::findByPk(deserialize($row['logo']));
-        if ($objFile->path != '') {
-            $sReturn = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($objFile->path, 80, 50,
-                    'center_center') . '"></figure>';
-        }
-
-        $sReturn .= '<div>' . $label . '</div>';
-
-        return $sReturn;
-    }
-
-    public function buttonCoordinates(DataContainer $dc)
-    {
-        $strHTML = '<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-				<script>
-				$("generateCoordinates").addEvent("click", function (){
-					var geocoder = new google.maps.Geocoder();
-					var address = $("ctrl_street").get("value") + ", " + $("ctrl_postal_code").get("value") + " " + $("ctrl_city").get("value");
-					if (geocoder) {
-      					geocoder.geocode({ "address": address }, function (results, status) {
-         					if (status == google.maps.GeocoderStatus.OK) {
-								$("ctrl_lat").set("value", results[0].geometry.location.lat());
-								$("ctrl_lng").set("value", results[0].geometry.location.lng());
-         					} else {
-            					alert("Fehler beim generieren der Koordinaten. Bitte überprüfen Sie Straße, Postleitzahl und Ort.");
-         					}
-      					});
-   					}
-				});
-				</script>';
-
-        return '<div style="padding-top: 15px;"><a class="tl_submit" id="generateCoordinates">Koordinaten generieren</a></div>' . $strHTML;
-    }
-
-    public function listCompany($row)
-    {
-        $sReturn .= '<div>' . $row['company'] . '</div>';
-
-        return $sReturn;
-    }
-
-    public function onloadCallback(\DataContainer $objDC)
-    {
-        $objCompanyArchive = \CompanyArchiveModel::findByPk($objDC->id);
-
-        switch ($objCompanyArchive->sort_order) {
-            case 2:
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['mode'] = 4;
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['fields'] = array(
-                    'sorting'
-                );
-                $GLOBALS['TL_DCA']['tl_company']['list']['sorting']['headerFields'] = array(
-                    'title'
-                );
-                break;
-            case 1:
-            default:
-
-                // Nothind to do
-                break;
-        }
-    }
-}
-
-?>
