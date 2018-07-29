@@ -261,7 +261,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
                 'filesOnly' => true,
                 'fieldType' => 'radio',
                 'tl_class' => 'clr',
-                'extensions' => 'jpg, jpeg, png, gif'
+                'extensions' => Config::get('validImageTypes')
             ),
             'sql' => "binary(16) NULL"
         ),
