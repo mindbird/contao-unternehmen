@@ -10,10 +10,12 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = array(
     'foreignKey' => 'tl_company_archive.title',
     'eval' => array(
         'mandatory' => true,
-        'tl_class' => 'w50'
+        'tl_class' => 'w50',
+        'submitOnChange' => true
     ),
     'sql' => "int(10) unsigned NOT NULL default '0'"
 );
+
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_category'] = array(
     'label' => &$GLOBALS['TL_LANG']['tl_module']['company_categorie'],
@@ -37,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_random'] = array(
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => array(
-        'tl_class' => 'w50 m12'
+        'tl_class' => 'clr w50 m12'
     ),
     'sql' => "char(1) NOT NULL default ''"
 );

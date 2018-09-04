@@ -55,6 +55,9 @@ class CompanyList extends Module
 
     protected function compile()
     {
+        if ($this->company_category > 0) {
+            $this->filterCategory = $this->company_category;
+        }
         if (!$this->company_filter_disabled) {
             $this->generateFilter();
         }
@@ -110,7 +113,10 @@ class CompanyList extends Module
     protected function generateFilter()
     {
         $templateFilter = new FrontendTemplate('company_list_filter');
-        $this->filterCategory = Input::get('filterCategory');
+        if ($this->company_category === 0) {
+            $this->filterCategory = Input::get('filterCategory');
+        }
+
         $filterUrl = '';
         if ($this->filterCategory > 0) {
             $filterUrl = '&filterCategory=' . $this->filterCategory;
