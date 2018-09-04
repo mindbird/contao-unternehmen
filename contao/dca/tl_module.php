@@ -10,7 +10,24 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = array(
     'foreignKey' => 'tl_company_archive.title',
     'eval' => array(
         'mandatory' => true,
-        'tl_class' => 'clr'
+        'tl_class' => 'w50'
+    ),
+    'sql' => "int(10) unsigned NOT NULL default '0'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['company_category'] = array(
+    'label' => &$GLOBALS['TL_LANG']['tl_module']['company_categorie'],
+    'default' => '',
+    'exclude' => true,
+    'inputType' => 'select',
+    'options_callback' => [
+        'Company\Tables\Module',
+        'getCategoryOptions'
+    ],
+    'foreignKey' => 'tl_company_category.id',
+    'eval' => array(
+        'mandatory' => true,
+        'tl_class' => 'w50'
     ),
     'sql' => "int(10) unsigned NOT NULL default '0'"
 );
@@ -114,5 +131,5 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_imagemargin'] = array
     'sql' => "varchar(128) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['company_detail'] = '{title_legend},name,headline,type;{maps_legend},company_googlemaps_apikey;{image_legend},imgSize;{gallery_legend},gallery_size,gallery_imagemargin,gallery_perRow,gallery_perPage,gallery_numberOfItems,gallery_fullsize,gallery_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';

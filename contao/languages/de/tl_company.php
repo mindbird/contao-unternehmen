@@ -5,7 +5,7 @@
  */
 $GLOBALS['TL_LANG']['tl_company']['company'] = array('Firma', 'Bitte tragen Sie die aktuelle Firmenbezeichnung ein.');
 $GLOBALS['TL_LANG']['tl_company']['contact_person'] = array('Ansprechpartner', 'Bitte tragen Sie einen Ansprechpartner ein.');
-$GLOBALS['TL_LANG']['tl_company']['category'] = array('Branche', 'Bitte wählen Sie eine oder mehrere Branchen aus.');
+$GLOBALS['TL_LANG']['tl_company']['category'] = array('Kategorie', 'Bitte wählen Sie eine oder mehrere Kategorien aus.');
 $GLOBALS['TL_LANG']['tl_company']['street'] = array('Straße und Hausnummer', 'Bitte tragen Sie die Straße und die Hausnummer ein.');
 $GLOBALS['TL_LANG']['tl_company']['postal_code'] = array('Postleitzahl', 'Bitte tragen Sie die Postleitzahl ein.');
 $GLOBALS['TL_LANG']['tl_company']['city'] = array('Ort', 'Bitte tragen Sie den Ort ein.');
@@ -26,7 +26,7 @@ $GLOBALS['TL_LANG']['tl_company']['stop'] = array('Anzeigen bis', 'Den Eintrag n
  * Legends
  */
 $GLOBALS['TL_LANG']['tl_company']['company_legend'] = 'Firma';
-$GLOBALS['TL_LANG']['tl_company']['category_legend'] = 'Branchen';
+$GLOBALS['TL_LANG']['tl_company']['category_legend'] = 'Kategorien';
 $GLOBALS['TL_LANG']['tl_company']['address_legend'] = 'Adresse';
 $GLOBALS['TL_LANG']['tl_company']['coordinates_legend'] = 'Koordinaten';
 $GLOBALS['TL_LANG']['tl_company']['contact_legend'] = 'Kontakt';
@@ -47,5 +47,5 @@ $GLOBALS['TL_LANG']['tl_company']['copy'] = array('Duplizieren', 'Eintrag %s dup
 $GLOBALS['TL_LANG']['tl_company']['delete'] = array('Löschen', 'Eintrag %s löschen');
 $GLOBALS['TL_LANG']['tl_company']['import'] = array('Importieren', 'Unternehmen importieren');
 $GLOBALS['TL_LANG']['tl_company']['refresh_coordinates'] = array('Geodaten aktualisieren', 'Aktualisiert die fehlenden Geodaten.');
-$GLOBALS['TL_LANG']['tl_company']['category'] = array('Branchen', 'Branchen verwalten');
+$GLOBALS['TL_LANG']['tl_company']['category'] = array('Kategorien', 'Kategorien verwalten');
 $GLOBALS['TL_LANG']['tl_company']['exportCSV'] = array('CSV Export', 'Archiv als CSV exportieren.');

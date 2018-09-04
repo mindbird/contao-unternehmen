@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Back end modules
@@ -24,6 +24,7 @@ $GLOBALS['TL_LANG']['tl_module']['gallery_legend'] = 'Galerie';
  */
 $GLOBALS['TL_LANG']['tl_module']['companyTpl'] = array('Unternehmenstemplate', '');
 $GLOBALS['TL_LANG']['tl_module']['company_archiv'] = array('Archiv', 'Welches Archiv soll dargestellt werden?');
+$GLOBALS['TL_LANG']['tl_module']['company_category'] = array('Kategorie', 'Wenn Sie eine besteimmte Kategorie auswählen wird nur diese angezeigt.');
 $GLOBALS['TL_LANG']['tl_module']['company_random'] = array('Zufällige Wiedergabe', 'Sollen die Elemte in zufälliger Reihenfolge ausgegeben werden?');
 $GLOBALS['TL_LANG']['tl_module']['company_filter_disabled'] = array('Filter deaktivieren', 'Soll der Filter für dieses Modul deaktiviert werden?');
 $GLOBALS['TL_LANG']['tl_module']['gallery_perRow'] = array('Vorschaubilder pro Reihe', '');
