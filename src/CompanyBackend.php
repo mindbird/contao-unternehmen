@@ -2,6 +2,7 @@
 
 namespace Company;
 
+use Contao\BackendTemplate;
 use Company\Models\CompanyArchiveModel;
 use Company\Models\CompanyModel;
 use Contao\Backend;
@@ -20,7 +21,7 @@ class CompanyBackend extends Backend
      */
     public function refreshCoordinates()
     {
-        $template = new \BackendTemplate ('be_refresh_coordinates');
+        $template = new BackendTemplate ('be_refresh_coordinates');
         $template->intArchiveID = Input::get('id');
         $html = '';
         $companies = CompanyModel::findBy(array('lng=?', 'lat=?'), array('', ''));
@@ -95,9 +96,9 @@ class CompanyBackend extends Backend
                 $domain = ($parent->rootUseSSL ? 'https://' : 'http://') . ($parent->domain ?: \Environment::get('host')) . TL_PATH . '/';
 
                 $pids [] = $module ['company_archiv'];
-                $companies = CompanyModel::findByPids($pids, 0, 0, array(
+                $companies = CompanyModel::findByPids($pids, [
                     'order' => 'id ASC'
-                ));
+                ]);
                 while ($companies->next()) {
                     $arrCompany = $companies->row();
                     $pages [] = $domain . $this->generateFrontendUrl($parent->row(), '/companyID/' . $arrCompany ['id'], $parent->language);
