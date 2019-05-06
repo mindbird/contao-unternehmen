@@ -96,7 +96,7 @@ class CompanyBackend extends Backend
                 $domain = ($parent->rootUseSSL ? 'https://' : 'http://') . ($parent->domain ?: \Environment::get('host')) . TL_PATH . '/';
 
                 $pids [] = $module ['company_archiv'];
-                $companies = CompanyModel::findByPids($pids, [
+                $companies = CompanyModel::findByPid($pids, [
                     'order' => 'id ASC'
                 ]);
                 while ($companies->next()) {
