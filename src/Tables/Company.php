@@ -2,14 +2,14 @@
 
 namespace Mindbird\Contao\Company\Tables;
 
-use Company\Models\CompanyArchiveModel;
-use Company\Models\CompanyCategoryModel;
 use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
+use Mindbird\Contao\Company\Models\CompanyArchiveModel;
+use Mindbird\Contao\Company\Models\CompanyCategoryModel;
 
 class Company extends Backend
 {
@@ -78,7 +78,7 @@ class Company extends Backend
     {
         if (strlen(Input::get('tid'))) {
             Database::getInstance()->prepare("UPDATE tl_company SET tstamp=" . time() . ", published='" . (Input::get('state') == 1 ? '1' : '') . "' WHERE id=?")->execute(Input::get('tid'));
-            $this->redirect($this->getReferer());
+            self::redirect($this->getReferer());
         }
 
         $href .= '&amp;tid=' . $row['id'] . '&amp;state=' . ($row['published'] ? '' : 1);

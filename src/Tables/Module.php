@@ -2,19 +2,18 @@
 
 namespace Mindbird\Contao\Company\Tables;
 
-use Company\Models\CompanyArchiveModel;
-use Company\Models\CompanyCategoryModel;
 use Contao\Backend;
+use Mindbird\Contao\Company\Models\CompanyCategoryModel;
 
 class Module extends Backend {
     public function getCompanyTemplates()
     {
-        return $this->getTemplateGroup('company_');
+        return self::getTemplateGroup('company_');
     }
 
     public function getGalleryTemplates()
     {
-        return $this->getTemplateGroup('gallery_');
+        return self::getTemplateGroup('gallery_');
     }
 
     public function getCategoryOptions($dc)
