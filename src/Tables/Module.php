@@ -1,6 +1,6 @@
 <?php
 
-namespace Company\Tables;
+namespace Mindbird\Contao\Company\Tables;
 
 use Company\Models\CompanyArchiveModel;
 use Company\Models\CompanyCategoryModel;

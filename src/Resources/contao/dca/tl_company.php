@@ -1,341 +1,341 @@
 <?php
 
-$GLOBALS['TL_DCA']['tl_company'] = array(
-    'config' => array(
+$GLOBALS['TL_DCA']['tl_company'] = [
+    'config' => [
         'dataContainer' => 'Table',
         'ptable' => 'tl_company_archive',
         'switchToEdit' => true,
         'enableVersioning' => true,
-        'ctable' => array('tl_company_postal'),
-        'sql' => array(
-            'keys' => array(
+        'ctable' => ['tl_company_postal'],
+        'sql' => [
+            'keys' => [
                 'id' => 'primary',
                 'pid' => 'index',
                 'sorting' => 'index'
-            )
-        ),
-        'onload_callback' => array(
-            array(
-                'Company\Tables\Company',
+            ]
+        ],
+        'onload_callback' => [
+            [
+                \Mindbird\Contao\Company\Tables\Company::class,
                 'onloadCallback'
-            )
-        )
-    ),
-    'list' => array(
-        'sorting' => array(
+            ]
+        ]
+    ],
+    'list' => [
+        'sorting' => [
             'mode' => 1,
             'flag' => 1,
-            'fields' => array(
+            'fields' => [
                 'company'
-            ),
-            'headerFields' => array(
+            ],
+            'headerFields' => [
                 'title'
-            ),
-            'child_record_callback' => array(
-                'Company\Tables\Company',
+            ],
+            'child_record_callback' => [
+                \Mindbird\Contao\Company\Tables\Company::class,
                 'listCompany'
-            ),
+            ],
             'panelLayout' => 'sort,filter,search,limit'
-        ),
-        'label' => array(
-            'fields' => array(
+        ],
+        'label' => [
+            'fields' => [
                 'company'
-            ),
+            ],
             'format' => '%s',
-            'label_callback' => array(
+            'label_callback' => [
                 'Company\Tables\Company',
                 'generateLabel'
-            )
-        ),
-        'global_operations' => array(
-            'category' => array(
+            ]
+        ],
+        'global_operations' => [
+            'category' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['category'],
                 'href' => 'table=tl_company_category',
                 'icon' => 'drag.gif'
-            ),
-            'refreshCoordinates' => array(
+            ],
+            'refreshCoordinates' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['refresh_coordinates'],
                 'href' => 'key=refresh_coordinates',
                 'icon' => 'system/modules/unternehmen/assets/images/arrow_refresh.png',
                 'attributes' => 'onclick="Backend.getScrollOffset();"'
-            ),
-            'exportCSV' => array(
+            ],
+            'exportCSV' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['exportCSV'],
                 'href' => 'key=exportCSV',
                 'icon' => 'system/modules/unternehmen/assets/images/building_go.png',
-            ),
-            'all' => array(
+            ],
+            'all' => [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href' => 'act=select',
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset();"'
-            )
-        ),
-        'operations' => array(
-            'edit' => array(
+            ]
+        ],
+        'operations' => [
+            'edit' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['edit'],
                 'href' => 'act=edit',
                 'icon' => 'edit.gif'
-            ),
-            'copy' => array(
+            ],
+            'copy' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['copy'],
                 'href' => 'act=copy',
                 'icon' => 'copy.gif'
-            ),
-            'delete' => array(
+            ],
+            'delete' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['delete'],
                 'href' => 'act=delete',
                 'icon' => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
-            ),
-            'toggle' => array
-            (
+            ],
+            'toggle' =>
+                [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
                 'icon' => 'visible.gif',
                 'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => array('Company\Tables\Company', 'toggleIcon')
-            ),
-            'show' => array(
+                'button_callback' => ['Company\Tables\Company', 'toggleIcon']
+                ],
+            'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],
                 'href' => 'act=show',
                 'icon' => 'show.gif'
-            )
-        )
-    ),
-    'palettes' => array(
+            ]
+        ]
+    ],
+    'palettes' => [
         'default' => '{company_legend},company,contact_person;{category_legend},category;{address_legend},street,postal_code,city;{coordinates_legend},button_coordinates,lat,lng;{contact_legend},phone,fax,email,homepage;{logo_legend},logo;{gallery_legend},gallery_multiSRC;{information_legend},information;{publish_legend},published,start,stop;'
-    ),
-    'fields' => array(
-        'id' => array(
+    ],
+    'fields' => [
+        'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
-        ),
-        'pid' => array(
+        ],
+        'pid' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'sorting' => array(
+        ],
+        'sorting' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'tstamp' => array(
+        ],
+        'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'company' => array(
+        ],
+        'company' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['company'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'mandatory' => true,
                 'tl_class' => 'w50',
                 'maxlength' => 255
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'contact_person' => array(
+        ],
+        'contact_person' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['contact_person'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'maxlength' => 255,
                 'tl_class' => 'w50',
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'street' => array(
+        ],
+        'street' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['street'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'mandatory' => true,
                 'tl_class' => 'w50',
                 'maxlength' => 255
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'postal_code' => array(
+        ],
+        'postal_code' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['postal_code'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'mandatory' => true,
                 'tl_class' => 'w50',
                 'maxlength' => 5
-            ),
+            ],
             'sql' => "varchar(5) NOT NULL default ''"
-        ),
-        'city' => array(
+        ],
+        'city' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['city'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'mandatory' => true,
                 'tl_class' => 'w50',
                 'maxlength' => 255
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'button_coordinates' => array(
+        ],
+        'button_coordinates' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['button_coordinates'],
             'exclude' => true,
             'inputType' => 'text',
-            'input_field_callback' => array(
+            'input_field_callback' => [
                 'Company\Tables\Company',
                 'buttonCoordinates'
-            ),
-            'eval' => array()
-        ),
-        'lat' => array(
+            ],
+            'eval' => []
+        ],
+        'lat' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['lat'],
             'exclude' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 32
-            ),
+            ],
             'sql' => "varchar(32) NOT NULL default ''"
-        ),
-        'lng' => array(
+        ],
+        'lng' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['lng'],
             'exclude' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 32
-            ),
+            ],
             'sql' => "varchar(32) NOT NULL default ''"
-        ),
-        'phone' => array(
+        ],
+        'phone' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['phone'],
             'exclude' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 255,
                 'rgxp' => 'phone'
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'fax' => array(
+        ],
+        'fax' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['fax'],
             'exclude' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 255,
                 'rgxp' => 'phone'
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'email' => array(
+        ],
+        'email' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['email'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 255,
                 'rgxp' => 'email'
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'homepage' => array(
+        ],
+        'homepage' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['homepage'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
-            'eval' => array(
+            'eval' => [
                 'tl_class' => 'w50',
                 'maxlength' => 255,
                 'rgxp' => 'url'
-            ),
+            ],
             'sql' => "varchar(255) NOT NULL default ''"
-        ),
-        'logo' => array(
+        ],
+        'logo' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['logo'],
             'exclude' => true,
             'search' => false,
             'inputType' => 'fileTree',
-            'eval' => array(
+            'eval' => [
                 'filesOnly' => true,
                 'fieldType' => 'radio',
                 'tl_class' => 'clr',
                 'extensions' => Config::get('validImageTypes')
-            ),
+            ],
             'sql' => "binary(16) NULL"
-        ),
-        'category' => array(
+        ],
+        'category' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['category'],
             'exclude' => true,
             'inputType' => 'checkbox',
             'filter' => true,
             'foreignKey' => 'tl_company_category.title',
-            'eval' => array(
+            'eval' => [
                 'mandatory' => false,
                 'multiple' => true
-            ),
+            ],
             'sql' => "blob NULL",
-            'relation' => array(
+            'relation' => [
                 'type' => 'hasMany',
                 'load' => 'eagerly'
-            ),
-            'options_callback' => array(
+            ],
+            'options_callback' => [
                 'Company\Tables\Company',
                 'optionsCallbackCategory'
-            )
-        ),
-        'information' => array(
+            ]
+        ],
+        'information' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['information'],
             'exclude' => true,
             'inputType' => 'textarea',
-            'eval' => array(
+            'eval' => [
                 'rte' => 'tinyMCE'
-            ),
+            ],
             'sql' => "text NULL"
-        ),
-        'gallery_multiSRC' => array
-        (
+        ],
+        'gallery_multiSRC' =>
+            [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_multiSRC'],
             'exclude' => true,
             'inputType' => 'fileTree',
-            'eval' => array(
+            'eval' => [
                 'multiple' => true,
                 'fieldType' => 'checkbox',
                 'orderField' => 'gallery_orderSRC',
                 'files' => true,
                 'isGallery' => true,
                 'extensions' => Config::get('validImageTypes')
-            ),
+            ],
             'sql' => "blob NULL"
-        ),
-        'gallery_orderSRC' => array
-        (
+            ],
+        'gallery_orderSRC' =>
+            [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_orderSRC'],
             'sql' => "blob NULL"
-        ),
-        'published' => array
-        (
+            ],
+        'published' =>
+            [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['published'],
             'flag' => 1,
             'inputType' => 'checkbox',
-            'eval' => array('submitOnChange' => true, 'doNotCopy' => true),
+            'eval' => ['submitOnChange' => true, 'doNotCopy' => true],
             'sql' => "char(1) NOT NULL default ''"
-        ),
-        'start' => array
-        (
+            ],
+        'start' =>
+            [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['start'],
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'],
             'sql' => "varchar(10) NOT NULL default ''"
-        ),
-        'stop' => array
-        (
+            ],
+        'stop' =>
+            [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['stop'],
             'inputType' => 'text',
-            'eval' => array('rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'),
+            'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'],
             'sql' => "varchar(10) NOT NULL default ''"
-        )
-    )
-);
+            ]
+    ]
+];
