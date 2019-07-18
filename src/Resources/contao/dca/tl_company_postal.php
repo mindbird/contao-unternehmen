@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_DCA']['tl_company_category'] = [
+$GLOBALS['TL_DCA']['tl_company_postal'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
