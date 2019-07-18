@@ -6,6 +6,7 @@ $GLOBALS['TL_DCA']['tl_company'] = array(
         'ptable' => 'tl_company_archive',
         'switchToEdit' => true,
         'enableVersioning' => true,
+        'ctable' => array('tl_company_postal'),
         'sql' => array(
             'keys' => array(
                 'id' => 'primary',

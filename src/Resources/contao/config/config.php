@@ -5,7 +5,8 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
     'tables' => array(
         'tl_company_archive',
         'tl_company',
-        'tl_company_category'
+        'tl_company_category',
+        'tl_company_postal'
     ),
     'refresh_coordinates' => array(
         'Company\CompanyBackend',
