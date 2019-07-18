@@ -1,14 +1,6 @@
 <?php
 
-/*
- * This file is part of [mindbird/contao-ttn].
- *
- * (c) mindbird
- *
- * @license LGPL-3.0-or-later
- */
-
-namespace  Mindbird\Contao\CEBox\DependencyInjection;
+namespace  Mindbird\Contao\Company\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
