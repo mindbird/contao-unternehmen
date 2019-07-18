@@ -1,0 +1,91 @@
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+	<div class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
+		<h2 class="name" itemprop="name"><?= $this->company->company ?></h2>
+		<?php if ($this->picture): ?>
+			<figure itemprop="logo">
+				<?= $this->insert('picture_default', $this->picture) ?>
+			</figure>
+		<?php else ?>
+			<div style="width: <?= $this->imageWidth ?>px; height: <?= $this->imageHeight ?>px;"></div>
+		<?php endif; ?>
+
+		<?php if ($this->company->contact_person) { ?>
+			<p class="contact_person"><?= $this->company->contact_person ?></p>
+		<?php } ?>
+
+		<?php if (($this->company->street) || ($this->company->postal_code != '' && $this->company->city != '')): ?>
+			<div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+				<?php if ($this->company->street ): ?>
+					<p class="street" itemprop="streetAddress"><?= $this->company->street ?></p>
+				<?php endif; ?>
+
+				<?php if ($this->company->postal_code != '' && $this->company->city != ''): ?>
+					<p class="city">
+						<span itemprop="postalCode"><?= $this->company->postal_code ?></span>
+						<span itemprop="addressLocality"><?= $this->company->city ?></span>
+					</p>
+				<?php endif; ?>
+			</div>
+		<?php endif ?>
+
+		<?php if ($this->company->phone): ?>
+			<p class="phone" itemprop="telephone"><?= $this->company->phone ?></p>
+		<?php endif; ?>
+
+		<?php if ($this->company->fax): ?>
+			<p class="fax" itemprop="faxNumber"><?= $this->company->fax ?></p>
+		<?php endif; ?>
+
+		<?php if ($this->company->email): ?>
+			<p class="email" itemprop="email"><?= $this->company->email ?></p>
+		<?php endif; ?>
+
+		<?php if ($this->company->homepage): ?>
+			<p class="homepage" itemprop="url"><a href="http://<?= $this->company->homepage ?>" target="_blank"><?= $this->company->homepage ?></a></p>
+		<?php endif; ?>
+
+		<?php if ($this->company->category): ?>
+			<p class="category" itemprop="url">Kategorien: <?= $this->company->category ?></p>
+		<?php endif; ?>
+
+		<?php if ($this->company->information): ?>
+			<div class="information" itemprop="description"><?= $this->company->information ?></div>
+		<?php endif; ?>
+
+		<?php if ($this->gallery): ?>
+			<?= $this->gallery ?>
+		<?php endif; ?>
+
+		<?php if ($this->lat && $this->lng): ?>
+			<div itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">
+				<meta itemprop="latitude" content="<?= $this->company->lat ?>" />
+				<meta itemprop="longitude" content="<?= $this->company->lng ?>" />
+			</div>
+			<div id="google_map_<?= $this->company->id ?>" class="map"></div>
+			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<?= $this->googlemaps_apikey ?>"></script>
+			<script type="text/javascript">
+				var map;
+				var myLatLng = new google.maps.LatLng(<?= $this->company->lat ?>, <?= $this->company->lng ?>);
+				var infowindow = new google.maps.InfoWindow({
+					content: '<?= $this->company->company ?>'
+				});
+				function initialize() {
+					var mapOptions = {
+						zoom: 11,
+						center: myLatLng
+					};
+					map = new google.maps.Map(document.getElementById('google_map_<?= $this->company->id ?>'),mapOptions);
+					var marker = new google.maps.Marker({
+						position: myLatLng,
+						map: map,
+						title: '<?= $this->company->company ?>'
+					});
+					infowindow.open(map,marker);
+				}
+				google.maps.event.addDomListener(window, 'load', initialize);
+			</script>
+		<?php endif; ?>
+	</div>
+<?php $this->endblock(); ?>

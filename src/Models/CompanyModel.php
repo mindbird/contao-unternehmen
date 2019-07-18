@@ -1,6 +1,6 @@
 <?php
 
-namespace Company\Models;
+namespace Mindbird\Contao\Company\Models;
 
 use Contao\Model;
 
@@ -15,27 +15,27 @@ class CompanyModel extends Model {
 
         $options['column'][] = 'published = ?';
         $options['value'][] = 1;
-		
+
 		if ($companyName != '') {
 			$options['column'][] = 'company LIKE ?';
 			$options['value'][] = $companyName . '%';
 		}
-		
+
 		if ($category > 0) {
 			$options['column'][] = 'category LIKE ?';
 			$options['value'][] = '%"' . $category . '"%';
 		}
-		
+
 		if ($offset > 0) {
 			$options['offset'] = $offset;
 		}
-		
+
 		if ($limit > 0) {
 			$options['limit'] = $limit;
 		}
-		
+
 		$options['order'] = $order;
-		
+
 		return static::find($options);
 	}
 }

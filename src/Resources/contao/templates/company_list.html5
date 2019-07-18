@@ -1,0 +1,11 @@
+<div class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
+	<?php if ($this->picture) { ?>
+		<figure itemprop="image">
+			<?= $this->insert('picture_default', $this->picture) ?>
+		</figure>
+	<?php } ?>
+	<span class="name" itemprop="name"><?= $this->company->company; ?></span>
+	<?php if ($this->link): ?>
+		<a class="link" href="<?= $this->link; ?>">Details</a>
+	<?php endif; ?>
+</div>

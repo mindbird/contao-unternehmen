@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "license": "proprietary",
   "keywords":["contao", "company", "unternehmen", "katalog", "sponsoren"],
-  "type":"contao-module",
+  "type":"contao-bundle",
   "authors": [
     {
       "name": "mindbird",
@@ -12,22 +12,30 @@
     }
   ],
   "require": {
-    "contao/core-bundle": "~4.4",
-    "contao-community-alliance/composer-plugin": "~3.0"
+    "php": "^7.0",
+    "contao/core-bundle": "^4.4"
   },
-  "extra": {
-    "contao": {
-      "sources": {
-        "contao": "system/modules/unternehmen"
-      }
-    }
+  "conflict": {
+    "contao/core": "*",
+    "contao/manager-plugin": "<2.0 || >=3.0"
+  },
+  "require-dev": {
+    "contao/manager-plugin": "^2.0",
+    "friendsofphp/php-cs-fixer": "^2.12"
   },
   "autoload": {
     "psr-4": {
-      "Company\\": "src/"
+      "Mindbird\\Contao\\Company\\": "src/"
     }
+  },
+  "extra": {
+    "contao-manager-plugin": "Mindbird\\Contao\\Company\\ContaoManager\\Plugin"
   },
   "replace": {
     "contao-legacy/unternehmen": "self.version"
+  },
+  "support": {
+    "issues": "https://github.com/mindbird/contao-unternehmen/issues",
+    "source": "https://github.com/mindbird/contao-unternehmen"
   }
 }

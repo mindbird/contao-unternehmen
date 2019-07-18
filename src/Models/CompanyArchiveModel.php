@@ -1,6 +1,6 @@
 <?php
 
-namespace Company\Models;
+namespace Mindbird\Contao\Company\Models;
 
 use Contao\Model;
 

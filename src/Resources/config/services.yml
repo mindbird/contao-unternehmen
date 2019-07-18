@@ -1,0 +1,20 @@
+services:
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - ["setFramework", ["@contao.framework"]]
+
+        Symfony\Component\DependencyInjection\ContainerAwareInterface:
+            calls:
+                - ["setContainer", ["@service_container"]]
+
+    mindbird.contao.company.list:
+        class: Mindbird\Contao\Company\Controller\CompanyListController
+        tags:
+            - { name: contao.frontend_module, category: companies }
+
+    mindbird.contao.company.detail:
+        class: Mindbird\Contao\Company\Controller\CompanyDetailController
+        tags:
+            - { name: contao.frontend_module, category: companies }
+

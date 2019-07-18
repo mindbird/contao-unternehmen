@@ -1,0 +1,19 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('filter'); ?>
+	<div class="filter">
+		<?= $this->filter; ?>
+	</div>
+<?php $this->endblock(); ?>
+
+<?php $this->block('content'); ?>
+	<div class="companies">
+		<?= $this->companies; ?>
+	</div>
+<?php $this->endblock(); ?>
+
+<?php $this->block('pagination'); ?>
+	<div class="pagination">
+		<?= $this->pagination; ?>
+	</div>
+<?php $this->endblock(); ?>

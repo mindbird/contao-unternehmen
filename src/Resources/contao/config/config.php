@@ -17,20 +17,15 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
     ),
     'icon' => 'system/modules/unternehmen/assets/images/icon.png'
 );
-
-/** Frontend */
-array_insert($GLOBALS ['FE_MOD'] ['companies'], 1, array(
-    'company_list' => 'Company\CompanyList',
-    'company_detail' => 'Company\CompanyDetail'
-));
-
-/** Hooks */
+/*
+@TODO change to event listener?
 $GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array(
     'Company\CompanyBackend',
     'getSearchablePages'
 );
+*/
 
 /** Models */
-$GLOBALS['TL_MODELS']['tl_company'] = 'Company\Models\CompanyModel';
-$GLOBALS['TL_MODELS']['tl_company_archive'] = 'Company\Models\CompanyArchiveModel';
-$GLOBALS['TL_MODELS']['tl_company_category'] = 'Company\Models\CompanyCategoryModel';
+$GLOBALS['TL_MODELS']['tl_company'] = \Mindbird\Contao\Company\Models\CompanyModel::class;
+$GLOBALS['TL_MODELS']['tl_company_archive'] = \Mindbird\Contao\Company\Models\CompanyArchiveModel::class;
+$GLOBALS['TL_MODELS']['tl_company_category'] = \Mindbird\Contao\Company\Models\CompanyCategoryModel::class;
