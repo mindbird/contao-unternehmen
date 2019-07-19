@@ -1,5 +1,6 @@
 <?php
 
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['numberOfItems']['eval']['mandatory'] = false;
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = array(
@@ -23,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_category'] = array(
     'exclude' => true,
     'inputType' => 'select',
     'options_callback' => [
-        'Company\Tables\Module',
+        Mindbird\Contao\Company\Tables\Module::class,
         'getCategoryOptions'
     ],
     'foreignKey' => 'tl_company_category.id',
@@ -95,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_template'] = array
     'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_template'],
     'exclude' => true,
     'inputType' => 'select',
-    'options_callback' => array('Company\Tables\Module', 'getGalleryTemplates'),
+    'options_callback' => array(Mindbird\Contao\Company\Tables\Module::class, 'getGalleryTemplates'),
     'eval' => array('tl_class' => 'w50'),
     'sql' => "varchar(64) NOT NULL default ''"
 );
