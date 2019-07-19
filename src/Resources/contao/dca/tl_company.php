@@ -16,7 +16,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
         ],
         'onload_callback' => [
             [
-                \Mindbird\Contao\Company\Tables\Company::class,
+                Mindbird\Contao\Company\Tables\Company::class,
                 'onloadCallback'
             ]
         ]
@@ -32,7 +32,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
                 'title'
             ],
             'child_record_callback' => [
-                \Mindbird\Contao\Company\Tables\Company::class,
+                Mindbird\Contao\Company\Tables\Company::class,
                 'listCompany'
             ],
             'panelLayout' => 'sort,filter,search,limit'
@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             ],
             'format' => '%s',
             'label_callback' => [
-                'Company\Tables\Company',
+                Mindbird\Contao\Company\Tables\Company::class,
                 'generateLabel'
             ]
         ],
@@ -90,10 +90,10 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             ],
             'toggle' =>
                 [
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
-                'icon' => 'visible.gif',
-                'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => ['Company\Tables\Company', 'toggleIcon']
+                    'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
+                    'icon' => 'visible.gif',
+                    'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+                    'button_callback' => ['Company\Tables\Company', 'toggleIcon']
                 ],
             'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],
@@ -182,7 +182,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             'exclude' => true,
             'inputType' => 'text',
             'input_field_callback' => [
-                'Company\Tables\Company',
+                Mindbird\Contao\Company\Tables\Company::class,
                 'buttonCoordinates'
             ],
             'eval' => []
@@ -282,7 +282,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
                 'load' => 'eagerly'
             ],
             'options_callback' => [
-                'Company\Tables\Company',
+                Mindbird\Contao\Company\Tables\Company::class,
                 'optionsCallbackCategory'
             ]
         ],
@@ -295,8 +295,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             ],
             'sql' => "text NULL"
         ],
-        'gallery_multiSRC' =>
-            [
+        'gallery_multiSRC' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_multiSRC'],
             'exclude' => true,
             'inputType' => 'fileTree',
@@ -309,33 +308,29 @@ $GLOBALS['TL_DCA']['tl_company'] = [
                 'extensions' => Config::get('validImageTypes')
             ],
             'sql' => "blob NULL"
-            ],
-        'gallery_orderSRC' =>
-            [
+        ],
+        'gallery_orderSRC' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['gallery_orderSRC'],
             'sql' => "blob NULL"
-            ],
-        'published' =>
-            [
+        ],
+        'published' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['published'],
             'flag' => 1,
             'inputType' => 'checkbox',
             'eval' => ['submitOnChange' => true, 'doNotCopy' => true],
             'sql' => "char(1) NOT NULL default ''"
-            ],
-        'start' =>
-            [
+        ],
+        'start' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['start'],
             'inputType' => 'text',
             'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'],
             'sql' => "varchar(10) NOT NULL default ''"
-            ],
-        'stop' =>
-            [
+        ],
+        'stop' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['stop'],
             'inputType' => 'text',
             'eval' => ['rgxp' => 'datim', 'datepicker' => true, 'tl_class' => 'w50 wizard'],
             'sql' => "varchar(10) NOT NULL default ''"
-            ]
+        ]
     ]
 ];
