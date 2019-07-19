@@ -93,7 +93,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
                     'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
                     'icon' => 'visible.gif',
                     'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                    'button_callback' => ['Company\Tables\Company', 'toggleIcon']
+                    'button_callback' => [Mindbird\Contao\Company\Tables\Company::class, 'toggleIcon']
                 ],
             'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],

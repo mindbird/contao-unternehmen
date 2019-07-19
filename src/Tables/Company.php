@@ -6,19 +6,21 @@ use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\FilesModel;
 use Contao\Image;
 use Contao\Input;
+use Contao\StringUtil;
 use Mindbird\Contao\Company\Models\CompanyArchiveModel;
 use Mindbird\Contao\Company\Models\CompanyCategoryModel;
 
 class Company extends Backend
 {
 
-    public function generateLabel($row, $label)
+    public function generateLabel($row, $label): string
     {
         $return = '';
-        $file = \FilesModel::findByPk(deserialize($row['logo']));
-        if ($file->path != '') {
+        $file = FilesModel::findByPk(deserialize($row['logo']));
+        if ($file !== null && $file->path !== '') {
             $return = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($file->path, 80, 50, 'center_center') . '"></figure>';
         }
 
@@ -27,14 +29,14 @@ class Company extends Backend
         return $return;
     }
 
-    public function buttonCoordinates()
+    public function buttonCoordinates(): string
     {
         $template = new BackendTemplate('be_company_refresh_button');
         $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
         return $template->parse();
     }
 
-    public function listCompany($row)
+    public function listCompany($row): string
     {
         return '<div>' . $row['company'] . '</div>';
     }
@@ -59,7 +61,7 @@ class Company extends Backend
         }
     }
 
-    public function optionsCallbackCategory($dc)
+    public function optionsCallbackCategory($dc): array
     {
         $categories = CompanyCategoryModel::findBy('pid', $dc->activeRecord->pid, array(
             'order' => 'title ASC'
@@ -74,9 +76,9 @@ class Company extends Backend
         return $category;
     }
 
-    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+    public function toggleIcon($row, $href, $label, $title, $icon, $attributes): string
     {
-        if (strlen(Input::get('tid'))) {
+        if (Input::get('tid') != '') {
             Database::getInstance()->prepare("UPDATE tl_company SET tstamp=" . time() . ", published='" . (Input::get('state') == 1 ? '1' : '') . "' WHERE id=?")->execute(Input::get('tid'));
             self::redirect($this->getReferer());
         }
@@ -86,7 +88,7 @@ class Company extends Backend
             $icon = 'invisible.gif';
         }
 
-        return '<a href="' . $this->addToUrl($href, false) . '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon,
+        return '<a href="' . $this->addToUrl($href, false) . '" title="' . StringUtil::specialchars() ($title) . '"' . $attributes . '>' . Image::getHtml($icon,
                 $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
     }
 }
