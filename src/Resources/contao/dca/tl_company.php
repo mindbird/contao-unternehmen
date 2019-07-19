@@ -77,6 +77,11 @@ $GLOBALS['TL_DCA']['tl_company'] = [
                 'href' => 'act=edit',
                 'icon' => 'edit.gif'
             ],
+            'postal' => [
+                'label' => &$GLOBALS['TL_LANG']['tl_company']['postal'],
+                'icon' => 'tablewizard.gif',
+                'href' => 'table=tl_company_postal'
+            ],
             'copy' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['copy'],
                 'href' => 'act=copy',

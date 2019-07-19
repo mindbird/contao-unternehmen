@@ -91,4 +91,12 @@ class Company extends Backend
         return '<a href="' . $this->addToUrl($href, false) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon,
                 $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
     }
+
+    public function postalIcon($row, $href, $label, $title, $icon, $attributes): string
+    {
+        $href .= '&amp;cid=' . $row['id'];
+
+        return '<a href="' . $this->addToUrl($href, false) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon,
+                $label) . '</a> ';
+    }
 }

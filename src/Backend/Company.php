@@ -1,24 +1,18 @@
 <?php
 
-namespace Company;
+namespace Mindbird\Contao\Company\Backend;
 
 use Contao\BackendTemplate;
-use Company\Models\CompanyArchiveModel;
-use Company\Models\CompanyModel;
 use Contao\Backend;
 use Contao\Database;
 use Contao\FilesModel;
 use Contao\Input;
 use Contao\PageModel;
+use Mindbird\Contao\Company\Models\CompanyArchiveModel;
+use Mindbird\Contao\Company\Models\CompanyModel;
 
-class CompanyBackend extends Backend
+class Company extends Backend
 {
-
-    /**
-     * Get geo coordinates from address
-     *
-     * @return string
-     */
     public function refreshCoordinates()
     {
         $template = new BackendTemplate ('be_refresh_coordinates');
@@ -49,14 +43,6 @@ class CompanyBackend extends Backend
         return '';
     }
 
-    /**
-     * Hook for searchable pages
-     *
-     * @param array $pages
-     * @param number $intRoot
-     * @param string $isSitemap
-     * @return string
-     */
     public function getSearchablePages($pages, $intRoot = 0, $isSitemap = false)
     {
         $db = Database::getInstance();
@@ -88,7 +74,7 @@ class CompanyBackend extends Backend
                 }
 
                 // The target page is exempt from the sitemap (see #6418)
-                if ($isSitemap && $parent->sitemap == 'map_never') {
+                if ($isSitemap && $parent->sitemap === 'map_never') {
                     continue;
                 }
 
@@ -127,7 +113,7 @@ class CompanyBackend extends Backend
             'logo',
             'information'
         );
-        $this->loadLanguageFile('tl_company');
+        self::loadLanguageFile('tl_company');
         $csv = array();
         foreach ($columns as $column) {
             $csv[0][] = $GLOBALS['TL_LANG']['tl_company'][$column][0];
@@ -140,7 +126,7 @@ class CompanyBackend extends Backend
             while ($company->next()) {
                 $arrTemp = array();
                 foreach ($columns as $column) {
-                    if ($column == 'logo') {
+                    if ($column === 'logo') {
                         $arrTemp[] = FilesModel::findByUuid($company->$column)->name;
                     } else {
                         $arrTemp[] = $company->$column;
