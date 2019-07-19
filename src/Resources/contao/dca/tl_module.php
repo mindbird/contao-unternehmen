@@ -59,7 +59,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['companyTpl'] = array
     'label' => &$GLOBALS['TL_LANG']['tl_module']['companyTpl'],
     'exclude' => true,
     'inputType' => 'select',
-    'options_callback' => array('Company\Tables\Module', 'getCompanyTemplates'),
+    'options_callback' => array(Mindbird\Contao\Company\Tables\Module::class, 'getCompanyTemplates'),
     'eval' => array('includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'),
     'sql' => "varchar(64) NOT NULL default ''"
 );

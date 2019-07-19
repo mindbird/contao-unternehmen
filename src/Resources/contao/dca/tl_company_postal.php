@@ -18,16 +18,17 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => 4,
+            'mode' => 1,
             'fields' => [
-                'from'
+                'start'
             ],
-            'flag' => 11,
+            'flag' => 3,
             'panelLayout' => 'filter;search,limit'
         ],
         'label' => [
             'fields' => [
-                'from, till'
+                'start',
+                'end'
             ],
             'format' => '%s - %s'
         ],
@@ -62,7 +63,7 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
 
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},from,till'
+        'default' => '{title_legend},start,end'
     ],
     // Fields
     'fields' => [

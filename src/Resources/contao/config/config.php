@@ -9,11 +9,11 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
         'tl_company_postal'
     ),
     'refresh_coordinates' => array(
-        'Company\CompanyBackend',
+        Mindbird\Contao\Company\Backend\Company::class,
         'refreshCoordinates'
     ),
     'exportCSV' => array(
-        'Company\CompanyBackend',
+        Mindbird\Contao\Company\Backend\Company::class,
         'exportCSV'
     ),
     'icon' => 'system/modules/unternehmen/assets/images/icon.png'
