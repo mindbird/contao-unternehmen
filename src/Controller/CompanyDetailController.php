@@ -57,7 +57,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
             $template->imageHeight = $size [1];
             $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
 
-            $this->Template->strHtml = $template->parse();
+            return $template->getResponse();
         }
     }
 

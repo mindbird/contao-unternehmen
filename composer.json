@@ -21,7 +21,8 @@
   },
   "require-dev": {
     "contao/manager-plugin": "^2.0",
-    "friendsofphp/php-cs-fixer": "^2.12"
+    "friendsofphp/php-cs-fixer": "^2.12",
+    "phan/phan": "^2.2"
   },
   "autoload": {
     "psr-4": {

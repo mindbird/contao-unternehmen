@@ -55,6 +55,8 @@ class CompanyListController extends AbstractFrontendModuleController
         } else {
             $template->companies = 'Mit den ausgewählten Filterkriterien sind keine Einträge vorhanden.';
         }
+
+        return$template->getResponse();
     }
 
     /**
