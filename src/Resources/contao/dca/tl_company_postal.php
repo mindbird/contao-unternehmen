@@ -10,7 +10,7 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
         'sql' => [
             'keys' => [
                 'id' => 'primary',
-                'companyId' => 'index'
+                'pid' => 'index'
             ]
         ]
     ],
@@ -42,17 +42,17 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
         'operations' => [
 
             'edit' => [
-                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_category'] ['edit'],
+                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['edit'],
                 'href' => 'act=edit',
                 'icon' => 'header.gif'
             ],
             'copy' => [
-                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_category'] ['copy'],
+                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['copy'],
                 'href' => 'act=copy',
                 'icon' => 'copy.gif'
             ],
             'delete' => [
-                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_category'] ['delete'],
+                'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['delete'],
                 'href' => 'act=delete',
                 'icon' => 'delete.gif',
                 'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS ['TL_LANG'] ['MSC'] ['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
@@ -69,14 +69,14 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
         'id' => [
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ],
-        'companyId' => [
+        'pid' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
-        'from' => [
-            'label' => &$GLOBALS ['TL_LANG'] ['tl_company_category'] ['from'],
+        'start' => [
+            'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['start'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
@@ -88,8 +88,8 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
             ],
             'sql' => "varchar(5) NOT NULL default ''"
         ],
-        'till' => [
-            'label' => &$GLOBALS ['TL_LANG'] ['tl_company_category'] ['till'],
+        'end' => [
+            'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['end'],
             'exclude' => true,
             'search' => true,
             'inputType' => 'text',
