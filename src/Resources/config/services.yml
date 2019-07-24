@@ -13,6 +13,16 @@ services:
         tags:
             - { name: contao.frontend_module, category: companies }
 
+    mindbird.contao.company.filter:
+        class: Mindbird\Contao\Company\Controller\CompanyFilterController
+        tags:
+            - { name: contao.frontend_module, category: companies }
+
+    mindbird.contao.company.map:
+        class: Mindbird\Contao\Company\Controller\CompanyMapController
+        tags:
+            - { name: contao.frontend_module, category: companies }
+
     mindbird.contao.company.detail:
         class: Mindbird\Contao\Company\Controller\CompanyDetailController
         tags:

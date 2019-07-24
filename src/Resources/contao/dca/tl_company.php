@@ -56,13 +56,13 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             'refreshCoordinates' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['refresh_coordinates'],
                 'href' => 'key=refresh_coordinates',
-                'icon' => 'system/modules/unternehmen/assets/images/arrow_refresh.png',
+                'icon' => 'bundles/contaocompany/images/arrow_refresh.png',
                 'attributes' => 'onclick="Backend.getScrollOffset();"'
             ],
             'exportCSV' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_company']['exportCSV'],
                 'href' => 'key=exportCSV',
-                'icon' => 'system/modules/unternehmen/assets/images/building_go.png',
+                'icon' => 'bundles/contaocompany/images/building_go.png',
             ],
             'all' => [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['all'],

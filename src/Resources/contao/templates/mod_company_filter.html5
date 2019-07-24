@@ -1,0 +1,14 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+	<span class="name">
+		<?= $this->filterName; ?>
+	</span>
+	<form method="GET" name="filterCategory">
+		<select class="category" name="category" onchange="window.location.href =  '<?= $this->link; ?>'.replace('ID',this.value);">
+			<?= $this->categoryOptions; ?>
+		</select>
+	</form>
+<?php $this->endblock(); ?>
+
+

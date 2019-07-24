@@ -10,8 +10,10 @@ $GLOBALS['TL_LANG']['MOD']['company'] = array('Unternehmen', 'Unternehmen anzeig
  * Front end modules
  */
 $GLOBALS['TL_LANG']['FMD']['companies'] = array('Unternehmen', '');
-$GLOBALS['TL_LANG']['FMD']['company_list'] = array('Unternehmensliste', '');
-$GLOBALS['TL_LANG']['FMD']['company_detail'] = array('Unternehmensdetails', '');
+$GLOBALS['TL_LANG']['FMD']['company_list'] = array('Unternehmen - Liste', '');
+$GLOBALS['TL_LANG']['FMD']['company_detail'] = array('Unternehmen - Details', '');
+$GLOBALS['TL_LANG']['FMD']['company_filter'] = array('Unternehmen - Filter', '');
+$GLOBALS['TL_LANG']['FMD']['company_map'] = array('Unternehmen - Karte', '');
 
 /**
  * Legend

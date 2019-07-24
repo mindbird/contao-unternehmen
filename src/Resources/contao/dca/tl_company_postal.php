@@ -45,7 +45,7 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
             'edit' => [
                 'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['edit'],
                 'href' => 'act=edit',
-                'icon' => 'header.gif'
+                'icon' => 'edit.gif'
             ],
             'copy' => [
                 'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['copy'],

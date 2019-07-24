@@ -16,7 +16,7 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
         Mindbird\Contao\Company\Backend\Company::class,
         'exportCSV'
     ),
-    'icon' => 'system/modules/unternehmen/assets/images/icon.png'
+    'icon' => 'bundles/contaocompany/images/icon.png'
 );
 /*
 @TODO change to event listener?

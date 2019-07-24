@@ -135,3 +135,5 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_imagemargin'] = [
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['company_list'] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['company_detail'] = '{title_legend},name,headline,type;{image_legend},imgSize;{gallery_legend},gallery_size,gallery_imagemargin,gallery_perRow,gallery_perPage,gallery_numberOfItems,gallery_fullsize,gallery_template;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['company_filter'] = '{title_legend},name,type;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['company_map'] = '{title_legend},name,type;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';

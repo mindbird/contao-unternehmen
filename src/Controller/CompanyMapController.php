@@ -22,18 +22,12 @@ use Model\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CompanyListController extends AbstractFrontendModuleController
+class CompanyMapController extends AbstractFrontendModuleController
 {
-    protected $templateCompanyList = 'company_list';
-    protected $search = '';
-    protected $filterCategory = 0;
-    protected $limit = 0;
-    protected $offset = 0;
-    protected $total = 0;
-    protected $model;
-
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
+
+        //@TODO get companies as a service
         $this->model = $model;
 
         if ($model->companyTpl) {
