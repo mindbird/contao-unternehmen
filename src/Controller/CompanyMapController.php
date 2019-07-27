@@ -18,12 +18,21 @@ use Contao\PageModel;
 use Contao\Pagination;
 use Contao\StringUtil;
 use Contao\Template;
+use Mindbird\Contao\Company\Services\CompanyService;
 use Model\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompanyMapController extends AbstractFrontendModuleController
 {
+    private $model;
+    private $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
 
