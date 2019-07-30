@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": "^7.2",
-    "contao/core-bundle": "^4.4"
+    "contao/core-bundle": "^4.7"
   },
   "conflict": {
     "contao/core": "*",
@@ -35,6 +35,7 @@
   "replace": {
     "contao-legacy/unternehmen": "self.version"
   },
+  "prefer-stable": true,
   "support": {
     "issues": "https://github.com/mindbird/contao-unternehmen/issues",
     "source": "https://github.com/mindbird/contao-unternehmen"

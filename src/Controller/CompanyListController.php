@@ -24,7 +24,7 @@ class CompanyListController extends AbstractFrontendModuleController
 
     public function __construct(CompanyService $companyService)
     {
-        
+        $this->companyService = $companyService;
     }
 
     public static function getSubscribedServices(): array

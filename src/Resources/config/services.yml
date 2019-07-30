@@ -8,14 +8,11 @@ services:
             calls:
                 - ["setContainer", ["@service_container"]]
 
-    mindbird.contao.company_service:
-        class: Mindbird\Contao\Company\Services\CompanyService
-        public: true
-
+    # Frontend modules
     mindbird.contao.company.list:
         class: Mindbird\Contao\Company\Controller\CompanyListController
         arguments:
-            - 'Mindbird\Contao\Company\Services\CompanyService'
+            - '@mindbird.contao.company.service'
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
@@ -36,3 +33,7 @@ services:
         class: Mindbird\Contao\Company\Controller\CompanyDetailController
         tags:
             - { name: contao.frontend_module, category: companies }
+
+    # Services
+    mindbird.contao.company.service:
+        class: Mindbird\Contao\Company\Services\CompanyService
