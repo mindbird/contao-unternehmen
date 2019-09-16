@@ -3,7 +3,7 @@
   "description": "Simple list of companies bundled in archives",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "keywords":["contao", "company", "unternehmen", "katalog", "sponsoren"],
+  "keywords":["contao", "company", "unternehmen", "katalog", "sponsoren", "umkreissuche", "postleitzahl", "firmen"],
   "type":"contao-bundle",
   "authors": [
     {
@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": "^7.2",
-    "contao/core-bundle": "^4.7"
+    "contao/core-bundle": "^4.4"
   },
   "conflict": {
     "contao/core": "*",

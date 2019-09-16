@@ -1,13 +1,23 @@
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-	<span class="name">
-		<?= $this->filterName; ?>
-	</span>
-	<form method="GET" name="filterCategory">
-		<select class="category" name="category" onchange="window.location.href =  '<?= $this->link; ?>'.replace('ID',this.value);">
-			<?= $this->categoryOptions; ?>
+	<form method="GET" name="filter">
+		<select class="category" name="category">
+			<option value="0">Kategorie auswählen</option>
+			<?php
+				foreach($this->categories as $category):
+					$selected = '';
+					if ($this->category === $category->id) {
+						$selected = ' selected';
+					}
+			?>
+				<option value="<?= $category->id; ?>"<?= $selected ?>><?= $category->title; ?></option>
+			<?php endforeach; ?>
 		</select>
+
+		<input type="text" name="search" placeholder="Suche" value="<?= $this->search ?>" />
+		<input type="text" minlength="5" maxlength="5" name="postal" placeholder="Postleitzahl" value="<?= $this->postal?>" />
+		<button type="submit">Suchen</button>
 	</form>
 <?php $this->endblock(); ?>
 

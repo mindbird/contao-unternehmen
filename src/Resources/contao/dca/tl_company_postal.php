@@ -41,7 +41,6 @@ $GLOBALS['TL_DCA']['tl_company_postal'] = [
             ]
         ],
         'operations' => [
-
             'edit' => [
                 'label' => &$GLOBALS ['TL_LANG'] ['tl_company_postal'] ['edit'],
                 'href' => 'act=edit',

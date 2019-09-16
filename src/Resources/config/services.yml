@@ -1,39 +1,27 @@
 services:
-    _instanceof:
-        Contao\CoreBundle\Framework\FrameworkAwareInterface:
-            calls:
-                - ["setFramework", ["@contao.framework"]]
-
-        Symfony\Component\DependencyInjection\ContainerAwareInterface:
-            calls:
-                - ["setContainer", ["@service_container"]]
-
     # Frontend modules
-    mindbird.contao.company.list:
-        class: Mindbird\Contao\Company\Controller\CompanyListController
+    Mindbird\Contao\Company\Controller\CompanyListController:
         arguments:
-            - '@mindbird.contao.company.service'
-        calls:
-            - ['setContainer', ['@Psr\Container\ContainerInterface']]
-        tags:
-            - { name: contao.frontend_module, category: companies }
-            - { name: container.service_subscriber }
-
-    mindbird.contao.company.filter:
-        class: Mindbird\Contao\Company\Controller\CompanyFilterController
+            - "@mindbird.contao.company_service"
         tags:
             - { name: contao.frontend_module, category: companies }
 
-    mindbird.contao.company.map:
-        class: Mindbird\Contao\Company\Controller\CompanyMapController
+    Mindbird\Contao\Company\Controller\CompanyFilterController:
         tags:
             - { name: contao.frontend_module, category: companies }
 
-    mindbird.contao.company.detail:
-        class: Mindbird\Contao\Company\Controller\CompanyDetailController
+    Mindbird\Contao\Company\Controller\CompanyMapController:
+        arguments:
+            - "@mindbird.contao.company_service"
+        tags:
+            - { name: contao.frontend_module, category: companies }
+
+    Mindbird\Contao\Company\Controller\CompanyDetailController:
         tags:
             - { name: contao.frontend_module, category: companies }
 
     # Services
-    mindbird.contao.company.service:
+    mindbird.contao.company_service:
         class: Mindbird\Contao\Company\Services\CompanyService
+
+    Mindbird\Contao\Company\Services\CompanyService: '@mindbird.contao.company_service'

@@ -36,9 +36,6 @@ class CompanyMapController extends AbstractFrontendModuleController
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
 
-        //@TODO get companies as a service
-        $this->model = $model;
-
         if ($model->companyTpl) {
             $this->templateCompanyList = $model->companyTpl;
         }
@@ -48,15 +45,18 @@ class CompanyMapController extends AbstractFrontendModuleController
         }
 
         if (!$model->company_filter_disabled) {
-            $this->setCompaniesFilter();
+            if ($this->model->company_category === 0) {
+                $this->companyService->setCategory($request->get('filterCategory'));
+            }
+
+            $this->companyService->setSearch($request->get('search'));
         }
 
-        $template->pagination = $this->setPagination();
+        $this->companyService->setOrder($model->company_archiv, $model->company_random);
 
-        $companies = CompanyModel::findItems($model->company_archiv, $this->search, $this->filterCategory, $this->offset, $this->limit, $this->getOrder());
-
-        if ($companies) {
-            $template->companies = $this->getCompanies($companies);
+        $companies = $this->companyService->fetchCompanies($model->company_archiv);
+        if ($companies !== null) {
+            $template->companies = $this->companyService->parseCompanies($companies, null, StringUtil::deserialize($model->imgSize));
         } else {
             $template->companies = 'Mit den ausgewählten Filterkriterien sind keine Einträge vorhanden.';
         }
@@ -64,89 +64,4 @@ class CompanyMapController extends AbstractFrontendModuleController
         return $template->getResponse();
     }
 
-    /**
-     * @return string
-     */
-    protected function setCompaniesFilter(): string
-    {
-        if ($this->model->company_category === 0) {
-            $this->filterCategory = Input::get('filterCategory');
-        }
-
-        $this->search = Input::get('search');
-    }
-
-    /**
-     * @return string
-     */
-    protected function setPagination(): string
-    {
-        $companies = CompanyModel::findItems($this->model->company_archiv, $this->search, $this->filterCategory);
-
-        if ($this->model->numberOfItems > 0) {
-            $this->limit = $this->model->numberOfItems;
-            $this->total = $this->model->numberOfItems;
-        } elseif ($companies) {
-            $this->total = $companies->count();
-        }
-
-        if ($companies && $this->model->perPage > 0 && ($this->limit == 0 || $this->model->numberOfItems > $this->model->perPage)) {
-            $this->limit = $this->model->perPage;
-            $page = Input::get('page') ? Input::get('page') : 1;
-            $this->offset = ($page - 1) * $this->limit;
-
-            $pagination = new Pagination($this->total, $this->limit);
-            return $pagination->generate();
-        }
-
-        return '';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getOrder(): string
-    {
-        $companyArchive = CompanyArchiveModel::findByPk($this->model->company_archiv);
-        switch ($companyArchive->sort_order) {
-            case 2:
-                return 'sorting ASC';
-            case 1:
-            default:
-                return $this->company_random ? 'RAND()' : 'company ASC';
-        }
-    }
-
-    /**
-     * @param Collection $companies
-     * @return string
-     */
-    protected function getCompanies(Collection $companies): string
-    {
-        $page = PageModel::findByIdOrAlias($this->model->jumpTo);
-        $return = '';
-        while ($companies->next()) {
-            if ($companies->company != '') {
-                $template = new FrontendTemplate($this->templateCompanyList);
-                if ($companies->logo) {
-                    $file = FilesModel::findByUuid($companies->logo);
-                    if (null !== $file) {
-                        $image = array(
-                            'singleSRC' => $file->path,
-                            'size' => StringUtil::deserialize($this->model->imgSize),
-                            'alt' => $companies->title
-                        );
-                        Controller::addImageToTemplate($template, $image);
-                    }
-                }
-                $template->company = $companies;
-                if ($page) {
-                    $template->link = $page->getFrontendUrl('/companyID/' . $companies->id);
-                }
-                $return .= $template->parse();
-            }
-        }
-
-        return $return;
-    }
 }
