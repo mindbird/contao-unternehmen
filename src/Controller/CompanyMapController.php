@@ -45,8 +45,8 @@ class CompanyMapController extends AbstractFrontendModuleController
         }
 
         if (!$model->company_filter_disabled) {
-            if ($this->model->company_category === 0) {
-                $this->companyService->setCategory($request->get('filterCategory'));
+            if ($model->company_category === '0') {
+                $this->companyService->setCategory($request->get('category'));
             }
 
             $this->companyService->setSearch($request->get('search'));

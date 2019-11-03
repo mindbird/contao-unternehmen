@@ -6,9 +6,9 @@ use Contao\Controller;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
 use Contao\PageModel;
-use Mindbird\Contao\Company\Controller\CompanyListController;
 use Mindbird\Contao\Company\Models\CompanyArchiveModel;
 use Mindbird\Contao\Company\Models\CompanyModel;
+use Mindbird\Contao\Company\Models\CompanyPostalModel;
 use Model\Collection;
 
 class CompanyService
@@ -24,6 +24,7 @@ class CompanyService
     {
         $this->category = 0;
         $this->search = '';
+        $this->postal = '';
         $this->offset = 0;
         $this->limit = 0;
         $this->order = 'company ASC';
@@ -31,13 +32,23 @@ class CompanyService
 
     public function fetchCompanies(int $companyArchiveId)
     {
-        dump($this->search);
-        //@TODO add postal filter
-        return CompanyModel::findItems($companyArchiveId, $this->search, $this->category, $this->offset, $this->limit, $this->order);
+        if ($this->postal !== '') {
+            $companies = CompanyPostalModel::findByPostal($this->postal);
+            $companiesIdsWithinPostalRange = [];
+
+            if ($companies !== null) {
+                while ($companies->next()) {
+                    $companiesIdsWithinPostalRange[] = $companies->pid;
+                }
+            }
+        }
+
+        return CompanyModel::findItems($companyArchiveId, $this->search, $this->category, $this->offset, $this->limit, $this->order, $companiesIdsWithinPostalRange);
     }
 
     public function setOffsetAndLimit(int $companyArchiveId, int $numberOfItems = 0, int $perPage = 0, int $page = null): void
     {
+        // @TODO Filter Postal
         $companies = CompanyModel::findItems($companyArchiveId, $this->search, $this->category);
 
         if ($numberOfItems > 0) {
@@ -79,9 +90,9 @@ class CompanyService
 
 
     /**
-     * @param string $postal
+     * @param string|null $postal
      */
-    public function setPostal(string $postal): void
+    public function setPostal(string $postal = null): void
     {
         $this->postal = $postal;
     }

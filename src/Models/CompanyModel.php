@@ -8,8 +8,14 @@ class CompanyModel extends Model {
 
 	protected static $strTable = 'tl_company';
 
-	public static function findItems($pid, $companyName = '', $category = 0, $offset = 0, $limit = 0, $order = 'company ASC') {
-		$options = array ();
+	public static function findItems($pid, $companyName = '', $category = 0, $offset = 0, $limit = 0, $order = 'company ASC', $companiesIdsWithinPostalRange = null) {
+	    $options = array ();
+
+	    if ($companiesIdsWithinPostalRange !== null) {
+            $options['column'][] = 'id IN (?)';
+            $options['value'][] = implode(', ', $companiesIdsWithinPostalRange);
+        }
+
 		$options['column'][] = 'pid = ?';
 		$options['value'][] = $pid;
 
@@ -18,7 +24,7 @@ class CompanyModel extends Model {
 
 		if ($companyName != '') {
 			$options['column'][] = 'company LIKE ?';
-			$options['value'][] = $companyName . '%';
+			$options['value'][] = '%' . $companyName . '%';
 		}
 
 		if ($category > 0) {

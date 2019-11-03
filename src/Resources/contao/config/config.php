@@ -30,3 +30,4 @@ $GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array(
 $GLOBALS['TL_MODELS']['tl_company'] = \Mindbird\Contao\Company\Models\CompanyModel::class;
 $GLOBALS['TL_MODELS']['tl_company_archive'] = \Mindbird\Contao\Company\Models\CompanyArchiveModel::class;
 $GLOBALS['TL_MODELS']['tl_company_category'] = \Mindbird\Contao\Company\Models\CompanyCategoryModel::class;
+$GLOBALS['TL_MODELS']['tl_company_postal'] = \Mindbird\Contao\Company\Models\CompanyPostalModel::class;

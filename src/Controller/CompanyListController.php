@@ -39,7 +39,7 @@ class CompanyListController extends AbstractFrontendModuleController
         // Filter if not disabled
         if ($model->company_filter_disabled !== '1') {
             // Filter by category if category is not set in module settings
-            if ($model->company_category === 0) {
+            if ($model->company_category === '0') {
                 $this->companyService->setCategory($request->query->get('category'));
             }
 
