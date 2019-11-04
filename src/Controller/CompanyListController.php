@@ -39,15 +39,19 @@ class CompanyListController extends AbstractFrontendModuleController
         // Filter if not disabled
         if ($model->company_filter_disabled !== '1') {
             // Filter by category if category is not set in module settings
-            if ($model->company_category === '0') {
+            if ($model->company_category === '0' && $request->query->get('category') !== null) {
                 $this->companyService->setCategory($request->query->get('category'));
             }
 
             // Filter by search value
-            $this->companyService->setSearch($request->query->get('search'));
+            if ($request->query->get('search') !== null) {
+                $this->companyService->setSearch($request->query->get('search'));
+            }
 
             // Filter by postal value
-            $this->companyService->setPostal($request->query->get('postal'));
+            if ($request->query->get('postal') !== null) {
+                $this->companyService->setPostal($request->query->get('postal'));
+            }
         }
 
         // Set order
