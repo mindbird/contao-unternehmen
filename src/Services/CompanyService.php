@@ -81,9 +81,9 @@ class CompanyService
     }
 
     /**
-     * @param int $category
+     * @param int|null $category
      */
-    public function setCategory(int $category): void
+    public function setCategory(int $category = null): void
     {
         $this->category = $category;
     }
