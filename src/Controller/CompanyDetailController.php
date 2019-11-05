@@ -80,7 +80,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
      * @param $company
      * @return string
      */
-    protected function parseGallery(CompanyModel $company, ModuleModel $moduleModel): string
+    protected function parseGallery(CompanyModel $company, $moduleModel): string
     {
         $gallery = new ContentGallery($moduleModel);
         $gallery->multiSRC = $company->gallery_multiSRC;

@@ -162,7 +162,7 @@ class CompanyService
                 }
                 $template->company = $companies;
                 if ($pageModel !== null) {
-                    $template->link = $pageModel->getFrontendUrl('/companyID/' . $companies->id);
+                    $template->link = $pageModel->getFrontendUrl('/companyId/' . $companies->id);
                 }
                 $return .= $template->parse();
             }

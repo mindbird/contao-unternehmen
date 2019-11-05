@@ -7,8 +7,6 @@
 			<figure itemprop="logo">
 				<?= $this->insert('picture_default', $this->picture) ?>
 			</figure>
-		<?php else ?>
-			<div style="width: <?= $this->imageWidth ?>px; height: <?= $this->imageHeight ?>px;"></div>
 		<?php endif; ?>
 
 		<?php if ($this->company->contact_person) { ?>
