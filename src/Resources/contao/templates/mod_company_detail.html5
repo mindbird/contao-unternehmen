@@ -87,5 +87,9 @@
 				google.maps.event.addDomListener(window, 'load', initialize);
 			</script>
 		<?php endif; ?>
+
+		<?php if ($this->company->content !== ''): ?>
+			<div class="content"><?= $this->content ?></div>
+		<?php endif; ?>
 	</div>
 <?php $this->endblock(); ?>

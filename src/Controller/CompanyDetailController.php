@@ -4,6 +4,8 @@
 namespace Mindbird\Contao\Company\Controller;
 
 
+use Contao\ContentModel;
+use Contao\Module;
 use Mindbird\Contao\Company\Models\CompanyModel;
 use Contao\ContentGallery;
 use Contao\Controller;
@@ -56,6 +58,18 @@ class CompanyDetailController extends AbstractFrontendModuleController
             $template->imageWidth = $size [0];
             $template->imageHeight = $size [1];
             $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
+
+
+            $content = '';
+            $contentElement = ContentModel::findPublishedByPidAndTable($company->id, 'tl_company');
+            if ($contentElement !== null)
+            {
+                while ($contentElement->next())
+                {
+                    $content .= Module::getContentElement($contentElement->current());
+                }
+            }
+            $template->content = $content;
 
             return $template->getResponse();
         }
