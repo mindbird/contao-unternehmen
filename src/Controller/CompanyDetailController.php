@@ -5,7 +5,9 @@ namespace Mindbird\Contao\Company\Controller;
 
 
 use Contao\ContentModel;
+use Contao\Input;
 use Contao\Module;
+use Contao\System;
 use Mindbird\Contao\Company\Models\CompanyModel;
 use Contao\ContentGallery;
 use Contao\Controller;
@@ -21,7 +23,8 @@ class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
-        $id = $request->query->get('companyId');
+        $id = Input::get('companyId');
+
         $company = CompanyModel::findByPk($id);
         if ($company !== null) {
             $template->id = $model->id . '_' . $id;

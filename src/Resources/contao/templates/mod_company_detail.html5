@@ -44,8 +44,8 @@
 			<p class="homepage" itemprop="url"><a href="http://<?= $this->company->homepage ?>" target="_blank"><?= $this->company->homepage ?></a></p>
 		<?php endif; ?>
 
-		<?php if ($this->company->category): ?>
-			<p class="category" itemprop="url">Kategorien: <?= $this->company->category ?></p>
+		<?php if ($this->category): ?>
+			<p class="category" itemprop="url">Kategorien: <?= $this->category ?></p>
 		<?php endif; ?>
 
 		<?php if ($this->company->information): ?>
