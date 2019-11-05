@@ -6,7 +6,8 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
         'tl_company_archive',
         'tl_company',
         'tl_company_category',
-        'tl_company_postal'
+        'tl_company_postal',
+        'tl_content'
     ),
     'refresh_coordinates' => array(
         Mindbird\Contao\Company\Backend\Company::class,
