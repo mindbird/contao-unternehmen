@@ -21,7 +21,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
-        $id = $request->companyId;
+        $id = $request->query->get('companyId');
         $company = CompanyModel::findByPk($id);
         if ($company !== null) {
             $template->id = $model->id . '_' . $id;
@@ -29,7 +29,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
             if ($company->logo) {
                 $file = FilesModel::findByUuid($company->logo);
                 if (null !== $file) {
-                    $size = StringUtil::deserialize($this->imgSize);
+                    $size = StringUtil::deserialize($model->imgSize);
                     $image = [
                         'singleSRC' => $file->path,
                         'size' => $size,
@@ -39,9 +39,9 @@ class CompanyDetailController extends AbstractFrontendModuleController
                 }
             }
 
-            $size = StringUtil::deserialize($this->gallery_size);
+            $size = StringUtil::deserialize($model->gallery_size);
             if ($company->gallery_multiSRC != '' && ($size[0] != '' || $size[1] != '')) {
-                $template->gallery = $this->parseGallery($company);
+                $template->gallery = $this->parseGallery($company, $model);
             }
 
             $categoriesDb = $company->getRelated('category');
@@ -71,25 +71,26 @@ class CompanyDetailController extends AbstractFrontendModuleController
             }
             $template->content = $content;
 
-            return $template->getResponse();
         }
+
+        return $template->getResponse();
     }
 
     /**
      * @param $company
      * @return string
      */
-    protected function parseGallery($company): string
+    protected function parseGallery(CompanyModel $company, ModuleModel $moduleModel): string
     {
-        $gallery = new ContentGallery($this->objModel);
+        $gallery = new ContentGallery($moduleModel);
         $gallery->multiSRC = $company->gallery_multiSRC;
         $gallery->orderSRC = $company->gallery_orderSRC;
-        $gallery->size = $this->gallery_size;
-        $gallery->imagemargin = $this->gallery_imagemargin;
-        $gallery->perRow = $this->gallery_perRow;
-        $gallery->perPage = $this->gallery_perPage;
-        $gallery->numberOfItems = $this->gallery_numberOfItems;
-        $gallery->fullsize = $this->gallery_fullsize;
+        $gallery->size = $moduleModel->gallery_size;
+        $gallery->imagemargin = $moduleModel->gallery_imagemargin;
+        $gallery->perRow = $moduleModel->gallery_perRow;
+        $gallery->perPage = $moduleModel->gallery_perPage;
+        $gallery->numberOfItems = $moduleModel->gallery_numberOfItems;
+        $gallery->fullsize = $moduleModel->gallery_fullsize;
         $gallery->type = 'gallery';
         if ($company->gallery_orderSRC != '') {
             $gallery->sortBy = 'custom';
