@@ -2,14 +2,17 @@
 
 <?php $this->block('content'); ?>
 	<div id="google_map_<?= $this->id ?>" class="map"></div>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<?= $this->googlemaps_apikey ?>"></script>
+	<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=<?= $this->googlemaps_apikey ?>&callback=initMap">
+	</script>
 	<script type="text/javascript">
+		var companies = <?= $this->companies ?>;
 		var map;
 		var myLatLng = new google.maps.LatLng(<?= $this->company->lat ?>, <?= $this->company->lng ?>);
 		var infowindow = new google.maps.InfoWindow({
 			content: '<?= $this->company->company ?>'
 		});
-		function initialize() {
+		function initMap() {
 			var mapOptions = {
 				zoom: 11,
 				center: myLatLng
@@ -22,7 +25,6 @@
 			});
 			infowindow.open(map,marker);
 		}
-		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 <?php $this->endblock(); ?>
 

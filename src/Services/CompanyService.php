@@ -170,4 +170,27 @@ class CompanyService
 
         return $return;
     }
+
+    /**
+     * @param Collection $companies
+     * @return string
+     */
+    public function parseCompaniesToJson(Collection $companies): string
+    {
+        $return = [];
+        while ($companies->next()) {
+            if ($companies->company != '') {
+                $return[] = [
+                    'name' => $companies->company,
+                    'lat' => $companies->lat,
+                    'lng' => $companies->lng,
+                    'street' => $companies->street,
+                    'postal' => $companies->postal_code,
+                    'city' => $companies->city
+                ];
+            }
+        }
+
+        return json_encode($return);
+    }
 }

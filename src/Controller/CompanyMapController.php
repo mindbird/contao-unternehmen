@@ -3,29 +3,19 @@
 
 namespace Mindbird\Contao\Company\Controller;
 
-use Mindbird\Contao\Company\Models\CompanyArchiveModel;
-use Mindbird\Contao\Company\Models\CompanyCategoryModel;
-use Mindbird\Contao\Company\Models\CompanyModel;
-use Contao\Controller;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
-use Contao\Environment;
-use Contao\FilesModel;
-use Contao\Frontend;
-use Contao\FrontendTemplate;
-use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\Pagination;
 use Contao\StringUtil;
 use Contao\Template;
 use Mindbird\Contao\Company\Services\CompanyService;
-use Model\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CompanyMapController extends AbstractFrontendModuleController
 {
-    private $model;
+    protected $templateCompanyList = 'company_list';
     private $companyService;
 
     public function __construct(CompanyService $companyService)
@@ -35,31 +25,35 @@ class CompanyMapController extends AbstractFrontendModuleController
 
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
+        $template->id = $model->id;
+        $page = PageModel::findByIdOrAlias($model->jumpTo);
 
-        if ($model->companyTpl) {
-            $this->templateCompanyList = $model->companyTpl;
-        }
-
+        // Set category if module setting is set
         if ($model->company_category > 0) {
-            $this->filterCategory = $model->company_category;
+            $this->companyService->setCategory($model->company_category);
         }
 
-        if (!$model->company_filter_disabled) {
-            if ($model->company_category === '0') {
-                $this->companyService->setCategory($request->get('category'));
+        // Filter if not disabled
+        if ($model->company_filter_disabled !== '1') {
+            // Filter by category if category is not set in module settings
+            if ($model->company_category === '0' && $request->query->get('category') !== null) {
+                $this->companyService->setCategory($request->query->get('category'));
             }
 
-            $this->companyService->setSearch($request->get('search'));
+            // Filter by search value
+            if ($request->query->get('search') !== null) {
+                $this->companyService->setSearch($request->query->get('search'));
+            }
+
+            // Filter by postal value
+            if ($request->query->get('postal') !== null) {
+                $this->companyService->setPostal($request->query->get('postal'));
+            }
         }
 
-        $this->companyService->setOrder($model->company_archiv, $model->company_random);
-
+        // Fetch companies
         $companies = $this->companyService->fetchCompanies($model->company_archiv);
-        if ($companies !== null) {
-            $template->companies = $this->companyService->parseCompanies($companies, null, StringUtil::deserialize($model->imgSize));
-        } else {
-            $template->companies = 'Mit den ausgewählten Filterkriterien sind keine Einträge vorhanden.';
-        }
+        $template->companies = $this->companyService->parseCompaniesToJson($companies);
 
         return $template->getResponse();
     }

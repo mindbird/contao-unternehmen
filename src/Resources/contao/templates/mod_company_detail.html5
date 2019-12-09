@@ -62,7 +62,7 @@
 				<meta itemprop="longitude" content="<?= $this->company->lng ?>" />
 			</div>
 			<div id="google_map_<?= $this->company->id ?>" class="map"></div>
-			<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=<?= $this->googlemaps_apikey ?>"></script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=<?= $this->googlemaps_apikey ?>"></script>
 			<script type="text/javascript">
 				var map;
 				var myLatLng = new google.maps.LatLng(<?= $this->company->lat ?>, <?= $this->company->lng ?>);
