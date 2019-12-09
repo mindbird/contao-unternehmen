@@ -6,8 +6,6 @@ namespace Mindbird\Contao\Company\Controller;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\ModuleModel;
 use Contao\PageModel;
-use Contao\Pagination;
-use Contao\StringUtil;
 use Contao\Template;
 use Mindbird\Contao\Company\Services\CompanyService;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CompanyMapController extends AbstractFrontendModuleController
 {
-    protected $templateCompanyList = 'company_list';
     private $companyService;
 
     public function __construct(CompanyService $companyService)
@@ -26,7 +23,6 @@ class CompanyMapController extends AbstractFrontendModuleController
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
         $template->id = $model->id;
-        $page = PageModel::findByIdOrAlias($model->jumpTo);
 
         // Set category if module setting is set
         if ($model->company_category > 0) {

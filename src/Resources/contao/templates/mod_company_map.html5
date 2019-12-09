@@ -8,22 +8,28 @@
 	<script type="text/javascript">
 		var companies = <?= $this->companies ?>;
 		var map;
-		var myLatLng = new google.maps.LatLng(<?= $this->company->lat ?>, <?= $this->company->lng ?>);
-		var infowindow = new google.maps.InfoWindow({
-			content: '<?= $this->company->company ?>'
-		});
+		// var infowindow = new google.maps.InfoWindow({
+		//	content: '<?= $this->company->company ?>'
+		// });
 		function initMap() {
 			var mapOptions = {
 				zoom: 11,
 				center: myLatLng
 			};
 			map = new google.maps.Map(document.getElementById('google_map_<?= $this->company->id ?>'),mapOptions);
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map,
-				title: '<?= $this->company->company ?>'
-			});
-			infowindow.open(map,marker);
+
+			if (companies.length > 0) {
+				for (company in companies) {
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(company.lat, company.lng),
+						map: map,
+						title: company.title
+					});
+				}
+			}
+
+
+			//infowindow.open(map,marker);
 		}
 	</script>
 <?php $this->endblock(); ?>
