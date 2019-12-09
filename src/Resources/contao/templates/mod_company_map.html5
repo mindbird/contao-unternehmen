@@ -13,10 +13,9 @@
 		// });
 		function initMap() {
 			var mapOptions = {
-				zoom: 11,
-				center: myLatLng
+				zoom: 11
 			};
-			map = new google.maps.Map(document.getElementById('google_map_<?= $this->company->id ?>'),mapOptions);
+			map = new google.maps.Map(document.getElementById('google_map_<?= $this->id ?>'),mapOptions);
 
 			if (companies.length > 0) {
 				for (company in companies) {

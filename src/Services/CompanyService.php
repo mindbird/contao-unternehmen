@@ -193,4 +193,35 @@ class CompanyService
 
         return json_encode($return);
     }
+
+    public function calcMapCenter($companies)
+    {
+        $top = null;
+        $bottom = null;
+        $left = null;
+        $right = null;
+
+        foreach ($companies as $company) {
+            if ($company->lat > $top) {
+                $top = $company->lat;
+            }
+
+            if ($company->lat < $bottom) {
+                $bottom = $company->lat;
+            }
+
+            if ($company->lng > $right) {
+                $right = $company->lng;
+            }
+
+            if ($company->lng < $left) {
+                $left = $company->lng;
+            }
+        }
+
+        $latCenter = ($bottom + $top) / 2;
+        $lngCenter = ($left + $right) / 2;
+
+        return [$latCenter, $lngCenter];
+    }
 }

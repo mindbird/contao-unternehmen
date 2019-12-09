@@ -51,6 +51,7 @@ class CompanyMapController extends AbstractFrontendModuleController
         // Fetch companies
         $companies = $this->companyService->fetchCompanies($model->company_archiv);
         $template->companies = $this->companyService->parseCompaniesToJson($companies);
+        $template->mapCenter = $this->companyService->calcMapCenter($companies);
 
         return $template->getResponse();
     }
