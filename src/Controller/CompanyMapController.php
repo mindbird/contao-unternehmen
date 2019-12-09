@@ -23,6 +23,7 @@ class CompanyMapController extends AbstractFrontendModuleController
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
         $template->id = $model->id;
+        $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
 
         // Set category if module setting is set
         if ($model->company_category > 0) {
