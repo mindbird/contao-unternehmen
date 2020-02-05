@@ -8,6 +8,7 @@ use Contao\Environment;
 use Contao\Frontend;
 use Contao\Input;
 use Contao\ModuleModel;
+use Contao\PageModel;
 use Contao\Template;
 use Mindbird\Contao\Company\Models\CompanyCategoryModel;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,16 @@ class CompanyFilterController extends AbstractFrontendModuleController
         $template->categories = [];
         if ($categories !== null) {
             $template->categories = $categories;
+        }
+
+        $template->url = '';
+        if ($model->jumpTo !== '') {
+            $page = PageModel::findByPk($model->jumpTo);
+
+            if ($page !== null) {
+                $template->url = $page->getFrontendUrl();
+            }
+
         }
 
         return $template->getResponse();

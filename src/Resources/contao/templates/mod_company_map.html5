@@ -8,9 +8,6 @@
 	<script type="text/javascript">
 		var companies = <?= $this->companies ?>;
 		var map;
-		// var infowindow = new google.maps.InfoWindow({
-		//	content: '<?= $this->company->company ?>'
-		// });
 		function initMap() {
 			var mapOptions = {
 				zoom: 11
@@ -26,9 +23,6 @@
 					});
 				}
 			}
-
-
-			//infowindow.open(map,marker);
 		}
 	</script>
 <?php $this->endblock(); ?>

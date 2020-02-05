@@ -1,7 +1,7 @@
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-	<form method="GET" name="filter">
+	<form method="GET" name="filter" action="<?= $this->url ?>">
 		<select class="category" name="category">
 			<option value="0">Kategorie auswählen</option>
 			<?php
