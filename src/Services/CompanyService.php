@@ -202,25 +202,25 @@ class CompanyService
         $right = null;
 
         foreach ($companies as $company) {
-            if ($company->lat > $top) {
-                $top = $company->lat;
+            if ($top === null || $company->lng > $top) {
+                $top = $company->lng;
             }
 
-            if ($company->lat < $bottom) {
-                $bottom = $company->lat;
+            if ($bottom === null || $company->lng < $bottom) {
+                $bottom = $company->lng;
             }
 
-            if ($company->lng > $right) {
-                $right = $company->lng;
+            if ($right === null || $company->lat > $right) {
+                $right = $company->lat;
             }
 
-            if ($company->lng < $left) {
-                $left = $company->lng;
+            if ($left === null || $company->lat < $left) {
+                $left = $company->lat;
             }
         }
 
-        $latCenter = ($bottom + $top) / 2;
-        $lngCenter = ($left + $right) / 2;
+        $lngCenter = ($bottom + $top) / 2;
+        $latCenter = ($left + $right) / 2;
 
         return [$latCenter, $lngCenter];
     }
