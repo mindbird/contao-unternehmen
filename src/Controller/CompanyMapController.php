@@ -24,6 +24,7 @@ class CompanyMapController extends AbstractFrontendModuleController
     {
         $template->id = $model->id;
         $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
+        $page = PageModel::findByIdOrAlias($model->jumpTo);
 
         // Set category if module setting is set
         if ($model->company_category > 0) {
