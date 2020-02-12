@@ -222,6 +222,6 @@ class CompanyService
         $lngCenter = ($bottom + $top) / 2;
         $latCenter = ($left + $right) / 2;
 
-        return [$latCenter, $lngCenter];
+        return ['lat' => $latCenter, 'lng' => $lngCenter];
     }
 }
