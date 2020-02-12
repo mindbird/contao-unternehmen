@@ -175,18 +175,23 @@ class CompanyService
      * @param Collection $companies
      * @return string
      */
-    public function parseCompaniesToJson(Collection $companies): string
+    public function parseCompaniesToJson(Collection $companies, PageModel $pageModel = null): string
     {
         $return = [];
         while ($companies->next()) {
             if ($companies->company != '') {
+                $link = '';
+                if ($pageModel !== null) {
+                    $link = $pageModel->getFrontendUrl('/companyId/' . $companies->id);
+                }
                 $return[] = [
                     'name' => $companies->company,
                     'lat' => $companies->lat,
                     'lng' => $companies->lng,
                     'street' => $companies->street,
                     'postal' => $companies->postal_code,
-                    'city' => $companies->city
+                    'city' => $companies->city,
+                    'link' => $link
                 ];
             }
         }
