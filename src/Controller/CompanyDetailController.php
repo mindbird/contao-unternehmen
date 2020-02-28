@@ -25,9 +25,13 @@ class CompanyDetailController extends AbstractFrontendModuleController
     {
         $id = Input::get('companyId');
 
+        if ($id === null) {
+            $id = Input::get('auto_item');
+        }
+
         $company = CompanyModel::findByPk($id);
         if ($company !== null) {
-            $template->id = $model->id . '_' . $id;
+            $template->id = $model->id . '_' . $company->id;
 
             if ($company->logo) {
                 $file = FilesModel::findByUuid($company->logo);

@@ -10,8 +10,10 @@ use Contao\FilesModel;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
 use Mindbird\Contao\Company\Models\CompanyArchiveModel;
 use Mindbird\Contao\Company\Models\CompanyCategoryModel;
+use Mindbird\Contao\Company\Models\CompanyModel;
 
 class Company extends Backend
 {
@@ -99,4 +101,43 @@ class Company extends Backend
         return '<a href="' . $this->addToUrl($href, false) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon,
                 $label) . '</a> ';
     }
+
+    public function generateAlias($varValue, DataContainer $dc)
+    {
+        $company = CompanyModel::findByPk($dc->id);
+
+        $aliasExists = function (string $alias) use ($dc): bool
+        {
+            $aliasIds = $this->Database->prepare("SELECT id FROM tl_company WHERE alias=? AND id!=?")
+                ->execute($alias, $dc->id);
+
+            if (!$aliasIds->numRows)
+            {
+                return false;
+            }
+
+            return true;
+        };
+
+        // Generate an alias if there is none
+        if ($varValue === '')
+        {
+            $varValue = System::getContainer()->get('contao.slug')->generate
+            (
+                $dc->activeRecord->company,
+                $dc->activeRecord->id,
+                static function ($alias) use ($aliasExists)
+                {
+                    return $aliasExists($alias);
+                }
+            );
+        }
+        elseif ($aliasExists($varValue))
+        {
+            throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+        }
+
+        return $varValue;
+    }
+
 }

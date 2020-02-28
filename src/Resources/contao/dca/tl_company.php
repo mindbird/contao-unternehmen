@@ -130,6 +130,18 @@ $GLOBALS['TL_DCA']['tl_company'] = [
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
+        'alias' => array
+        (
+            'exclude'                 => true,
+            'search'                  => true,
+            'inputType'               => 'text',
+            'eval'                    => array('rgxp'=>'folderalias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50 clr'),
+            'save_callback' => array
+            (
+                array(Mindbird\Contao\Company\Tables\Company::class, 'generateAlias')
+            ),
+            'sql'                     => "varchar(255) BINARY NOT NULL default ''"
+        ),
         'company' => [
             'label' => &$GLOBALS['TL_LANG']['tl_company']['company'],
             'exclude' => true,
