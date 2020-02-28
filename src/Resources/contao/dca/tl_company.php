@@ -11,7 +11,8 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             'keys' => [
                 'id' => 'primary',
                 'pid' => 'index',
-                'sorting' => 'index'
+                'sorting' => 'index',
+                'alias' => 'index'
             ]
         ],
         'onload_callback' => [
@@ -115,7 +116,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
         ]
     ],
     'palettes' => [
-        'default' => '{company_legend},company,contact_person;{category_legend},category;{address_legend},street,postal_code,city;{coordinates_legend},button_coordinates,lat,lng;{contact_legend},phone,fax,email,homepage;{logo_legend},logo;{gallery_legend},gallery_multiSRC;{information_legend},information;{publish_legend},published,start,stop;'
+        'default' => '{company_legend},company,contact_person,alias;{category_legend},category;{address_legend},street,postal_code,city;{coordinates_legend},button_coordinates,lat,lng;{contact_legend},phone,fax,email,homepage;{logo_legend},logo;{gallery_legend},gallery_multiSRC;{information_legend},information;{publish_legend},published,start,stop;'
     ],
     'fields' => [
         'id' => [
