@@ -29,11 +29,12 @@ class CompanyDetailController extends AbstractFrontendModuleController
         }
 
         $id = Input::get('companyId');
+        $company = CompanyModel::findByPk($id);
         if ($id === null) {
-            $id = Input::get('auto_item');
+            $alias = Input::get('auto_item');
+            $company = CompanyModel::findBy('alias', $alias);
         }
 
-        $company = CompanyModel::findByPk($id);
         if ($company !== null) {
             $template->id = $model->id . '_' . $company->id;
 
