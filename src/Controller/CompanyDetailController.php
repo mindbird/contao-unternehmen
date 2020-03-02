@@ -6,6 +6,7 @@ namespace Mindbird\Contao\Company\Controller;
 
 use Contao\Config;
 use Contao\ContentModel;
+use Contao\ContentModule;
 use Contao\Input;
 use Contao\Module;
 use Contao\System;
@@ -78,7 +79,11 @@ class CompanyDetailController extends AbstractFrontendModuleController
             {
                 while ($contentElement->next())
                 {
-                    $content .= Module::getContentElement($contentElement->current());
+                    try {
+                        $content .= Module::getContentElement($contentElement->current());
+                    } catch (\Exception $exception) {
+                        System::log('Can not generate conten element #' . $contentElement->id . ': ' . $exception->getMessage());
+                    }
                 }
             }
             $template->content = $content;
