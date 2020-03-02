@@ -4,6 +4,7 @@
 namespace Mindbird\Contao\Company\Controller;
 
 
+use Contao\Config;
 use Contao\ContentModel;
 use Contao\Input;
 use Contao\Module;
@@ -23,11 +24,11 @@ class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
-        print 'TEST';
-        dump(Input::get('auto_item'));
-        die();
-        $id = Input::get('companyId');
+        if (!isset($_GET['item']) && Config::get('useAutoItem') && isset($_GET['auto_item'])) {
+            Input::setGet('item', Input::get('auto_item'));
+        }
 
+        $id = Input::get('companyId');
         if ($id === null) {
             $id = Input::get('auto_item');
         }
