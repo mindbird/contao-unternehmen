@@ -23,6 +23,9 @@ class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
+        print 'TEST';
+        dump(Input::get('auto_item'));
+        die();
         $id = Input::get('companyId');
 
         if ($id === null) {

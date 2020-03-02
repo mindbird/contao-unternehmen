@@ -163,7 +163,7 @@ class CompanyService
                 $template->company = $companies;
                 if ($pageModel !== null) {
                     if ($companies->alias !== '') {
-                        $template->link = $pageModel->getFrontendUrl($companies->alias);
+                        $template->link = $pageModel->getFrontendUrl('/' . $companies->alias);
                     } else {
                         $template->link = $pageModel->getFrontendUrl('/companyId/' . $companies->id);
                     }

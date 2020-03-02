@@ -21,6 +21,7 @@ $GLOBALS['TL_LANG']['tl_company']['gallery_multiSRC'] = ['Quelldateien', ''];
 $GLOBALS['TL_LANG']['tl_company']['published'] = ['Veröffentlicht', 'Den Eintrag veröffentlichen'];
 $GLOBALS['TL_LANG']['tl_company']['start'] = ['Anzeigen ab', 'Den Eintrag erst ab diesem Tag anzeigen.'];
 $GLOBALS['TL_LANG']['tl_company']['stop'] = ['Anzeigen bis', 'Den Eintrag nur bis zu diesem Tag anzeigen.'];
+$GLOBALS['TL_LANG']['tl_company']['alias'] = ['Alias', ''];
 
 /**
  * Legends
