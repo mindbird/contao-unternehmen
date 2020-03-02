@@ -82,7 +82,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
                     try {
                         $content .= Module::getContentElement($contentElement->current());
                     } catch (\Exception $exception) {
-                        System::log('Can not generate conten element #' . $contentElement->id . ': ' . $exception->getMessage());
+                        System::log('Can not generate conten element #' . $contentElement->id . ': ' . $exception->getMessage(), __FUNCTION__, 'company');
                     }
                 }
             }
