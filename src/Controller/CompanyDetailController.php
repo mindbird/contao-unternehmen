@@ -64,7 +64,6 @@ class CompanyDetailController extends AbstractFrontendModuleController
             $template->imageHeight = $size [1];
             $template->googlemaps_apikey = $GLOBALS['TL_CONFIG']['company_googlemaps_apikey'];
 
-
             $content = '';
             $contentElement = ContentModel::findPublishedByPidAndTable($company->id, 'tl_company');
             if ($contentElement !== null)
@@ -79,7 +78,6 @@ class CompanyDetailController extends AbstractFrontendModuleController
                 }
             }
             $template->content = $content;
-
         }
 
         return $template->getResponse();

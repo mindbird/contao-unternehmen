@@ -186,7 +186,7 @@ class CompanyService
             if ($companies->company != '') {
                 $link = '';
                 if ($pageModel !== null) {
-                    $link = $pageModel->getFrontendUrl('/companyId/' . $companies->id);
+                    $link = $pageModel->getFrontendUrl('/' . $companies->alias);
                 }
                 $return[] = [
                     'name' => $companies->company,
