@@ -25,16 +25,8 @@ class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
-        if (!isset($_GET['item']) && Config::get('useAutoItem') && isset($_GET['auto_item'])) {
-            Input::setGet('item', Input::get('auto_item'));
-        }
-
-        $id = Input::get('companyId');
-        $company = CompanyModel::findByPk($id);
-        if ($id === null) {
-            $alias = Input::get('auto_item');
-            $company = CompanyModel::findBy('alias', $alias);
-        }
+        $alias = Input::get('auto_item');
+        $company = CompanyModel::findBy('alias', $alias);
 
         if ($company !== null) {
             $template->id = $model->id . '_' . $company->id;
