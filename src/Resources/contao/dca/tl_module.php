@@ -5,8 +5,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['numberOfItems']['eval']['mandatory'] 
 $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['company_archiv'],
-    'default' => '',
+    'default' => '0',
     'exclude' => true,
     'inputType' => 'select',
     'foreignKey' => 'tl_company_archive.title',
@@ -20,24 +19,20 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = [
 
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_category'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['company_categorie'],
-    'default' => '',
-    'exclude' => true,
     'inputType' => 'select',
     'options_callback' => [
         Mindbird\Contao\Company\Tables\Module::class,
         'getCategoryOptions'
     ],
-    'foreignKey' => 'tl_company_category.id',
     'eval' => [
         'mandatory' => true,
-        'tl_class' => 'w50'
+        'tl_class' => 'w50',
+        'isAssociative' => true
     ],
     'sql' => "int(10) unsigned NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_random'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['company_random'],
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
@@ -47,7 +42,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_random'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_filter_disabled'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['company_filter_disabled'],
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
@@ -57,7 +51,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['company_filter_disabled'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['companyTpl'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['companyTpl'],
     'exclude' => true,
     'inputType' => 'select',
     'options_callback' => [Mindbird\Contao\Company\Tables\Module::class, 'getCompanyTemplates'],
@@ -66,7 +59,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['companyTpl'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_perRow'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_perRow'],
     'default' => 4,
     'exclude' => true,
     'inputType' => 'select',
@@ -76,7 +68,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_perRow'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_perPage'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_perPage'],
     'exclude' => true,
     'inputType' => 'text',
     'eval' => ['rgxp' => 'natural', 'tl_class' => 'w50'],
@@ -84,7 +75,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_perPage'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_numberOfItems'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_numberOfItems'],
     'exclude' => true,
     'inputType' => 'text',
     'eval' => ['rgxp' => 'natural', 'tl_class' => 'w50'],
@@ -92,7 +82,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_numberOfItems'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_template'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_template'],
     'exclude' => true,
     'inputType' => 'select',
     'options_callback' => [Mindbird\Contao\Company\Tables\Module::class, 'getGalleryTemplates'],
@@ -101,7 +90,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_template'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_fullsize'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_fullsize'],
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => ['tl_class' => 'w50 m12'],
@@ -109,7 +97,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_fullsize'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_size'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_size'],
     'exclude' => true,
     'inputType' => 'imageSize',
     'options' => \Contao\System::getImageSizes(),
@@ -125,7 +112,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_size'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_imagemargin'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['gallery_imagemargin'],
     'exclude' => true,
     'inputType' => 'trbl',
     'options' => $GLOBALS['TL_CSS_UNITS'],
