@@ -2,7 +2,7 @@
   "name": "mindbird/contao-unternehmen",
   "description": "Simple list of companies bundled in archives",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "LGPL-3.0-or-later",
   "keywords":["contao", "company", "unternehmen", "katalog", "sponsoren", "umkreissuche", "postleitzahl", "firmen"],
   "type":"contao-bundle",
   "authors": [
