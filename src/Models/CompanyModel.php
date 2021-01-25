@@ -12,8 +12,7 @@ class CompanyModel extends Model {
 	    $options = array ();
 
 	    if ($companiesIdsWithinPostalRange !== null) {
-            $options['column'][] = 'id IN (?)';
-            $options['value'][] = implode(', ', $companiesIdsWithinPostalRange);
+            $options['column'][] = 'id IN (' . implode(', ', $companiesIdsWithinPostalRange) . ')';
         }
 
 		$options['column'][] = 'pid = ?';
