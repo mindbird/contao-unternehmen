@@ -9,17 +9,23 @@ use Contao\Frontend;
 use Contao\Input;
 use Contao\ModuleModel;
 use Contao\PageModel;
+use Contao\System;
 use Contao\Template;
 use Mindbird\Contao\Company\Models\CompanyCategoryModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CompanyFilterController extends AbstractFrontendModuleController
 {
-    protected $model;
-
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
+        System::loadLanguageFile('tl_company_frontend');
+        $template->langSearch = $GLOBALS['TL_LANG']['tl_company_frontend']['search'];
+        $template->langSelectCategory = $GLOBALS['TL_LANG']['tl_company_frontend']['selectCategory'];
+        $template->langPostal = $GLOBALS['TL_LANG']['tl_company_frontend']['postal'];
+
+
         $template->category = $request->query->get('category');
         $template->search = $request->query->get('search');
         $template->postal = $request->query->get('postal');

@@ -3,7 +3,7 @@
 <?php $this->block('content'); ?>
 	<form method="GET" name="filter" action="<?= $this->url ?>">
 		<select class="category" name="category">
-			<option value="0">Kategorie auswählen</option>
+			<option value="0"><?= $this->langSelectCategory ?></option>
 			<?php
 				foreach($this->categories as $category):
 					$selected = '';
@@ -15,9 +15,9 @@
 			<?php endforeach; ?>
 		</select>
 
-		<input type="text" name="search" placeholder="Suche" value="<?= $this->search ?>" />
-		<input type="text" minlength="5" maxlength="5" name="postal" placeholder="Postleitzahl" value="<?= $this->postal?>" />
-		<button type="submit">Suchen</button>
+		<input type="text" name="search" placeholder="<?= $this->langSearch ?>>" value="<?= $this->search ?>" />
+		<input type="text" minlength="5" maxlength="5" name="postal" placeholder="<?= $this->langPostal ?>" value="<?= $this->postal?>" />
+		<button type="submit"><?= $this->langSearch ?></button>
 	</form>
 <?php $this->endblock(); ?>
 

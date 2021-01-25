@@ -51,3 +51,8 @@ $GLOBALS['TL_LANG']['tl_company']['import'] = ['Importieren', 'Unternehmen impor
 $GLOBALS['TL_LANG']['tl_company']['refresh_coordinates'] = ['Geodaten aktualisieren', 'Aktualisiert die fehlenden Geodaten.'];
 $GLOBALS['TL_LANG']['tl_company']['category'] = ['Kategorien', 'Kategorien verwalten'];
 $GLOBALS['TL_LANG']['tl_company']['exportCSV'] = ['CSV Export', 'Archiv als CSV exportieren.'];
+
+
+$GLOBALS['TL_LANG']['tl_company']['search'] = 'Suche';
+$GLOBALS['TL_LANG']['tl_company']['selectCategory'] = 'Kategorie auswählen';
+$GLOBALS['TL_LANG']['tl_company']['postal'] = 'Postleitzahl';
