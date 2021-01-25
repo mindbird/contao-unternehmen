@@ -8,11 +8,11 @@ class CompanyPostalModel extends Model
 {
     protected static $strTable = 'tl_company_postal';
 
-    public static function findByPostal(string $postal, int $pid)
+    public static function findByPostal(string $postal, int $companyArchivId)
     {
         $options = array ();
-        $options['column'][] = 'pid = ?';
-        $options['value'][] = $pid;
+        $options['column'][] = 'tl_company_archive.id = ? AND tl_company_archive.id = tl_company.pid AND tl_company_postal.pid = tl_company.id';
+        $options['value'][] = $companyArchivId;
 
         $options['column'][] = 'start <= ?';
         $options['value'][] = $postal;
