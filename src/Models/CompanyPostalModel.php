@@ -11,7 +11,7 @@ class CompanyPostalModel extends Model
     public static function findByPostal(string $postal, int $pid)
     {
         $options = array ();
-        $options['column'][] = 'pid <= ?';
+        $options['column'][] = 'pid = ?';
         $options['value'][] = $pid;
 
         $options['column'][] = 'start <= ?';
