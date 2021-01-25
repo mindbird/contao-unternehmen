@@ -33,7 +33,7 @@ class CompanyService
     public function fetchCompanies(int $companyArchiveId)
     {
         if ($this->postal !== '') {
-            $companiesPostal = CompanyPostalModel::findByPostal($this->postal, $companyArchiveId);
+            $companiesPostal = CompanyPostalModel::findByPostal($this->postal);
             $companiesIdsWithinPostalRange = [];
 
             if ($companiesPostal !== null) {
