@@ -38,7 +38,7 @@ class CompanyService
 
             if ($companiesPostal !== null) {
                 while ($companiesPostal->next()) {
-                    $companiesIdsWithinPostalRange[] = $companiesPostal->id;
+                    $companiesIdsWithinPostalRange[] = $companiesPostal->pid;
                 }
             }
         }
