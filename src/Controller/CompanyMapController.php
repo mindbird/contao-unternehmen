@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CompanyMapController extends AbstractFrontendModuleController
 {
-    private $companyService;
+    private CompanyService $companyService;
 
     public function __construct(CompanyService $companyService)
     {
@@ -51,8 +51,10 @@ class CompanyMapController extends AbstractFrontendModuleController
 
         // Fetch companies
         $companies = $this->companyService->fetchCompanies($model->company_archiv);
-        $template->companies = $this->companyService->parseCompaniesToJson($companies, $page);
-        $template->mapCenter = $this->companyService->calcMapCenter($companies);
+        if ($companies !== null) {
+            $template->companies = $this->companyService->parseCompaniesToJson($companies, $page);
+            $template->mapCenter = $this->companyService->calcMapCenter($companies);
+        }
 
         return $template->getResponse();
     }
