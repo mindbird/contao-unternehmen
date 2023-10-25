@@ -2,7 +2,7 @@
 
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['numberOfItems']['eval']['mandatory'] = false;
-$GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
+$GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] = ' clr';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['company_archiv'] = [
     'default' => '0',
