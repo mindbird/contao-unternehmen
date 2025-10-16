@@ -1,27 +1,36 @@
 services:
-  # Frontend modules
-  Mindbird\Contao\Company\Controller\CompanyListController:
-    arguments:
-      - "@mindbird.contao.company_service"
-    tags:
-      - { name: contao.frontend_module, category: companies }
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
 
-  Mindbird\Contao\Company\Controller\CompanyFilterController:
-    tags:
-      - { name: contao.frontend_module, category: companies }
+  Mindbird\Contao\Company\:
+    resource: '../src/'
 
-  Mindbird\Contao\Company\Controller\CompanyMapController:
-    arguments:
-      - "@mindbird.contao.company_service"
-    tags:
-      - { name: contao.frontend_module, category: companies }
+  services:
+    # Frontend modules
+    Mindbird\Contao\Company\Controller\CompanyListController:
+      arguments:
+        - "@mindbird.contao.company_service"
+      tags:
+        - { name: contao.frontend_module, category: companies }
 
-  Mindbird\Contao\Company\Controller\CompanyDetailController:
-    tags:
-      - { name: contao.frontend_module, category: companies }
+    Mindbird\Contao\Company\Controller\CompanyFilterController:
+      tags:
+        - { name: contao.frontend_module, category: companies }
 
-  # Services
-  mindbird.contao.company_service:
-    class: Mindbird\Contao\Company\Services\CompanyService
+    Mindbird\Contao\Company\Controller\CompanyMapController:
+      arguments:
+        - "@mindbird.contao.company_service"
+      tags:
+        - { name: contao.frontend_module, category: companies }
 
-  Mindbird\Contao\Company\Services\CompanyService: '@mindbird.contao.company_service'
+    Mindbird\Contao\Company\Controller\CompanyDetailController:
+      tags:
+        - { name: contao.frontend_module, category: companies }
+
+    # Services
+    mindbird.contao.company_service:
+      class: Mindbird\Contao\Company\Services\CompanyService
+
+    Mindbird\Contao\Company\Services\CompanyService: '@mindbird.contao.company_service'
