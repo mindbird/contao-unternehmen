@@ -2,14 +2,13 @@
 
 namespace Mindbird\Contao\Company\Services;
 
-use Contao\Controller;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
+use Contao\Model\Collection;
 use Contao\PageModel;
 use Mindbird\Contao\Company\Models\CompanyArchiveModel;
 use Mindbird\Contao\Company\Models\CompanyModel;
 use Mindbird\Contao\Company\Models\CompanyPostalModel;
-use Model\Collection;
 
 class CompanyService
 {
@@ -17,8 +16,9 @@ class CompanyService
     private $search;
     private $postal;
     private $offset;
-    private $limit;
+    private int $limit;
     private $order;
+    private int $total;
 
     public function __construct()
     {
@@ -152,12 +152,7 @@ class CompanyService
                 if ($companies->logo) {
                     $file = FilesModel::findByUuid($companies->logo);
                     if (null !== $file) {
-                        $image = array(
-                            'singleSRC' => $file->path,
-                            'size' => $imgSize,
-                            'alt' => $companies->title
-                        );
-                        Controller::addImageToTemplate($template, $image);
+                        $template->figure($file->path, $imgSize);
                     }
                 }
                 $template->company = $companies;
