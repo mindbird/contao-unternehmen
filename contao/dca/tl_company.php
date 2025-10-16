@@ -4,7 +4,7 @@ use Contao\Config;
 
 $GLOBALS['TL_DCA']['tl_company'] = [
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => \Contao\DC_Table::class,
         'ptable' => 'tl_company_archive',
         'switchToEdit' => true,
         'enableVersioning' => true,

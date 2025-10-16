@@ -3,7 +3,7 @@
 $GLOBALS['TL_DCA']['tl_company_postal'] = [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => \Contao\DC_Table::class,
         'enableVersioning' => true,
         'switchToEdit' => true,
         'ptable' => 'tl_company',

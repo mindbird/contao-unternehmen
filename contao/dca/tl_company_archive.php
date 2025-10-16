@@ -4,7 +4,7 @@ $GLOBALS ['TL_DCA'] ['tl_company_archive'] = [
 
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => \Contao\DC_Table::class,
         'enableVersioning' => true,
         'switchToEdit' => true,
         'ctable' => ['tl_company_category', 'tl_company'],
