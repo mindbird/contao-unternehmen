@@ -19,13 +19,6 @@ $GLOBALS ['BE_MOD'] ['content'] ['company'] = array(
     ),
     'icon' => 'bundles/contaocompany/images/icon.png'
 );
-/*
-@TODO change to event listener?
-$GLOBALS ['TL_HOOKS'] ['getSearchablePages'] [] = array(
-    'Company\CompanyBackend',
-    'getSearchablePages'
-);
-*/
 
 /** Models */
 $GLOBALS['TL_MODELS']['tl_company'] = \Mindbird\Contao\Company\Models\CompanyModel::class;

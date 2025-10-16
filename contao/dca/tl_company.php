@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+use Contao\DC_Table;
 use Contao\Config;
 
 $GLOBALS['TL_DCA']['tl_company'] = [
     'config' => [
-        'dataContainer' => \Contao\DC_Table::class,
+        'dataContainer' => DC_Table::class,
         'ptable' => 'tl_company_archive',
         'switchToEdit' => true,
         'enableVersioning' => true,

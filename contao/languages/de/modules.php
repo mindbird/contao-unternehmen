@@ -9,6 +9,7 @@ $GLOBALS['TL_LANG']['MOD']['company'] = array('Unternehmen', 'Unternehmen anzeig
 /**
  * Front end modules
  */
+$GLOBALS['TL_LANG']['FMD']['company'] = array('Unternehmen', '');
 $GLOBALS['TL_LANG']['FMD']['companies'] = array('Unternehmen', '');
 $GLOBALS['TL_LANG']['FMD']['company_list'] = array('Unternehmen - Liste', '');
 $GLOBALS['TL_LANG']['FMD']['company_detail'] = array('Unternehmen - Details', '');

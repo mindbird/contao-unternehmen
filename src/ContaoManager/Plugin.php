@@ -14,7 +14,7 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
-use Mindbird\Contao\Company\ContaoCompanyBundle;
+use Mindbird\Contao\Company\MindbirdContaoCompanyBundle;
 
 class Plugin implements BundlePluginInterface
 {
@@ -24,7 +24,7 @@ class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create(ContaoCompanyBundle::class)
+            BundleConfig::create(MindbirdContaoCompanyBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }
