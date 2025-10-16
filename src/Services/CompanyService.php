@@ -32,9 +32,9 @@ class CompanyService
 
     public function fetchCompanies(int $companyArchiveId)
     {
+        $companiesIdsWithinPostalRange = [];
         if ($this->postal !== '') {
             $companiesPostal = CompanyPostalModel::findByPostal($this->postal);
-            $companiesIdsWithinPostalRange = [];
 
             if ($companiesPostal !== null) {
                 while ($companiesPostal->next()) {
@@ -46,9 +46,9 @@ class CompanyService
         return CompanyModel::findItems($companyArchiveId, $this->search, $this->category, $this->offset, $this->limit, $this->order, $companiesIdsWithinPostalRange);
     }
 
-    public function setOffsetAndLimit(int|null $companyArchiveId, int $numberOfItems = 0, int $perPage = 0, int $page = null): void
+    public function setOffsetAndLimit(int $companyArchiveId, int $numberOfItems = 0, int $perPage = 0, int $page = null): void
     {
-        // @TODO Filter Postal
+
         $companies = CompanyModel::findItems($companyArchiveId, $this->search, $this->category);
 
         if ($numberOfItems > 0) {
