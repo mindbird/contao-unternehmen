@@ -8,10 +8,10 @@ class CompanyModel extends Model {
 
 	protected static $strTable = 'tl_company';
 
-	public static function findItems($pid, $companyName = '', $category = 0, $offset = 0, $limit = 0, $order = 'company ASC', $companiesIdsWithinPostalRange = null) {
+	public static function findItems($pid, $companyName = '', $category = 0, $offset = 0, $limit = 0, $order = 'company ASC', $companiesIdsWithinPostalRange = []) {
 	    $options = array ();
 
-	    if ($companiesIdsWithinPostalRange !== null) {
+	    if ($companiesIdsWithinPostalRange !== []) {
             $options['column'][] = 'id IN (' . implode(', ', $companiesIdsWithinPostalRange) . ')';
         }
 
