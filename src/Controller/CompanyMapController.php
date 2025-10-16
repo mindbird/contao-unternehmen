@@ -4,6 +4,7 @@
 namespace Mindbird\Contao\Company\Controller;
 
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\ModuleModel;
 use Contao\PageModel;
 use Contao\Template;
@@ -11,6 +12,7 @@ use Mindbird\Contao\Company\Services\CompanyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+#[AsFrontendModule(category: 'company')]
 class CompanyMapController extends AbstractFrontendModuleController
 {
     private CompanyService $companyService;

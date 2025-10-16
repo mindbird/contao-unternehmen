@@ -7,6 +7,7 @@ namespace Mindbird\Contao\Company\Controller;
 use Contao\Config;
 use Contao\ContentModel;
 use Contao\ContentModule;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsFrontendModule;
 use Contao\Input;
 use Contao\Module;
 use Contao\System;
@@ -21,6 +22,7 @@ use Contao\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+#[AsFrontendModule(category: 'company')]
 class CompanyDetailController extends AbstractFrontendModuleController
 {
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
