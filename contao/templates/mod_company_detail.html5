@@ -3,9 +3,9 @@
 <?php $this->block('content'); ?>
 	<div class="company block" itemscope itemtype="http://schema.org/LocalBusiness">
 		<h2 class="name" itemprop="name"><?= $this->company->company ?></h2>
-		<?php if ($this->picture): ?>
+		<?php if ($this->image): ?>
 			<figure itemprop="logo">
-				<?= $this->insert('picture_default', $this->picture) ?>
+				<?= $this->image ?>
 			</figure>
 		<?php endif; ?>
 

@@ -152,7 +152,7 @@ class CompanyService
                 if ($companies->logo) {
                     $file = FilesModel::findByUuid($companies->logo);
                     if (null !== $file) {
-                        $template->figure($file->path, $imgSize);
+                        $template->image = $template->figure($file->path, $imgSize);
                     }
                 }
                 $template->company = $companies;
