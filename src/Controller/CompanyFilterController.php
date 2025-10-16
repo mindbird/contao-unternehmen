@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[AsFrontendModule(CompanyFilterController::TYPE, category: 'company')]
 class CompanyFilterController extends AbstractFrontendModuleController
 {
-    const TYPE = 'mod_company_filter';
+    const TYPE = 'company_filter';
 
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {

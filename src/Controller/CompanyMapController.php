@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsFrontendModule(CompanyMapController::TYPE, category: 'company')]
 class CompanyMapController extends AbstractFrontendModuleController
 {
-    const TYPE = 'mod_company_map';
+    const TYPE = 'company_map';
     private CompanyService $companyService;
 
     public function __construct(CompanyService $companyService)

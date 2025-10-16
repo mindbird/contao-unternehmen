@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsFrontendModule(CompanyListController::TYPE, category: 'company')]
 class CompanyListController extends AbstractFrontendModuleController
 {
-    const TYPE = 'mod_company_list';
+    const TYPE = 'company_list';
     protected $templateCompanyList = 'company_list';
     private $companyService;
 
