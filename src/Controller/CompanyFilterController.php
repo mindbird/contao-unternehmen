@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[AsFrontendModule(category: 'company', name: CompanyFilterController::TYPE)]
+#[AsFrontendModule(CompanyFilterController::TYPE, category: 'company')]
 class CompanyFilterController extends AbstractFrontendModuleController
 {
     const TYPE = 'company_filter';

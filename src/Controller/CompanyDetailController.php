@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AsFrontendModule(category: 'company', name: CompanyDetailController::TYPE)]
+#[AsFrontendModule(CompanyDetailController::TYPE, category: 'company')]
 class CompanyDetailController extends AbstractFrontendModuleController
 {
     const string TYPE = 'company_detail';

@@ -14,7 +14,7 @@ use Mindbird\Contao\Company\Services\CompanyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AsFrontendModule(name: CompanyListController::TYPE, category: 'company')]
+#[AsFrontendModule(CompanyListController::TYPE, category: 'company')]
 class CompanyListController extends AbstractFrontendModuleController
 {
     const TYPE = 'company_list';
