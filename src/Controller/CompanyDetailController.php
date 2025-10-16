@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsFrontendModule(CompanyDetailController::TYPE, category: 'company')]
 class CompanyDetailController extends AbstractFrontendModuleController
 {
-    const string TYPE = 'company_detail';
+    const string TYPE = 'mod_company_detail';
 
     public function __construct(private readonly LoggerInterface $contaoErrorLogger)
     {
