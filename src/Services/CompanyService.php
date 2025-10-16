@@ -65,7 +65,7 @@ class CompanyService
         }
     }
 
-    public function setOrder(int $companyArchiveId, bool $sortRandom): void
+    public function setOrder(int|null $companyArchiveId, bool $sortRandom): void
     {
         $companyArchive = CompanyArchiveModel::findByPk($companyArchiveId);
         if ($companyArchive !== null) {
