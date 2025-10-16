@@ -17,10 +17,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[AsFrontendModule(CompanyFilterController::TYPE, category: 'company')]
+#[AsFrontendModule(CompanyFilterController::TYPE, category: 'company', template: 'mod_'.CompanyFilterController::TYPE)]
 class CompanyFilterController extends AbstractFrontendModuleController
 {
-    const TYPE = 'company_filter';
+    const string TYPE = 'company_filter';
 
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
