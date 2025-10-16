@@ -21,7 +21,7 @@ class Company extends Backend
     public function generateLabel($row, $label): string
     {
         $return = '';
-        $file = FilesModel::findByPk(deserialize($row['logo']));
+        $file = FilesModel::findByPk(StringUtil::deserialize($row['logo']));
         if ($file !== null && $file->path !== '') {
             $return = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($file->path, 80, 50, 'center_center') . '"></figure>';
         }

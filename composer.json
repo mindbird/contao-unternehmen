@@ -29,10 +29,6 @@
   "extra": {
     "contao-manager-plugin": "Mindbird\\Contao\\Company\\ContaoManager\\Plugin"
   },
-  "replace": {
-    "contao-legacy/unternehmen": "self.version"
-  },
-  "prefer-stable": true,
   "support": {
     "issues": "https://github.com/mindbird/contao-unternehmen/issues",
     "source": "https://github.com/mindbird/contao-unternehmen"
