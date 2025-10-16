@@ -1,5 +1,7 @@
 <?php
 
+use Contao\Config;
+
 $GLOBALS['TL_DCA']['tl_company'] = [
     'config' => [
         'dataContainer' => 'Table',
