@@ -57,7 +57,7 @@ class CompanyListController extends AbstractFrontendModuleController
         }
 
         // Set order
-        $this->companyService->setOrder($model->company_archiv, $model->company_random);
+        $this->companyService->setOrder($model->company_archiv, (bool)$model->company_random);
 
         // Pagination
         $this->companyService->setOffsetAndLimit($model->company_archiv, $model->numberOfItems, $model->perPage, $request->get('page'));
