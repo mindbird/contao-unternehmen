@@ -19,12 +19,17 @@ use Contao\FilesModel;
 use Contao\ModuleModel;
 use Contao\StringUtil;
 use Contao\Template;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AsFrontendModule(category: 'company')]
 class CompanyDetailController extends AbstractFrontendModuleController
 {
+    public function __construct(private readonly LoggerInterface $contaoErrorLogger)
+    {
+
+    }
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
         $alias = Input::get('auto_item');
@@ -42,7 +47,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
                         'size' => $size,
                         'alt' => $company->title
                     ];
-                    Controller::addImageToTemplate($template, $image);
+                    $template->figure($image['singleSRC'], $image['size']);
                 }
             }
 
@@ -75,7 +80,7 @@ class CompanyDetailController extends AbstractFrontendModuleController
                     try {
                         $content .= Module::getContentElement($contentElement->current());
                     } catch (\Exception $exception) {
-                        System::log('Can not generate conten element #' . $contentElement->id . ': ' . $exception->getMessage(), __FUNCTION__, 'company');
+                        $this->contaoErrorLogger->error('Can not generate conten element #' . $contentElement->id . ': ' . $exception->getMessage(), __FUNCTION__, 'company');
                     }
                 }
             }
