@@ -12,9 +12,10 @@ use Mindbird\Contao\Company\Services\CompanyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AsFrontendModule(category: 'company')]
+#[AsFrontendModule(name: CompanyMapController::TYPE, category: 'company')]
 class CompanyMapController extends AbstractFrontendModuleController
 {
+    const TYPE = 'mod_company_map';
     private CompanyService $companyService;
 
     public function __construct(CompanyService $companyService)
