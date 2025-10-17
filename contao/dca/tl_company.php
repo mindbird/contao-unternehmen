@@ -11,7 +11,7 @@ $GLOBALS['TL_DCA']['tl_company'] = [
         'ptable' => 'tl_company_archive',
         'switchToEdit' => true,
         'enableVersioning' => true,
-        'ctable' => ['tl_company_postal', 'tl_content'],
+        'ctable' => ['tl_content', 'tl_company_postal'],
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -78,8 +78,8 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             ]
         ],
         'operations' => [
-            '!children',
             '!edit',
+            '!children',
             'postal' => [
                 'icon' => 'tablewizard.gif',
                 'href' => 'table=tl_company_postal'
