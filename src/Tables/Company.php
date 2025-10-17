@@ -25,10 +25,11 @@ class Company extends Backend
 
     public function generateLabel($row, $label): string
     {
+        $projectDir = System::getContainer()->getParameter('kernel.project_dir');
         $return = '';
         $file = FilesModel::findByPk(StringUtil::deserialize($row['logo']));
         if ($file !== null && $file->path !== '') {
-            $return = '<figure style="float: left; margin-right: 1em;"><img src="' . $this->imageFactory->create($file->path, 80, 50, 'center_center')->getPath() . '"></figure>';
+            $return = '<figure style="float: left; margin-right: 1em;"><img src="' . $this->imageFactory->create($file->getAbsolutePath(), [80, 50, Image\ResizeConfiguration::MODE_CROP])->getUrl($projectDir) . '"></figure>';
         }
 
         $return .= '<div>' . $label . '</div>';
