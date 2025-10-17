@@ -78,46 +78,15 @@ $GLOBALS['TL_DCA']['tl_company'] = [
             ]
         ],
         'operations' => [
-            'edit' => array
-            (
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['edit'],
-                'href' => 'table=tl_content',
-                'icon' => 'edit.gif'
-            ),
-            'editheader' => array
-            (
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['editmeta'],
-                'href' => 'act=edit',
-                'icon' => 'header.gif'
-            ),
+            '!children',
+            '!edit',
             'postal' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['postal'],
                 'icon' => 'tablewizard.gif',
                 'href' => 'table=tl_company_postal'
             ],
-            'copy' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['copy'],
-                'href' => 'act=copy',
-                'icon' => 'copy.gif'
-            ],
-            'delete' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['delete'],
-                'href' => 'act=delete',
-                'icon' => 'delete.gif',
-                'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
-            ],
-            'toggle' =>
-                [
-                    'label' => &$GLOBALS['TL_LANG']['tl_company']['toggle'],
-                    'icon' => 'visible.gif',
-                    'attributes' => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                    'button_callback' => [Mindbird\Contao\Company\Tables\Company::class, 'toggleIcon']
-                ],
-            'show' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_company']['show'],
-                'href' => 'act=show',
-                'icon' => 'show.gif'
-            ]
+            'copy',
+            'delete',
+            'toggle'
         ]
     ],
     'palettes' => [

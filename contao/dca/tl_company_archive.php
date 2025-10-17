@@ -32,8 +32,8 @@ $GLOBALS ['TL_DCA'] ['tl_company_archive'] = [
             'format' => '%s'
         ],
         'operations' => [
-            '!edit',
             '!children',
+            '!edit',
             '!copy',
             'cut',
             'delete'
