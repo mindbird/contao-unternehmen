@@ -1,5 +1,10 @@
 <?php
 
+use Mindbird\Contao\Company\Controller\CompanyDetailController;
+use Mindbird\Contao\Company\Controller\CompanyFilterController;
+use Mindbird\Contao\Company\Controller\CompanyListController;
+use Mindbird\Contao\Company\Controller\CompanyMapController;
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['numberOfItems']['eval']['mandatory'] = false;
 $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] = ' clr';
 
@@ -118,7 +123,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['gallery_imagemargin'] = [
     'sql' => "varchar(128) NOT NULL default ''"
 ];
 
-$GLOBALS['TL_DCA']['tl_module']['palettes'][\Mindbird\Contao\Company\Controller\CompanyListController::TYPE] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{template_legend},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes'][\Mindbird\Contao\Company\Controller\CompanyDetailController::TYPE] = '{title_legend},name,headline,type;{image_legend},imgSize;{gallery_legend},gallery_size,gallery_imagemargin,gallery_perRow,gallery_perPage,gallery_numberOfItems,gallery_fullsize,gallery_template;{template_legend},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes'][\Mindbird\Contao\Company\Controller\CompanyFilterController::TYPE] = '{title_legend},name,type;{archiv_legend},company_archiv,jumpTo;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes'][\Mindbird\Contao\Company\Controller\CompanyMapController::TYPE] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes'][CompanyListController::TYPE] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled,numberOfItems,perPage,imgSize,companyTpl;{template_legend},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes'][CompanyDetailController::TYPE] = '{title_legend},name,headline,type;{image_legend},imgSize;{gallery_legend},gallery_size,gallery_imagemargin,gallery_perRow,gallery_perPage,gallery_numberOfItems,gallery_fullsize,gallery_template;{template_legend},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes'][CompanyFilterController::TYPE] = '{title_legend},name,type;{archiv_legend},company_archiv,jumpTo;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes'][CompanyMapController::TYPE] = '{title_legend},name,headline,type;{archiv_legend},company_archiv,company_category,jumpTo,company_random,company_filter_disabled;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';

@@ -4,6 +4,7 @@ namespace Mindbird\Contao\Company\Tables;
 
 use Contao\Backend;
 use Contao\BackendTemplate;
+use Contao\CoreBundle\Image\ImageFactoryInterface;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\FilesModel;
@@ -17,13 +18,17 @@ use Mindbird\Contao\Company\Models\CompanyModel;
 
 class Company extends Backend
 {
+    public function __construct(private readonly ImageFactoryInterface $imageFactory)
+    {
+        parent::__construct();
+    }
 
     public function generateLabel($row, $label): string
     {
         $return = '';
         $file = FilesModel::findByPk(StringUtil::deserialize($row['logo']));
         if ($file !== null && $file->path !== '') {
-            $return = '<figure style="float: left; margin-right: 1em;"><img src="' . Image::get($file->path, 80, 50, 'center_center') . '"></figure>';
+            $return = '<figure style="float: left; margin-right: 1em;"><img src="' . $this->imageFactory->create($file->path, 80, 50, 'center_center')->getPath() . '"></figure>';
         }
 
         $return .= '<div>' . $label . '</div>';
