@@ -2,7 +2,9 @@
 
 <?php $this->block('content'); ?>
 	<div class="companies">
-		<?= $this->companies; ?>
+        <ul>
+		    <?= $this->companies; ?>
+        </ul>
 	</div>
 	<div class="pagination">
 		<?= $this->pagination; ?>
