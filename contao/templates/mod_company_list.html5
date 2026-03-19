@@ -1,9 +1,9 @@
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-	<div class="companies">
+	<ul class="companies">
         <?= $this->companies; ?>
-	</div>
+	</ul>
 	<div class="pagination">
 		<?= $this->pagination; ?>
 	</div>
